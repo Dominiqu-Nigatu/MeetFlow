@@ -1,0 +1,28 @@
+frontend/src/app/shared/components/atoms/modal/modal.ts
+  h_04318c1d16cd5e 1-30
+frontend/src/app/shared/components/atoms/button/button.html
+  h_04318c1d16cd5e 1-19
+frontend/src/app/shared/components/atoms/button/button.scss
+  h_04318c1d16cd5e 1-96
+frontend/src/app/shared/components/atoms/modal/modal.spec.ts
+  h_04318c1d16cd5e 1-121
+frontend/src/app/shared/components/atoms/button/button.spec.ts
+  h_04318c1d16cd5e 1-107
+frontend/src/app/shared/components/atoms/button/button.ts
+  h_04318c1d16cd5e 1-17
+frontend/src/app/shared/components/atoms/modal/modal.html
+  h_04318c1d16cd5e 1-41
+frontend/src/app/shared/components/atoms/modal/modal.scss
+  h_04318c1d16cd5e 1-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4bba4765681330e47603d9b023b2daca1ce5677e",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
