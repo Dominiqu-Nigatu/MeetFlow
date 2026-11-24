@@ -1,0 +1,17 @@
+{
+  "name": "meetflow",
+  "version": "1.0.0",
+  "description": "AI-powered meeting management platform that transforms meeting transcripts into summaries, decisions and actionable tasks.",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "npm start --prefix frontend",
+    "backend": "dotnet run --project backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.5"
+  }
+}
