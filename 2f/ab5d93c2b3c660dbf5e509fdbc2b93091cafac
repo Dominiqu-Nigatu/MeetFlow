@@ -1,0 +1,24 @@
+frontend/src/app/shared/styles/tokens/spacing.scss
+  h_04318c1d16cd5e 1-15
+frontend/src/app/shared/styles/tokens/colors.scss
+  h_04318c1d16cd5e 1-22
+frontend/src/app/shared/styles/tokens/typography.scss
+  h_04318c1d16cd5e 1-26
+frontend/src/app/shared/styles/index.scss
+  h_04318c1d16cd5e 1-5
+frontend/src/app/shared/styles/tokens/borders.scss
+  h_04318c1d16cd5e 1-11
+frontend/src/app/shared/styles/tokens/shadows.scss
+  h_04318c1d16cd5e 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2fab5d93c2b3c660dbf5e509fdbc2b93091cafac",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
