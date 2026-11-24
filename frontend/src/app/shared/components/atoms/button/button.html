@@ -1,0 +1,19 @@
+<button
+  class="button"
+  [class.button--primary]="variant() === 'primary'"
+  [class.button--secondary]="variant() === 'secondary'"
+  [class.button--outline]="variant() === 'outline'"
+  [class.button--ghost]="variant() === 'ghost'"
+  [class.button--sm]="size() === 'sm'"
+  [class.button--md]="size() === 'md'"
+  [class.button--lg]="size() === 'lg'"
+  [class.button--full-width]="fullWidth()"
+  [disabled]="disabled() || loading()"
+  [attr.type]="type()"
+>
+  @if (loading()) {
+    <span class="button__loader"></span>
+  } @else {
+    <span class="button__label">{{ label() }}</span>
+  }
+</button>
