@@ -1,0 +1,39 @@
+
+<div class="input-field">
+  @if (label()) {
+    <label class="input-field__label" [for]="id()">
+      {{ label() }}
+
+      @if (required()) {
+        <span class="input-field__required">*</span>
+      }
+    </label>
+  }
+
+  <input
+    class="input-field__control"
+    [id]="id()"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [required]="required()"
+    [attr.aria-invalid]="!!error()"
+    [attr.aria-describedby]="
+      error() ? id() + '-error' :
+      hint() ? id() + '-hint' : null
+    "
+    (input)="onInput($event)"
+  />
+
+  @if (error()) {
+    <span class="input-field__message input-field__message--error"
+      [id]="id() + '-error'">
+      {{ error() }}
+    </span>
+  } @else if (hint()) {
+    <span class="input-field__message" [id]="id() + '-hint'">
+      {{ hint() }}
+    </span>
+  }
+</div>
