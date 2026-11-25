@@ -1,0 +1,20 @@
+frontend/src/app/shared/components/atoms/checkbox/checkbox.html
+  h_04318c1d16cd5e 1-39
+frontend/src/app/shared/components/atoms/checkbox/checkbox.ts
+  h_04318c1d16cd5e 1-23
+frontend/src/app/shared/components/atoms/checkbox/checkbox.spec.ts
+  h_04318c1d16cd5e 1-92
+frontend/src/app/shared/components/atoms/checkbox/checkbox.scss
+  h_04318c1d16cd5e 1-89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df77d14524926d36d47562250d443e02e519f8b1",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
