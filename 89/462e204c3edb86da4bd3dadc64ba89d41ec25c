@@ -1,0 +1,36 @@
+frontend/src/app/shared/components/atoms/textarea/textarea.ts
+  h_04318c1d16cd5e 1-35
+frontend/src/app/shared/components/atoms/textarea/textarea.scss
+  h_04318c1d16cd5e 1-91
+frontend/src/app/shared/components/atoms/input/input.html
+  h_04318c1d16cd5e 1-39
+frontend/src/app/shared/components/atoms/input/input.scss
+  h_04318c1d16cd5e 1-75
+frontend/src/app/shared/components/atoms/textarea/textarea.spec.ts
+  h_04318c1d16cd5e 1-103
+frontend/src/app/shared/components/atoms/avatar/avatar.html
+  h_04318c1d16cd5e 1-23
+frontend/src/app/shared/components/atoms/avatar/avatar.scss
+  h_04318c1d16cd5e 1-48
+frontend/src/app/shared/components/atoms/textarea/textarea.html
+  h_04318c1d16cd5e 1-53
+frontend/src/app/shared/components/atoms/avatar/avatar.spec.ts
+  h_04318c1d16cd5e 1-75
+frontend/src/app/shared/components/atoms/input/input.ts
+  h_04318c1d16cd5e 1-30
+frontend/src/app/shared/components/atoms/avatar/avatar.ts
+  h_04318c1d16cd5e 1-29
+frontend/src/app/shared/components/atoms/input/input.spec.ts
+  h_04318c1d16cd5e 1-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "89462e204c3edb86da4bd3dadc64ba89d41ec25c",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
