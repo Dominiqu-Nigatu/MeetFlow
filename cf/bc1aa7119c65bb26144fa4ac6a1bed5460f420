@@ -1,0 +1,68 @@
+frontend/src/app/shared/components/atoms/toggle/toggle.html
+  h_04318c1d16cd5e 1-33
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.ts
+  h_04318c1d16cd5e 1-57
+frontend/src/app/shared/components/organisms/navbar/navbar.html
+  s_1a550b1a3c5cf4::t_8bb7c19bd365da 20
+  h_04318c1d16cd5e 1-19,21-55
+frontend/src/app/shared/components/atoms/toggle/toggle.scss
+  h_04318c1d16cd5e 1-88
+frontend/src/app/shared/components/organisms/sidebar/sidebar.ts
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 20,36
+  h_04318c1d16cd5e 1-19,21-35,37-50
+frontend/src/app/shared/components/organisms/navbar/navbar.scss
+  s_1a550b1a3c5cf4::t_f722803bf8fddf 24,29,37,110,124,126,128-137,139-140
+  h_04318c1d16cd5e 1-23,25-28,30-36,38-109,111-123,125,127,138,141-165
+frontend/src/app/shared/components/organisms/sidebar/sidebar.html
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 1,3,5-6,9-11,18,27,30,35,38,40,46,49,60,63,65,70,73,79
+  h_04318c1d16cd5e 2,4,7-8,12-17,19-26,28-29,31-34,36-37,39,41-45,47-48,50-59,61-62,64,66-69,71-72,74-78,80-87
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.html
+  h_04318c1d16cd5e 1-80
+frontend/src/app/shared/components/atoms/toggle/toggle.spec.ts
+  h_04318c1d16cd5e 1-91
+frontend/src/app/shared/components/organisms/sidebar/sidebar.spec.ts
+  h_04318c1d16cd5e 1-78
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.scss
+  h_04318c1d16cd5e 1-98
+frontend/src/app/shared/components/organisms/sidebar/sidebar.scss
+  s_1a550b1a3c5cf4::t_8bb7c19bd365da 3,11
+  h_04318c1d16cd5e 1-2,4-10,12-16,24-85,92-164,168-173
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 17-23,86-91,165-167
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.scss
+  h_04318c1d16cd5e 1-150
+frontend/src/app/shared/components/organisms/navbar/navbar.ts
+  h_04318c1d16cd5e 1-40
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.html
+  h_04318c1d16cd5e 1-37
+frontend/src/app/shared/components/organisms/action-items-panel/action-items.spec.ts
+  h_04318c1d16cd5e 1-99
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.ts
+  h_04318c1d16cd5e 1-33
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.spec.ts
+  h_04318c1d16cd5e 1-98
+frontend/src/app/shared/components/organisms/navbar/navbar.spec.ts
+  h_04318c1d16cd5e 1-91
+frontend/src/app/shared/components/atoms/toggle/toggle.ts
+  h_04318c1d16cd5e 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cfbc1aa7119c65bb26144fa4ac6a1bed5460f420",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1a550b1a3c5cf4": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "296bb9ab-2ab7-4b90-abeb-07e5c380a4f3",
+        "model": "unknown"
+      },
+      "human_author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
