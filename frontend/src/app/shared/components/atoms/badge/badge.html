@@ -1,0 +1,15 @@
+
+<span
+  class="badge"
+  [class.badge--success]="variant() === 'success'"
+  [class.badge--warning]="variant() === 'warning'"
+  [class.badge--danger]="variant() === 'danger'"
+  [class.badge--info]="variant() === 'info'"
+  [class.badge--neutral]="variant() === 'neutral'"
+  [class.badge--sm]="size() === 'sm'"
+  [class.badge--md]="size() === 'md'"
+  [class.badge--lg]="size() === 'lg'"
+  [class.badge--pill]="pill()"
+>
+  {{ label() }}
+</span>
