@@ -1,0 +1,36 @@
+frontend/src/app/shared/components/atoms/spinner/spinner.spec.ts
+  h_04318c1d16cd5e 1-72
+frontend/src/app/shared/components/atoms/select/select.ts
+  h_04318c1d16cd5e 1-33
+frontend/src/app/shared/components/atoms/skeleton/skeleton.scss
+  h_04318c1d16cd5e 1-51
+frontend/src/app/shared/components/atoms/skeleton/skeleton.spec.ts
+  h_04318c1d16cd5e 1-81
+frontend/src/app/shared/components/atoms/skeleton/skeleton.ts
+  h_04318c1d16cd5e 1-15
+frontend/src/app/shared/components/atoms/spinner/spinner.scss
+  h_04318c1d16cd5e 1-52
+frontend/src/app/shared/components/atoms/select/select.html
+  h_04318c1d16cd5e 1-61
+frontend/src/app/shared/components/atoms/spinner/spinner.html
+  h_04318c1d16cd5e 1-20
+frontend/src/app/shared/components/atoms/spinner/spinner.ts
+  h_04318c1d16cd5e 1-13
+frontend/src/app/shared/components/atoms/select/select.scss
+  h_04318c1d16cd5e 1-82
+frontend/src/app/shared/components/atoms/skeleton/skeleton.html
+  h_04318c1d16cd5e 1-11
+frontend/src/app/shared/components/atoms/select/select.spec.ts
+  h_04318c1d16cd5e 1-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0f3fe959477c9d76aa670cc054f1fd098f4a4faf",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
