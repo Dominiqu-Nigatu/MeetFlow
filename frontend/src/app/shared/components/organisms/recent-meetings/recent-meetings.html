@@ -1,0 +1,37 @@
+<section class="recent-meetings">
+  <div class="recent-meetings__header">
+    <div>
+      <h2 class="recent-meetings__title">Recent Meetings</h2>
+      <p class="recent-meetings__subtitle">
+        Your latest recorded meetings and summaries
+      </p>
+    </div>
+
+    <button
+      class="recent-meetings__view-all"
+      type="button"
+      (click)="onViewAll()"
+    >
+      View all <span aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  <div class="recent-meetings__list">
+    @for (meeting of meetings(); track meeting.id) {
+      <app-meeting-card
+        [title]="meeting.title"
+        [date]="meeting.date"
+        [duration]="meeting.duration"
+        [summaryStatus]="meeting.summaryStatus"
+        [actionItemCount]="meeting.actionItemCount"
+        (selected)="onMeetingSelected(meeting.id)"
+      />
+    } @empty {
+      <div class="recent-meetings__empty">
+        <span class="recent-meetings__empty-icon" aria-hidden="true">▤</span>
+        <h3>No meetings yet</h3>
+        <p>Your recorded meetings will appear here.</p>
+      </div>
+    }
+  </div>
+</section>

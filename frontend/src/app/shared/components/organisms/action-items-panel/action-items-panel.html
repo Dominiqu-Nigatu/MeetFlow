@@ -1,0 +1,80 @@
+<section class="action-panel">
+  <header class="panel-header">
+    <div class="panel-heading">
+      <div>
+        <h2>Action Items</h2>
+        <p>Your tasks from across all meetings</p>
+      </div>
+
+      <span class="open-count">{{ openCount() }} open</span>
+    </div>
+
+    <button
+      class="view-all-button"
+      type="button"
+      (click)="onViewAll()"
+    >
+      View all
+      <span aria-hidden="true">→</span>
+    </button>
+  </header>
+
+  <div class="filter-bar" aria-label="Filter action items">
+    <button
+      type="button"
+      [class.active]="activeFilter() === 'all'"
+      [attr.aria-pressed]="activeFilter() === 'all'"
+      (click)="onFilterChange('all')"
+    >
+      All
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeFilter() === 'open'"
+      [attr.aria-pressed]="activeFilter() === 'open'"
+      (click)="onFilterChange('open')"
+    >
+      Open
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeFilter() === 'completed'"
+      [attr.aria-pressed]="activeFilter() === 'completed'"
+      (click)="onFilterChange('completed')"
+    >
+      Completed
+    </button>
+  </div>
+
+  <div class="action-list">
+    @for (item of filteredItems(); track item.id) {
+      <app-action-item-row
+        [id]="item.id"
+        [description]="item.description"
+        [owner]="item.owner"
+        [dueDate]="item.dueDate"
+        [completed]="item.completed"
+        (completedChange)="onItemCompleted({
+          id: item.id,
+          completed: $event
+        })"
+      />
+    } @empty {
+      <div class="empty-state">
+        <span class="empty-icon" aria-hidden="true">✓</span>
+        <h3>No action items found</h3>
+        <p>
+          @if (activeFilter() === 'completed') {
+            Completed tasks will appear here.
+          } @else if (activeFilter() === 'open') {
+            You're all caught up. No open tasks!
+          } @else {
+            Action items from your meetings will appear here.
+          }
+        </p>
+      </div>
+    }
+  </div>
+</section>
