@@ -1,0 +1,236 @@
+<div class="action-items-page">
+
+  <!-- Header -->
+  <section class="page-header">
+    <div>
+      <div class="eyebrow">PRODUCTIVITY</div>
+      <h1>Action items</h1>
+      <p>Keep track of everything that needs to get done after your meetings.</p>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="overview-grid">
+
+    <article class="overview-card">
+      <div class="overview-top">
+        <span class="overview-label">Total tasks</span>
+        <div class="overview-icon total-icon">☷</div>
+      </div>
+
+      <div class="overview-value">{{ totalCount() }}</div>
+      <p>Across all meetings</p>
+    </article>
+
+    <article class="overview-card">
+      <div class="overview-top">
+        <span class="overview-label">Outstanding</span>
+        <div class="overview-icon open-icon">◷</div>
+      </div>
+
+      <div class="overview-value">{{ openCount() }}</div>
+      <p>Still need your attention</p>
+    </article>
+
+    <article class="overview-card">
+      <div class="overview-top">
+        <span class="overview-label">Completed</span>
+        <div class="overview-icon completed-icon">✓</div>
+      </div>
+
+      <div class="overview-value">{{ completedCount() }}</div>
+      <p>Tasks checked off</p>
+    </article>
+
+  </section>
+
+  <!-- Progress -->
+  <section class="progress-card">
+
+    <div class="progress-header">
+      <div>
+        <h2>Your progress</h2>
+        <p>Keep the momentum going.</p>
+      </div>
+
+      <span class="progress-percentage">{{ progressPercentage() }}%</span>
+    </div>
+
+    <div
+      class="progress-track"
+      role="progressbar"
+      aria-label="Task completion progress"
+      [attr.aria-valuenow]="progressPercentage()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <div
+        class="progress-fill"
+        [style.width.%]="progressPercentage()"
+      ></div>
+    </div>
+
+    <div class="progress-footer">
+      <span>{{ completedCount() }} of {{ totalCount() }} tasks completed</span>
+      <span>{{ openCount() }} remaining</span>
+    </div>
+
+  </section>
+
+  <!-- Task List -->
+  <section class="tasks-card">
+
+    <div class="tasks-header">
+      <div>
+        <h2>All tasks</h2>
+        <p>Tasks collected from your meeting notes.</p>
+      </div>
+
+      <app-badge
+        [label]="openCount() + ' outstanding'"
+        variant="warning"
+      />
+    </div>
+
+    <!-- Filters -->
+    <div class="toolbar">
+
+      <app-input
+        id="action-item-search"
+        placeholder="Search tasks, owners or meetings..."
+        [value]="searchQuery()"
+        (valueChange)="onSearchChange($event)"
+      />
+
+      <div class="filter-group">
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.active]="activeFilter() === 'all'"
+          (click)="onFilterChange('all')"
+        >
+          All
+          <span>{{ totalCount() }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.active]="activeFilter() === 'open'"
+          (click)="onFilterChange('open')"
+        >
+          Open
+          <span>{{ openCount() }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.active]="activeFilter() === 'completed'"
+          (click)="onFilterChange('completed')"
+        >
+          Completed
+          <span>{{ completedCount() }}</span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Items -->
+    <div class="task-list">
+
+      @if (filteredItems().length > 0) {
+
+        @for (item of filteredItems(); track item.id) {
+
+          <article
+            class="task-card"
+            [class.task-completed]="item.completed"
+          >
+
+            <div class="task-main">
+
+              <app-action-item-row
+                [id]="item.id"
+                [description]="item.description"
+                [owner]="item.owner"
+                [dueDate]="item.dueDate"
+                [completed]="item.completed"
+                (completedChange)="onItemCompleted({ id: item.id, completed: $event })"
+              />
+
+              <div class="task-meta">
+
+                <div class="meeting-meta">
+                  <span class="meeting-icon">▤</span>
+                  <span>{{ item.meetingTitle }}</span>
+                </div>
+
+                <div class="due-meta" [class.no-date]="!item.dueDate">
+                  <span>◷</span>
+                  <span>{{ formatDate(item.dueDate) }}</span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="delete-button"
+              [attr.aria-label]="'Delete task: ' + item.description"
+              title="Delete task"
+              (click)="deleteItem(item.id)"
+            >
+              <span>×</span>
+            </button>
+
+          </article>
+
+        }
+
+      } @else {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">☷</div>
+
+          @if (searchQuery()) {
+            <h3>No matching tasks</h3>
+            <p>Try another search term or reset your filters.</p>
+          } @else if (activeFilter() === 'completed') {
+            <h3>No completed tasks yet</h3>
+            <p>Completed tasks will appear here.</p>
+          } @else if (activeFilter() === 'open') {
+            <h3>You're all caught up!</h3>
+            <p>There are no outstanding tasks.</p>
+          } @else {
+            <h3>No action items yet</h3>
+            <p>Tasks extracted from your meetings will appear here.</p>
+          }
+
+          <button
+            type="button"
+            class="reset-button"
+            (click)="clearSearch()"
+          >
+            Reset filters
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+    <div class="tasks-footer">
+      <span>
+        Showing {{ filteredItems().length }} of {{ totalCount() }} tasks
+      </span>
+    </div>
+
+  </section>
+
+</div>

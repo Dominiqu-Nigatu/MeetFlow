@@ -1,0 +1,32 @@
+
+<div
+  class="main-layout"
+  [class.sidebar-collapsed]="sidebarCollapsed()"
+  [class.mobile-sidebar-open]="mobileSidebarOpen()"
+>
+  @if (mobileSidebarOpen()) {
+    <div
+      class="sidebar-overlay"
+      (click)="closeMobileSidebar()"
+    ></div>
+  }
+
+  <app-sidebar
+    [collapsed]="sidebarCollapsed()"
+    (navigationSelected)="onNavigationSelected($event)"
+    (closeRequested)="closeMobileSidebar()"
+  />
+
+  <div class="main-content">
+    <app-navbar
+      [pageTitle]="pageTitle()"
+      (menuClicked)="onMenuClicked()"
+    />
+
+    <main class="page-content">
+      <div class="page-content-inner">
+        <router-outlet />
+      </div>
+    </main>
+  </div>
+</div>

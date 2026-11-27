@@ -1,0 +1,134 @@
+<app-auth-layout>
+  <div class="register-container">
+    <div class="register-header">
+      <div class="mobile-brand">
+        <div class="brand-icon">M</div>
+        <span>MeetFlow</span>
+      </div>
+
+      <div class="welcome-badge">
+        <span class="badge-dot"></span>
+        Get started
+      </div>
+
+      <h1>Create your <span>account</span></h1>
+
+      <p class="register-subtitle">
+        Start organising your meetings, notes and action items.
+      </p>
+    </div>
+
+    <form
+      class="register-form"
+      (submit)="$event.preventDefault(); onSubmit()"
+    >
+      <app-input
+        id="full-name"
+        label="Full name"
+        type="text"
+        placeholder="John Doe"
+        [value]="fullName()"
+        [required]="true"
+        (valueChange)="onFullNameChange($event)"
+      />
+
+      <app-input
+        id="register-email"
+        label="Email address"
+        type="email"
+        placeholder="you@example.com"
+        [value]="email()"
+        [required]="true"
+        (valueChange)="onEmailChange($event)"
+      />
+
+      <div class="password-field">
+        <app-input
+          id="register-password"
+          label="Password"
+          [type]="showPassword() ? 'text' : 'password'"
+          placeholder="At least 8 characters"
+          [value]="password()"
+          [required]="true"
+          (valueChange)="onPasswordChange($event)"
+        />
+
+        <button
+          class="password-toggle"
+          type="button"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        >
+          {{ showPassword() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <div class="password-field">
+        <app-input
+          id="confirm-password"
+          label="Confirm password"
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          placeholder="Enter your password again"
+          [value]="confirmPassword()"
+          [required]="true"
+          (valueChange)="onConfirmPasswordChange($event)"
+        />
+
+        <button
+          class="password-toggle"
+          type="button"
+          (click)="toggleConfirmPasswordVisibility()"
+          [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
+        >
+          {{ showConfirmPassword() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <div class="terms-field">
+        <app-checkbox
+          id="accept-terms"
+          [checked]="acceptTerms()"
+          (checkedChange)="onTermsChange($event)"
+        />
+
+        <label for="accept-terms" class="terms-label">
+          I agree to the
+          <a href="#" (click)="$event.preventDefault()">Terms of Service</a>
+          and
+          <a href="#" (click)="$event.preventDefault()">Privacy Policy</a>.
+        </label>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-message" role="alert">
+          <span class="error-icon">!</span>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <app-button
+        label="Create account"
+        type="submit"
+        variant="primary"
+        size="lg"
+        [fullWidth]="true"
+      />
+    </form>
+
+    <div class="register-divider">
+      <span>or</span>
+    </div>
+
+    <div class="signin-prompt">
+      <p>
+        Already have an account?
+        <a href="#" (click)="$event.preventDefault()">Sign in</a>
+      </p>
+    </div>
+
+    <div class="security-note">
+      <span class="security-icon">✦</span>
+      <span>Your workspace is private and secure.</span>
+    </div>
+  </div>
+</app-auth-layout>

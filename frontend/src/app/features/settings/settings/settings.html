@@ -1,0 +1,314 @@
+<div class="settings-page">
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div>
+      <div class="eyebrow">PREFERENCES</div>
+      <h1>Settings</h1>
+      <p>Manage your profile and customise your MeetFlow experience.</p>
+    </div>
+  </section>
+
+  <!-- Profile -->
+  <section class="settings-card">
+
+    <div class="section-header">
+      <div class="section-icon profile-icon">♙</div>
+
+      <div>
+        <h2>Profile</h2>
+        <p>Manage your personal information.</p>
+      </div>
+    </div>
+
+    <div class="profile-preview">
+      <app-avatar
+        [name]="name()"
+        size="lg"
+      />
+
+      <div class="profile-preview-info">
+        <h3>{{ name() || 'Your name' }}</h3>
+        <p>{{ jobTitle() || 'Your job title' }}</p>
+      </div>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="form-field">
+        <label for="settings-name">Full name</label>
+
+        <input
+          id="settings-name"
+          type="text"
+          [value]="name()"
+          (input)="onNameChange($any($event.target).value)"
+          placeholder="Enter your name"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="settings-email">Email address</label>
+
+        <input
+          id="settings-email"
+          type="email"
+          [value]="email()"
+          (input)="onEmailChange($any($event.target).value)"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="settings-job-title">Job title</label>
+
+        <input
+          id="settings-job-title"
+          type="text"
+          [value]="jobTitle()"
+          (input)="onJobTitleChange($any($event.target).value)"
+          placeholder="e.g. Software Developer"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="settings-timezone">Timezone</label>
+
+        <select
+          id="settings-timezone"
+          [value]="timezone()"
+          (change)="onTimezoneChange($any($event.target).value)"
+        >
+          <option value="Africa/Johannesburg">South Africa (SAST)</option>
+          <option value="Africa/Nairobi">East Africa (EAT)</option>
+          <option value="Europe/London">United Kingdom (GMT/BST)</option>
+          <option value="Europe/Paris">Central Europe (CET)</option>
+          <option value="America/New_York">Eastern US (ET)</option>
+          <option value="America/Los_Angeles">Pacific US (PT)</option>
+          <option value="Asia/Dubai">Dubai (GST)</option>
+          <option value="Asia/Kolkata">India (IST)</option>
+          <option value="Asia/Tokyo">Japan (JST)</option>
+          <option value="Australia/Sydney">Australia (AEST)</option>
+        </select>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Notifications -->
+  <section class="settings-card">
+
+    <div class="section-header">
+      <div class="section-icon notification-icon">♧</div>
+
+      <div>
+        <h2>Notifications</h2>
+        <p>Choose what you'd like to hear about.</p>
+      </div>
+    </div>
+
+    <div class="settings-list">
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <h3>Email notifications</h3>
+          <p>Receive important updates and activity notifications via email.</p>
+        </div>
+
+        <app-toggle
+          id="email-notifications"
+          [checked]="emailNotifications()"
+          (checkedChange)="onNotificationChange('emailNotifications', $event)"
+        />
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <h3>Action item reminders</h3>
+          <p>Get reminders about upcoming or overdue tasks.</p>
+        </div>
+
+        <app-toggle
+          id="task-reminders"
+          [checked]="taskReminders()"
+          (checkedChange)="onNotificationChange('taskReminders', $event)"
+        />
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <h3>Meeting summaries</h3>
+          <p>Get notified when a meeting summary is ready.</p>
+        </div>
+
+        <app-toggle
+          id="meeting-summaries"
+          [checked]="meetingSummaries()"
+          (checkedChange)="onNotificationChange('meetingSummaries', $event)"
+        />
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <h3>Weekly digest</h3>
+          <p>Receive a weekly overview of meetings and tasks.</p>
+        </div>
+
+        <app-toggle
+          id="weekly-digest"
+          [checked]="weeklyDigest()"
+          (checkedChange)="onNotificationChange('weeklyDigest', $event)"
+        />
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Appearance -->
+  <section class="settings-card">
+
+    <div class="section-header">
+      <div class="section-icon appearance-icon">◐</div>
+
+      <div>
+        <h2>Appearance</h2>
+        <p>Customise how MeetFlow looks.</p>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Dark mode</h3>
+        <p>Switch between light and dark appearance.</p>
+      </div>
+
+      <app-toggle
+        id="dark-mode"
+        [checked]="darkMode()"
+        (checkedChange)="onDarkModeChange($event)"
+      />
+    </div>
+
+    <div class="appearance-preview">
+      <div
+        class="theme-preview light-preview"
+        [class.selected]="!darkMode()"
+      >
+        <div class="preview-window light-window">
+          <div class="preview-sidebar"></div>
+          <div class="preview-content">
+            <div class="preview-line"></div>
+            <div class="preview-line short"></div>
+            <div class="preview-block"></div>
+          </div>
+        </div>
+
+        <div class="preview-label">
+          <span>Light</span>
+          @if (!darkMode()) {
+            <span class="selected-label">Selected</span>
+          }
+        </div>
+      </div>
+
+      <div
+        class="theme-preview dark-preview"
+        [class.selected]="darkMode()"
+      >
+        <div class="preview-window dark-window">
+          <div class="preview-sidebar"></div>
+          <div class="preview-content">
+            <div class="preview-line"></div>
+            <div class="preview-line short"></div>
+            <div class="preview-block"></div>
+          </div>
+        </div>
+
+        <div class="preview-label">
+          <span>Dark</span>
+          @if (darkMode()) {
+            <span class="selected-label">Selected</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <p class="appearance-note">
+      <span>ⓘ</span>
+      Dark mode is a preference preview. Full theme switching will be connected later.
+    </p>
+
+  </section>
+
+  <!-- Account -->
+  <section class="settings-card">
+
+    <div class="section-header">
+      <div class="section-icon account-icon">⚙</div>
+
+      <div>
+        <h2>Account</h2>
+        <p>Manage your account preferences.</p>
+      </div>
+    </div>
+
+    <div class="account-info">
+      <div>
+        <h3>Account status</h3>
+        <p>Your MeetFlow account is currently active.</p>
+      </div>
+
+      <span class="account-status">
+        <span class="status-dot"></span>
+        Active
+      </span>
+    </div>
+
+    <div class="account-info">
+      <div>
+        <h3>Data & privacy</h3>
+        <p>Your meeting data and transcripts are intended to be securely stored.</p>
+      </div>
+
+      <span class="privacy-label">Privacy</span>
+    </div>
+
+    <div class="account-info">
+      <div>
+        <h3>Account management</h3>
+        <p>Account deletion and security management will be available later.</p>
+      </div>
+
+      <span class="coming-soon">Coming soon</span>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <section class="settings-footer">
+
+    @if (saved()) {
+      <div class="saved-message">
+        <span>✓</span>
+        Settings updated successfully.
+      </div>
+    }
+
+    <div class="footer-actions">
+      <app-button
+        label="Reset"
+        variant="outline"
+        (click)="resetSettings()"
+      />
+
+      <app-button
+        label="Save changes"
+        (click)="saveSettings()"
+      />
+    </div>
+
+  </section>
+
+</div>
