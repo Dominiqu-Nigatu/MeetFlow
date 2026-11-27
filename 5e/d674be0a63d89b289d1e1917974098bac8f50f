@@ -1,0 +1,16 @@
+frontend/src/app/features/dashboard/dashboard/dashboard.ts
+  h_04318c1d16cd5e 8
+frontend/src/app/shared/types/dashboard.ts
+  h_04318c1d16cd5e 10-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5ed674be0a63d89b289d1e1917974098bac8f50f",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
