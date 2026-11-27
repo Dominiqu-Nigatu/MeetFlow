@@ -1,0 +1,203 @@
+<div class="meeting-detail-page">
+  <button class="back-button" type="button" (click)="onBack()">
+    <span class="back-arrow">←</span>
+    Back to meetings
+  </button>
+
+  <section class="meeting-header">
+    <div class="meeting-header-content">
+      <div class="meeting-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Meeting overview
+      </div>
+
+      <h1>{{ meetingTitle() }}</h1>
+
+      <div class="meeting-meta">
+        <span class="meta-item">
+          <span class="meta-icon">◷</span>
+          {{ meetingDate() }}
+        </span>
+
+        <span class="meta-divider"></span>
+
+        <span class="meta-item">
+          <span class="meta-icon">◴</span>
+          {{ meetingDuration() }}
+        </span>
+
+        <span class="meta-divider"></span>
+
+        <app-badge
+          [label]="meetingStatus()"
+          [variant]="meetingStatus() === 'completed' ? 'success' : meetingStatus() === 'processing' ? 'warning' : 'neutral'"
+        />
+      </div>
+    </div>
+
+    <button class="download-button" type="button" (click)="onDownload()">
+      <span>↓</span>
+      Export summary
+    </button>
+  </section>
+
+  <section class="action-progress">
+    <div class="progress-header">
+      <div class="progress-heading">
+        <div class="progress-icon">✓</div>
+
+        <div>
+          <h2>Action item progress</h2>
+          <p>Track tasks identified during this meeting.</p>
+        </div>
+      </div>
+
+      <div class="progress-count">
+        <strong>{{ completedActionCount() }}</strong>
+        <span>of {{ actionItems().length }} completed</span>
+      </div>
+    </div>
+
+    <div class="progress-track">
+      <div
+        class="progress-fill"
+        [style.width.%]="progressPercentage()"
+      ></div>
+    </div>
+
+    <div class="progress-footer">
+      <span>{{ remainingActionCount() }} tasks remaining</span>
+      <span>{{ progressPercentage() }}% complete</span>
+    </div>
+  </section>
+
+  <section class="meeting-content">
+    <div class="content-tabs">
+      <button
+        type="button"
+        class="content-tab"
+        [class.active]="activeTab() === 'summary'"
+        (click)="onTabChange('summary')"
+      >
+        <span class="tab-icon">✦</span>
+        AI Summary
+      </button>
+
+      <button
+        type="button"
+        class="content-tab"
+        [class.active]="activeTab() === 'transcript'"
+        (click)="onTabChange('transcript')"
+      >
+        <span class="tab-icon">≡</span>
+        Transcript
+      </button>
+    </div>
+
+    @if (activeTab() === 'summary') {
+      <div class="summary-content">
+        <section class="content-section summary-section">
+          <div class="section-heading">
+            <div class="section-icon summary-icon">✦</div>
+            <div>
+              <h2>Meeting summary</h2>
+              <p>A concise overview of the discussion.</p>
+            </div>
+          </div>
+
+          <div class="summary-text">
+            <p>{{ summary() }}</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <div class="section-icon keypoints-icon">◎</div>
+            <div>
+              <h2>Key discussion points</h2>
+              <p>The main topics covered during the meeting.</p>
+            </div>
+          </div>
+
+          <div class="keypoints-list">
+            @for (point of keyPoints(); track point; let i = $index) {
+              <div class="keypoint">
+                <span class="keypoint-number">{{ i + 1 }}</span>
+                <p>{{ point }}</p>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <div class="section-icon decisions-icon">✓</div>
+            <div>
+              <h2>Key decisions</h2>
+              <p>Agreements reached during the discussion.</p>
+            </div>
+          </div>
+
+          <div class="decisions-list">
+            @for (decision of decisions(); track decision) {
+              <div class="decision-item">
+                <div class="decision-check">✓</div>
+                <p>{{ decision }}</p>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="content-section action-section">
+          <div class="section-heading">
+            <div class="section-icon action-icon">☑</div>
+            <div>
+              <h2>Action items</h2>
+              <p>Tasks assigned during the meeting.</p>
+            </div>
+          </div>
+
+          <div class="action-items-list">
+            @for (item of actionItems(); track item.id) {
+              <app-action-item-row
+                [id]="item.id"
+                [description]="item.description"
+                [owner]="item.owner"
+                [dueDate]="item.dueDate"
+                [completed]="item.completed"
+                (completedChange)="onActionItemCompleted({ id: item.id, completed: $event })"
+              />
+            }
+          </div>
+        </section>
+      </div>
+    } @else {
+      <div class="transcript-content">
+        <div class="section-heading">
+          <div class="section-icon transcript-icon">≡</div>
+          <div>
+            <h2>Meeting transcript</h2>
+            <p>Original conversation from the meeting.</p>
+          </div>
+        </div>
+
+        <div class="transcript-notice">
+          <span class="notice-icon">i</span>
+          <p>
+            This transcript is sample content. Real transcript data will be
+            supplied by the backend.
+          </p>
+        </div>
+
+        <div class="transcript-list">
+          @for (line of transcript(); track line; let i = $index) {
+            <div class="transcript-line">
+              <span class="transcript-number">{{ i + 1 }}</span>
+              <p>{{ line }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </section>
+</div>

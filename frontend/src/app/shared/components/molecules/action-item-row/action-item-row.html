@@ -1,0 +1,37 @@
+<article
+  class="action-item"
+  [class.action-item--completed]="completed()"
+>
+  <div class="action-item__checkbox">
+    <app-checkbox
+      [id]="id()"
+      [checked]="completed()"
+      [label]="description()"
+      (checkedChange)="onCompletedChange($event)"
+    />
+  </div>
+
+  <div class="action-item__details">
+    @if (owner()) {
+      <span class="action-item__owner">
+        Assigned to {{ owner() }}
+      </span>
+    } @else {
+      <span class="action-item__owner action-item__owner--unassigned">
+        Unassigned
+      </span>
+    }
+
+    @if (dueDate()) {
+      <span class="action-item__date">
+        Due {{ dueDate() }}
+      </span>
+    }
+  </div>
+
+  <app-badge
+    [label]="completed() ? 'Completed' : 'Open'"
+    [variant]="completed() ? 'success' : 'warning'"
+    size="sm"
+  />
+</article>

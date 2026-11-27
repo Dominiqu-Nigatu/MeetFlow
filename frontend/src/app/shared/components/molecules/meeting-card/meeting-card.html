@@ -1,0 +1,38 @@
+<article class="meeting-card" (click)="onSelect()">
+  <div class="meeting-card__content">
+    <div class="meeting-card__header">
+      <h3 class="meeting-card__title">{{ title() }}</h3>
+
+      <app-badge
+        [label]="summaryStatus()"
+        [variant]="
+          summaryStatus() === 'completed'
+            ? 'success'
+            : summaryStatus() === 'processing'
+              ? 'info'
+              : 'warning'
+        "
+        size="sm"
+      />
+    </div>
+
+    <div class="meeting-card__metadata">
+      <span>
+        <span class="meeting-card__icon">◷</span>
+        {{ date() }}
+      </span>
+
+      <span>
+        <span class="meeting-card__icon">◴</span>
+        {{ duration() }}
+      </span>
+
+      <span>
+        <span class="meeting-card__icon">☑</span>
+        {{ actionItemCount() }} action items
+      </span>
+    </div>
+  </div>
+
+  <span class="meeting-card__arrow" aria-hidden="true">→</span>
+</article>
