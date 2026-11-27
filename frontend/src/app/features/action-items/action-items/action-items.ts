@@ -92,13 +92,9 @@ export class ActionItems {
 
   totalCount = computed(() => this.items().length);
 
-  completedCount = computed(
-    () => this.items().filter(item => item.completed).length
-  );
+  completedCount = computed(() => this.items().filter((item) => item.completed).length);
 
-  openCount = computed(
-    () => this.items().filter(item => !item.completed).length
-  );
+  openCount = computed(() => this.items().filter((item) => !item.completed).length);
 
   progressPercentage = computed(() => {
     const total = this.totalCount();
@@ -112,7 +108,7 @@ export class ActionItems {
     const query = this.searchQuery().trim().toLowerCase();
     const filter = this.activeFilter();
 
-    return this.items().filter(item => {
+    return this.items().filter((item) => {
       const matchesFilter =
         filter === 'all' ||
         (filter === 'open' && !item.completed) ||
@@ -137,17 +133,13 @@ export class ActionItems {
   }
 
   onItemCompleted(event: { id: string; completed: boolean }): void {
-    this.items.update(items =>
-      items.map(item =>
-        item.id === event.id
-          ? { ...item, completed: event.completed }
-          : item
-      )
+    this.items.update((items) =>
+      items.map((item) => (item.id === event.id ? { ...item, completed: event.completed } : item)),
     );
   }
 
   deleteItem(id: string): void {
-    this.items.update(items => items.filter(item => item.id !== id));
+    this.items.update((items) => items.filter((item) => item.id !== id));
   }
 
   clearSearch(): void {

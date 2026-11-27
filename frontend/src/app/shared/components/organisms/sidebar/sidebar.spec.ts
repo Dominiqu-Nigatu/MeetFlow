@@ -52,8 +52,7 @@ describe('Sidebar', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.nativeElement.querySelector('.sidebar')
-        .classList.contains('sidebar--collapsed'),
+      fixture.nativeElement.querySelector('.sidebar').classList.contains('sidebar--collapsed'),
     ).toBe(true);
   });
 

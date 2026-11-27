@@ -1,4 +1,3 @@
-
 import { Component, input } from '@angular/core';
 
 @Component({
@@ -10,9 +9,7 @@ import { Component, input } from '@angular/core';
 export class Badge {
   label = input.required<string>();
 
-  variant = input<
-    'success' | 'warning' | 'danger' | 'info' | 'neutral'
-  >('neutral');
+  variant = input<'success' | 'warning' | 'danger' | 'info' | 'neutral'>('neutral');
 
   size = input<'sm' | 'md' | 'lg'>('md');
 

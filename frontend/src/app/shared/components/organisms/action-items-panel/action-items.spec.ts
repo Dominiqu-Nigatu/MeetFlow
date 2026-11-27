@@ -92,8 +92,6 @@ describe('ActionItemsPanel', () => {
     fixture.componentRef.setInput('items', []);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.empty-state')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.empty-state')).toBeTruthy();
   });
 });

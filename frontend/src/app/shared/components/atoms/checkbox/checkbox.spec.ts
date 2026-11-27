@@ -66,8 +66,7 @@ describe('Checkbox', () => {
     fixture.componentRef.setInput('description', 'Keep me signed in');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Keep me signed in');
+    expect(fixture.nativeElement.textContent).toContain('Keep me signed in');
   });
 
   it('should emit true when checked', () => {

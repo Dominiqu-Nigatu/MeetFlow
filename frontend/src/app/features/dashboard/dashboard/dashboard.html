@@ -1,29 +1,4 @@
 <div class="dashboard-page">
-  <section class="welcome-section">
-    <div class="welcome-content">
-      <div class="welcome-label">
-        <span class="welcome-dot"></span>
-        Your workspace
-      </div>
-
-      <h1>Good to see you, {{ userName() }} <span class="wave">👋</span></h1>
-
-      <p>
-        Here's an overview of your meetings, tasks and progress.
-      </p>
-    </div>
-
-    <div class="welcome-decoration">
-      <div class="decoration-circle circle-one"></div>
-      <div class="decoration-circle circle-two"></div>
-      <div class="decoration-card">
-        <span class="decoration-icon">✦</span>
-        <span>Stay organised.</span>
-        <span>Stay focused.</span>
-      </div>
-    </div>
-  </section>
-
   <section class="stats-section">
     <app-dashboard-stats [stats]="stats()" />
   </section>
@@ -44,19 +19,14 @@
     </div>
 
     <aside class="dashboard-side-column">
-      <app-meeting-upload-panel
-        (uploadSubmitted)="onUploadMeeting($event)"
-      />
+      <app-meeting-upload-panel (uploadSubmitted)="onUploadMeeting($event)" />
 
       <div class="productivity-card">
         <div class="productivity-icon">✦</div>
 
         <h3>Make every meeting count.</h3>
 
-        <p>
-          Turn conversations into clear summaries, meaningful decisions and
-          actionable tasks.
-        </p>
+        <p>Turn conversations into clear summaries, meaningful decisions and actionable tasks.</p>
 
         <div class="productivity-divider"></div>
 

@@ -30,7 +30,13 @@
 
         <app-badge
           [label]="meetingStatus()"
-          [variant]="meetingStatus() === 'completed' ? 'success' : meetingStatus() === 'processing' ? 'warning' : 'neutral'"
+          [variant]="
+            meetingStatus() === 'completed'
+              ? 'success'
+              : meetingStatus() === 'processing'
+                ? 'warning'
+                : 'neutral'
+          "
         />
       </div>
     </div>
@@ -59,10 +65,7 @@
     </div>
 
     <div class="progress-track">
-      <div
-        class="progress-fill"
-        [style.width.%]="progressPercentage()"
-      ></div>
+      <div class="progress-fill" [style.width.%]="progressPercentage()"></div>
     </div>
 
     <div class="progress-footer">
@@ -184,8 +187,7 @@
         <div class="transcript-notice">
           <span class="notice-icon">i</span>
           <p>
-            This transcript is sample content. Real transcript data will be
-            supplied by the backend.
+            This transcript is sample content. Real transcript data will be supplied by the backend.
           </p>
         </div>
 

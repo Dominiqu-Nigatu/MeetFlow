@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Skeleton } from './skeleton';
 
@@ -29,18 +28,14 @@ describe('Skeleton', () => {
     fixture.componentRef.setInput('variant', 'circular');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.skeleton--circular')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.skeleton--circular')).toBeTruthy();
   });
 
   it('should support rectangular variant', () => {
     fixture.componentRef.setInput('variant', 'rectangular');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.skeleton--rectangular')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.skeleton--rectangular')).toBeTruthy();
   });
 
   it('should support custom width', () => {
@@ -60,18 +55,14 @@ describe('Skeleton', () => {
   });
 
   it('should animate by default', () => {
-    expect(
-      fixture.nativeElement.querySelector('.skeleton--animated')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.skeleton--animated')).toBeTruthy();
   });
 
   it('should allow animation to be disabled', () => {
     fixture.componentRef.setInput('animated', false);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.skeleton--animated')
-    ).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('.skeleton--animated')).toBeFalsy();
   });
 
   it('should be hidden from screen readers', () => {

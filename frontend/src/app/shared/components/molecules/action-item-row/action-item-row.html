@@ -1,7 +1,4 @@
-<article
-  class="action-item"
-  [class.action-item--completed]="completed()"
->
+<article class="action-item" [class.action-item--completed]="completed()">
   <div class="action-item__checkbox">
     <app-checkbox
       [id]="id()"
@@ -13,19 +10,13 @@
 
   <div class="action-item__details">
     @if (owner()) {
-      <span class="action-item__owner">
-        Assigned to {{ owner() }}
-      </span>
+      <span class="action-item__owner"> Assigned to {{ owner() }} </span>
     } @else {
-      <span class="action-item__owner action-item__owner--unassigned">
-        Unassigned
-      </span>
+      <span class="action-item__owner action-item__owner--unassigned"> Unassigned </span>
     }
 
     @if (dueDate()) {
-      <span class="action-item__date">
-        Due {{ dueDate() }}
-      </span>
+      <span class="action-item__date"> Due {{ dueDate() }} </span>
     }
   </div>
 

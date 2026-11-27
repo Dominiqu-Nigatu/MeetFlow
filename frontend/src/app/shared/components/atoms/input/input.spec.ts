@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input } from './input';
 
@@ -36,56 +35,49 @@ describe('Input', () => {
     fixture.componentRef.setInput('label', 'Email address');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('label').textContent)
-      .toContain('Email address');
+    expect(fixture.nativeElement.querySelector('label').textContent).toContain('Email address');
   });
 
   it('should display the placeholder', () => {
     fixture.componentRef.setInput('placeholder', 'Enter email');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('input').placeholder)
-      .toBe('Enter email');
+    expect(fixture.nativeElement.querySelector('input').placeholder).toBe('Enter email');
   });
 
   it('should support different input types', () => {
     fixture.componentRef.setInput('type', 'password');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('input').type)
-      .toBe('password');
+    expect(fixture.nativeElement.querySelector('input').type).toBe('password');
   });
 
   it('should disable the input', () => {
     fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('input').disabled)
-      .toBe(true);
+    expect(fixture.nativeElement.querySelector('input').disabled).toBe(true);
   });
 
   it('should mark the input as required', () => {
     fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('input').required)
-      .toBe(true);
+    expect(fixture.nativeElement.querySelector('input').required).toBe(true);
   });
 
   it('should display a hint', () => {
     fixture.componentRef.setInput('hint', 'Use your work email');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Use your work email');
+    expect(fixture.nativeElement.textContent).toContain('Use your work email');
   });
 
   it('should display an error message', () => {
     fixture.componentRef.setInput('error', 'Invalid email');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Invalid email');
+    expect(fixture.nativeElement.textContent).toContain('Invalid email');
   });
 
   it('should emit the updated value', () => {
@@ -96,5 +88,15 @@ describe('Input', () => {
     input.dispatchEvent(new Event('input'));
 
     expect(emitSpy).toHaveBeenCalledWith('hello@test.com');
+  });
+  it('should emit an empty value when the native search clear event fires', () => {
+    fixture.componentRef.setInput('type', 'search');
+    fixture.componentRef.setInput('value', 'frontend');
+    fixture.detectChanges();
+    const emitSpy = vi.spyOn(component.valueChange, 'emit');
+    const input = fixture.nativeElement.querySelector('input');
+    input.value = '';
+    input.dispatchEvent(new Event('search'));
+    expect(emitSpy).toHaveBeenCalledWith('');
   });
 });

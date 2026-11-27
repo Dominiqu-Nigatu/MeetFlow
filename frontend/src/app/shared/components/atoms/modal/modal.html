@@ -1,9 +1,5 @@
-
 @if (open()) {
-  <div
-    class="modal-backdrop"
-    (click)="onBackdropClick($event)"
-  >
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
     <section
       class="modal"
       [class.modal--sm]="size() === 'sm'"
@@ -16,12 +12,7 @@
       <header class="modal__header">
         <h2 class="modal__title">{{ title() }}</h2>
 
-        <button
-          class="modal__close"
-          type="button"
-          aria-label="Close dialog"
-          (click)="close()"
-        >
+        <button class="modal__close" type="button" aria-label="Close dialog" (click)="close()">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="m18 6-12 12M6 6l12 12"

@@ -13,15 +13,10 @@
 
       <h1>Create your <span>account</span></h1>
 
-      <p class="register-subtitle">
-        Start organising your meetings, notes and action items.
-      </p>
+      <p class="register-subtitle">Start organising your meetings, notes and action items.</p>
     </div>
 
-    <form
-      class="register-form"
-      (submit)="$event.preventDefault(); onSubmit()"
-    >
+    <form class="register-form" (submit)="$event.preventDefault(); onSubmit()">
       <app-input
         id="full-name"
         label="Full name"

@@ -18,6 +18,7 @@
         <app-search-bar
           placeholder="Search meetings..."
           [showLabel]="false"
+          [initialValue]="searchQuery()"
           (search)="onSearch($event)"
         />
       </div>
@@ -33,16 +34,8 @@
       <span class="navbar__notification-dot"></span>
     </button>
 
-    <button
-      class="navbar__profile"
-      type="button"
-      (click)="onProfileClick()"
-    >
-      <app-avatar
-        [name]="userName()"
-        [src]="avatarSrc()"
-        size="md"
-      />
+    <button class="navbar__profile" type="button" (click)="onProfileClick()">
+      <app-avatar [name]="userName()" [src]="avatarSrc()" size="md" />
 
       <span class="navbar__user-details">
         <span class="navbar__user-name">{{ userName() }}</span>

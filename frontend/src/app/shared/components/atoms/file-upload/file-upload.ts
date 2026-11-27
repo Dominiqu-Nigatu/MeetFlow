@@ -1,4 +1,3 @@
-
 import { Component, input, output, signal } from '@angular/core';
 
 @Component({
@@ -25,7 +24,7 @@ export class FileUpload {
   get acceptedExtensions(): string[] {
     return this.accept()
       .split(',')
-      .map(extension => extension.trim().toLowerCase());
+      .map((extension) => extension.trim().toLowerCase());
   }
 
   onFileInput(event: Event): void {
@@ -69,18 +68,14 @@ export class FileUpload {
     const extension = `.${file.name.split('.').pop()?.toLowerCase()}`;
 
     if (!this.acceptedExtensions.includes(extension)) {
-      this.setError(
-        `Invalid file type. Accepted formats: ${this.accept()}`
-      );
+      this.setError(`Invalid file type. Accepted formats: ${this.accept()}`);
       return;
     }
 
     const maxSizeBytes = this.maxSizeMB() * 1024 * 1024;
 
     if (file.size > maxSizeBytes) {
-      this.setError(
-        `File is too large. Maximum size is ${this.maxSizeMB()} MB.`
-      );
+      this.setError(`File is too large. Maximum size is ${this.maxSizeMB()} MB.`);
       return;
     }
 

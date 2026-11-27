@@ -59,22 +59,21 @@ describe('ActionItems', () => {
     component.onFilterChange('open');
 
     expect(component.filteredItems().length).toBe(5);
-    expect(component.filteredItems().every(item => !item.completed)).toBe(true);
+    expect(component.filteredItems().every((item) => !item.completed)).toBe(true);
   });
 
   it('should filter completed tasks', () => {
     component.onFilterChange('completed');
 
     expect(component.filteredItems().length).toBe(3);
-    expect(component.filteredItems().every(item => item.completed)).toBe(true);
+    expect(component.filteredItems().every((item) => item.completed)).toBe(true);
   });
 
   it('should search tasks by description', () => {
     component.onSearchChange('budget');
 
     expect(component.filteredItems().length).toBe(1);
-    expect(component.filteredItems()[0].description)
-      .toContain('budget proposal');
+    expect(component.filteredItems()[0].description).toContain('budget proposal');
   });
 
   it('should search tasks by owner', () => {
@@ -108,8 +107,7 @@ describe('ActionItems', () => {
       completed: true,
     });
 
-    expect(component.items().find(item => item.id === '1')?.completed)
-      .toBe(true);
+    expect(component.items().find((item) => item.id === '1')?.completed).toBe(true);
   });
 
   it('should reopen a completed task', () => {
@@ -118,8 +116,7 @@ describe('ActionItems', () => {
       completed: false,
     });
 
-    expect(component.items().find(item => item.id === '3')?.completed)
-      .toBe(false);
+    expect(component.items().find((item) => item.id === '3')?.completed).toBe(false);
   });
 
   it('should update counts when completing a task', () => {
@@ -145,7 +142,7 @@ describe('ActionItems', () => {
     component.deleteItem('1');
 
     expect(component.totalCount()).toBe(7);
-    expect(component.items().some(item => item.id === '1')).toBe(false);
+    expect(component.items().some((item) => item.id === '1')).toBe(false);
   });
 
   it('should update counts after deleting an open task', () => {
@@ -183,8 +180,7 @@ describe('ActionItems', () => {
   it('should render the action items heading', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent)
-      .toContain('Action items');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Action items');
   });
 
   it('should render the progress section', () => {

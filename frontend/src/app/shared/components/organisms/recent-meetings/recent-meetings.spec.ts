@@ -49,9 +49,7 @@ describe('RecentMeetings', () => {
   });
 
   it('should display the empty state when there are no meetings', () => {
-    expect(
-      fixture.nativeElement.querySelector('.recent-meetings__empty'),
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.recent-meetings__empty')).toBeTruthy();
   });
 
   it('should display meeting cards when meetings are provided', () => {
@@ -89,9 +87,7 @@ describe('RecentMeetings', () => {
     const spy = vi.fn();
     component.viewAllClicked.subscribe(spy);
 
-    fixture.nativeElement
-      .querySelector('.recent-meetings__view-all')
-      .click();
+    fixture.nativeElement.querySelector('.recent-meetings__view-all').click();
 
     expect(spy).toHaveBeenCalled();
   });

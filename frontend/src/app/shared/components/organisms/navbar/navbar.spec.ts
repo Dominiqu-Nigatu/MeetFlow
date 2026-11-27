@@ -39,18 +39,14 @@ describe('Navbar', () => {
   });
 
   it('should render the search bar by default', () => {
-    expect(
-      fixture.nativeElement.querySelector('app-search-bar'),
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('app-search-bar')).toBeTruthy();
   });
 
   it('should hide the search bar when disabled', () => {
     fixture.componentRef.setInput('showSearch', false);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('app-search-bar'),
-    ).toBeNull();
+    expect(fixture.nativeElement.querySelector('app-search-bar')).toBeNull();
   });
 
   it('should emit when the menu button is clicked', () => {

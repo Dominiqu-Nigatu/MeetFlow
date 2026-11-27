@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Toggle } from './toggle';
 
@@ -36,16 +35,14 @@ describe('Toggle', () => {
     fixture.componentRef.setInput('label', 'Email notifications');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Email notifications');
+    expect(fixture.nativeElement.textContent).toContain('Email notifications');
   });
 
   it('should display its description', () => {
     fixture.componentRef.setInput('description', 'Receive meeting updates');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Receive meeting updates');
+    expect(fixture.nativeElement.textContent).toContain('Receive meeting updates');
   });
 
   it('should be unchecked by default', () => {

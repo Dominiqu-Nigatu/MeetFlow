@@ -23,9 +23,7 @@ describe('ActionItemRow', () => {
   });
 
   it('should display the task description', () => {
-    expect(fixture.nativeElement.textContent).toContain(
-      'Prepare project proposal',
-    );
+    expect(fixture.nativeElement.textContent).toContain('Prepare project proposal');
   });
 
   it('should display the owner when provided', () => {

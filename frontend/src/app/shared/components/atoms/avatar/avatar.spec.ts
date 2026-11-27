@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Avatar } from './avatar';
 
@@ -63,13 +62,10 @@ describe('Avatar', () => {
     fixture.componentRef.setInput('src', 'https://example.com/avatar.jpg');
     fixture.detectChanges();
 
-    const image: HTMLImageElement =
-      fixture.nativeElement.querySelector('.avatar__image');
+    const image: HTMLImageElement = fixture.nativeElement.querySelector('.avatar__image');
 
     expect(image).toBeTruthy();
     expect(image.alt).toBe('John Doe');
-    expect(image.getAttribute('src')).toBe(
-      'https://example.com/avatar.jpg'
-    );
+    expect(image.getAttribute('src')).toBe('https://example.com/avatar.jpg');
   });
 });

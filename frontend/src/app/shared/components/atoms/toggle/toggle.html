@@ -1,9 +1,4 @@
-
-<label
-  class="toggle"
-  [class.toggle--disabled]="disabled()"
-  [for]="id()"
->
+<label class="toggle" [class.toggle--disabled]="disabled()" [for]="id()">
   <span class="toggle__content">
     @if (label()) {
       <span class="toggle__label">{{ label() }}</span>

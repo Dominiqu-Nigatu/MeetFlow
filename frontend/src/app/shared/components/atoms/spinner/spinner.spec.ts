@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Spinner } from './spinner';
 
@@ -27,8 +26,7 @@ describe('Spinner', () => {
   });
 
   it('should use medium size by default', () => {
-    const spinner: HTMLElement =
-      fixture.nativeElement.querySelector('.spinner');
+    const spinner: HTMLElement = fixture.nativeElement.querySelector('.spinner');
 
     expect(spinner.classList).toContain('spinner--md');
   });
@@ -37,8 +35,7 @@ describe('Spinner', () => {
     fixture.componentRef.setInput('size', 'lg');
     fixture.detectChanges();
 
-    const spinner: HTMLElement =
-      fixture.nativeElement.querySelector('.spinner');
+    const spinner: HTMLElement = fixture.nativeElement.querySelector('.spinner');
 
     expect(spinner.classList).toContain('spinner--lg');
   });
@@ -47,15 +44,13 @@ describe('Spinner', () => {
     fixture.componentRef.setInput('message', 'Generating summary...');
     fixture.detectChanges();
 
-    const message: HTMLElement =
-      fixture.nativeElement.querySelector('.spinner__message');
+    const message: HTMLElement = fixture.nativeElement.querySelector('.spinner__message');
 
     expect(message.textContent?.trim()).toBe('Generating summary...');
   });
 
   it('should have an accessible loading role', () => {
-    const container: HTMLElement =
-      fixture.nativeElement.querySelector('.spinner-container');
+    const container: HTMLElement = fixture.nativeElement.querySelector('.spinner-container');
 
     expect(container.getAttribute('role')).toBe('status');
   });
@@ -64,8 +59,7 @@ describe('Spinner', () => {
     fixture.componentRef.setInput('message', 'Loading meetings...');
     fixture.detectChanges();
 
-    const container: HTMLElement =
-      fixture.nativeElement.querySelector('.spinner-container');
+    const container: HTMLElement = fixture.nativeElement.querySelector('.spinner-container');
 
     expect(container.getAttribute('aria-label')).toBe('Loading meetings...');
   });

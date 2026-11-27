@@ -68,9 +68,7 @@ describe('Login', () => {
     fixture.componentInstance.password.set('password123');
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please fill in all required fields.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Please fill in all required fields.');
   });
 
   it('should show an error if password is empty', () => {
@@ -78,9 +76,7 @@ describe('Login', () => {
     fixture.componentInstance.email.set('test@example.com');
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please fill in all required fields.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Please fill in all required fields.');
   });
 
   it('should show an error for an invalid email', () => {
@@ -89,9 +85,7 @@ describe('Login', () => {
     fixture.componentInstance.password.set('password123');
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please enter a valid email address.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Please enter a valid email address.');
   });
 
   it('should clear the error when email changes', () => {
@@ -160,8 +154,6 @@ describe('Login', () => {
     const fixture = TestBed.createComponent(Login);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain(
-      "Don't have an account?",
-    );
+    expect(fixture.nativeElement.textContent).toContain("Don't have an account?");
   });
 });

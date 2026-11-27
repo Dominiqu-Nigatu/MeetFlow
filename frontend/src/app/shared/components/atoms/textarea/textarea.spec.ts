@@ -36,8 +36,7 @@ describe('Textarea', () => {
     fixture.componentRef.setInput('placeholder', 'Enter notes...');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('textarea').placeholder)
-      .toBe('Enter notes...');
+    expect(fixture.nativeElement.querySelector('textarea').placeholder).toBe('Enter notes...');
   });
 
   it('should use four rows by default', () => {
@@ -55,32 +54,28 @@ describe('Textarea', () => {
     fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('textarea').disabled)
-      .toBe(true);
+    expect(fixture.nativeElement.querySelector('textarea').disabled).toBe(true);
   });
 
   it('should mark the textarea as required', () => {
     fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('textarea').required)
-      .toBe(true);
+    expect(fixture.nativeElement.querySelector('textarea').required).toBe(true);
   });
 
   it('should display a hint', () => {
     fixture.componentRef.setInput('hint', 'Add your meeting notes');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Add your meeting notes');
+    expect(fixture.nativeElement.textContent).toContain('Add your meeting notes');
   });
 
   it('should display an error', () => {
     fixture.componentRef.setInput('error', 'This field is required');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('This field is required');
+    expect(fixture.nativeElement.textContent).toContain('This field is required');
   });
 
   it('should display a character counter', () => {

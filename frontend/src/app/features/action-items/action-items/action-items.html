@@ -1,5 +1,4 @@
 <div class="action-items-page">
-
   <!-- Header -->
   <section class="page-header">
     <div>
@@ -11,7 +10,6 @@
 
   <!-- Overview -->
   <section class="overview-grid">
-
     <article class="overview-card">
       <div class="overview-top">
         <span class="overview-label">Total tasks</span>
@@ -41,12 +39,10 @@
       <div class="overview-value">{{ completedCount() }}</div>
       <p>Tasks checked off</p>
     </article>
-
   </section>
 
   <!-- Progress -->
   <section class="progress-card">
-
     <div class="progress-header">
       <div>
         <h2>Your progress</h2>
@@ -64,37 +60,28 @@
       aria-valuemin="0"
       aria-valuemax="100"
     >
-      <div
-        class="progress-fill"
-        [style.width.%]="progressPercentage()"
-      ></div>
+      <div class="progress-fill" [style.width.%]="progressPercentage()"></div>
     </div>
 
     <div class="progress-footer">
       <span>{{ completedCount() }} of {{ totalCount() }} tasks completed</span>
       <span>{{ openCount() }} remaining</span>
     </div>
-
   </section>
 
   <!-- Task List -->
   <section class="tasks-card">
-
     <div class="tasks-header">
       <div>
         <h2>All tasks</h2>
         <p>Tasks collected from your meeting notes.</p>
       </div>
 
-      <app-badge
-        [label]="openCount() + ' outstanding'"
-        variant="warning"
-      />
+      <app-badge [label]="openCount() + ' outstanding'" variant="warning" />
     </div>
 
     <!-- Filters -->
     <div class="toolbar">
-
       <app-input
         id="action-item-search"
         placeholder="Search tasks, owners or meetings..."
@@ -103,7 +90,6 @@
       />
 
       <div class="filter-group">
-
         <button
           type="button"
           class="filter-button"
@@ -133,25 +119,15 @@
           Completed
           <span>{{ completedCount() }}</span>
         </button>
-
       </div>
-
     </div>
 
     <!-- Items -->
     <div class="task-list">
-
       @if (filteredItems().length > 0) {
-
         @for (item of filteredItems(); track item.id) {
-
-          <article
-            class="task-card"
-            [class.task-completed]="item.completed"
-          >
-
+          <article class="task-card" [class.task-completed]="item.completed">
             <div class="task-main">
-
               <app-action-item-row
                 [id]="item.id"
                 [description]="item.description"
@@ -162,7 +138,6 @@
               />
 
               <div class="task-meta">
-
                 <div class="meeting-meta">
                   <span class="meeting-icon">▤</span>
                   <span>{{ item.meetingTitle }}</span>
@@ -172,9 +147,7 @@
                   <span>◷</span>
                   <span>{{ formatDate(item.dueDate) }}</span>
                 </div>
-
               </div>
-
             </div>
 
             <button
@@ -186,15 +159,10 @@
             >
               <span>×</span>
             </button>
-
           </article>
-
         }
-
       } @else {
-
         <div class="empty-state">
-
           <div class="empty-icon">☷</div>
 
           @if (searchQuery()) {
@@ -211,26 +179,13 @@
             <p>Tasks extracted from your meetings will appear here.</p>
           }
 
-          <button
-            type="button"
-            class="reset-button"
-            (click)="clearSearch()"
-          >
-            Reset filters
-          </button>
-
+          <button type="button" class="reset-button" (click)="clearSearch()">Reset filters</button>
         </div>
-
       }
-
     </div>
 
     <div class="tasks-footer">
-      <span>
-        Showing {{ filteredItems().length }} of {{ totalCount() }} tasks
-      </span>
+      <span> Showing {{ filteredItems().length }} of {{ totalCount() }} tasks </span>
     </div>
-
   </section>
-
 </div>

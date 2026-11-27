@@ -1,5 +1,4 @@
 <div class="settings-page">
-
   <!-- Page Header -->
   <section class="page-header">
     <div>
@@ -11,7 +10,6 @@
 
   <!-- Profile -->
   <section class="settings-card">
-
     <div class="section-header">
       <div class="section-icon profile-icon">♙</div>
 
@@ -22,10 +20,7 @@
     </div>
 
     <div class="profile-preview">
-      <app-avatar
-        [name]="name()"
-        size="lg"
-      />
+      <app-avatar [name]="name()" size="lg" />
 
       <div class="profile-preview-info">
         <h3>{{ name() || 'Your name' }}</h3>
@@ -34,7 +29,6 @@
     </div>
 
     <div class="form-grid">
-
       <div class="form-field">
         <label for="settings-name">Full name</label>
 
@@ -91,14 +85,11 @@
           <option value="Australia/Sydney">Australia (AEST)</option>
         </select>
       </div>
-
     </div>
-
   </section>
 
   <!-- Notifications -->
   <section class="settings-card">
-
     <div class="section-header">
       <div class="section-icon notification-icon">♧</div>
 
@@ -109,7 +100,6 @@
     </div>
 
     <div class="settings-list">
-
       <div class="setting-row">
         <div class="setting-info">
           <h3>Email notifications</h3>
@@ -161,14 +151,11 @@
           (checkedChange)="onNotificationChange('weeklyDigest', $event)"
         />
       </div>
-
     </div>
-
   </section>
 
   <!-- Appearance -->
   <section class="settings-card">
-
     <div class="section-header">
       <div class="section-icon appearance-icon">◐</div>
 
@@ -192,10 +179,7 @@
     </div>
 
     <div class="appearance-preview">
-      <div
-        class="theme-preview light-preview"
-        [class.selected]="!darkMode()"
-      >
+      <div class="theme-preview light-preview" [class.selected]="!darkMode()">
         <div class="preview-window light-window">
           <div class="preview-sidebar"></div>
           <div class="preview-content">
@@ -213,10 +197,7 @@
         </div>
       </div>
 
-      <div
-        class="theme-preview dark-preview"
-        [class.selected]="darkMode()"
-      >
+      <div class="theme-preview dark-preview" [class.selected]="darkMode()">
         <div class="preview-window dark-window">
           <div class="preview-sidebar"></div>
           <div class="preview-content">
@@ -239,12 +220,10 @@
       <span>ⓘ</span>
       Dark mode is a preference preview. Full theme switching will be connected later.
     </p>
-
   </section>
 
   <!-- Account -->
   <section class="settings-card">
-
     <div class="section-header">
       <div class="section-icon account-icon">⚙</div>
 
@@ -283,12 +262,10 @@
 
       <span class="coming-soon">Coming soon</span>
     </div>
-
   </section>
 
   <!-- Footer -->
   <section class="settings-footer">
-
     @if (saved()) {
       <div class="saved-message">
         <span>✓</span>
@@ -297,18 +274,9 @@
     }
 
     <div class="footer-actions">
-      <app-button
-        label="Reset"
-        variant="outline"
-        (click)="resetSettings()"
-      />
+      <app-button label="Reset" variant="outline" (click)="resetSettings()" />
 
-      <app-button
-        label="Save changes"
-        (click)="saveSettings()"
-      />
+      <app-button label="Save changes" (click)="saveSettings()" />
     </div>
-
   </section>
-
 </div>

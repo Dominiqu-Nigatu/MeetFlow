@@ -1,4 +1,3 @@
-
 import { Component, input, output } from '@angular/core';
 import { Input } from '../../atoms/input/input';
 
@@ -12,9 +11,7 @@ import { Input } from '../../atoms/input/input';
 export class FormField {
   id = input.required<string>();
   label = input('');
-  type = input<
-    'text' | 'email' | 'password' | 'search' | 'number' | 'date'
-  >('text');
+  type = input<'text' | 'email' | 'password' | 'search' | 'number' | 'date'>('text');
   placeholder = input('');
   value = input('');
   hint = input<string | null>(null);

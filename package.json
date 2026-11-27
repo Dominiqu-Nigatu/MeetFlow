@@ -6,12 +6,15 @@
   "scripts": {
     "frontend": "npm start --prefix frontend",
     "backend": "dotnet run --project backend",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.2.5"
+    "concurrently": "^9.2.5",
+    "prettier": "^3.8.1"
   }
 }

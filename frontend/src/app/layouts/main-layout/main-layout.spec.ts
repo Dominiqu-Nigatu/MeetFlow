@@ -1,6 +1,5 @@
-
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { MainLayout } from './main-layout';
 
 describe('MainLayout', () => {
@@ -140,5 +139,30 @@ describe('MainLayout', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('router-outlet')).toBeTruthy();
+  });
+  it('should restore the original page when the top search is cleared', () => {
+    const fixture = TestBed.createComponent(MainLayout);
+    const router = TestBed.inject(Router);
+    const url = vi.spyOn(router, 'url', 'get').mockReturnValue('/dashboard');
+    const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigateByUrl = vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
+
+    fixture.componentInstance.onMeetingSearch('frontend');
+    expect(navigate).toHaveBeenCalledWith(['/meetings']);
+    url.mockReturnValue('/meetings');
+    fixture.componentInstance.onMeetingSearch('');
+    expect(fixture.componentInstance.meetingSearch.query()).toBe('');
+    expect(navigateByUrl).toHaveBeenCalledWith('/dashboard');
+  });
+
+  it('should stay on Meetings when clearing a search started there', () => {
+    const fixture = TestBed.createComponent(MainLayout);
+    const router = TestBed.inject(Router);
+    vi.spyOn(router, 'url', 'get').mockReturnValue('/meetings');
+    const navigate = vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
+    fixture.componentInstance.onMeetingSearch('frontend');
+    fixture.componentInstance.onMeetingSearch('');
+    expect(fixture.componentInstance.meetingSearch.query()).toBe('');
+    expect(navigate).not.toHaveBeenCalled();
   });
 });

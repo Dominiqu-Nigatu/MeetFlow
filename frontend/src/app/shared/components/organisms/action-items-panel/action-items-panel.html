@@ -9,11 +9,7 @@
       <span class="open-count">{{ openCount() }} open</span>
     </div>
 
-    <button
-      class="view-all-button"
-      type="button"
-      (click)="onViewAll()"
-    >
+    <button class="view-all-button" type="button" (click)="onViewAll()">
       View all
       <span aria-hidden="true">→</span>
     </button>
@@ -56,10 +52,12 @@
         [owner]="item.owner"
         [dueDate]="item.dueDate"
         [completed]="item.completed"
-        (completedChange)="onItemCompleted({
-          id: item.id,
-          completed: $event
-        })"
+        (completedChange)="
+          onItemCompleted({
+            id: item.id,
+            completed: $event,
+          })
+        "
       />
     } @empty {
       <div class="empty-state">

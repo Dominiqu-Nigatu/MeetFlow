@@ -1,4 +1,3 @@
-
 <div class="select">
   @if (label()) {
     <label class="select__label" [for]="id()">
@@ -10,10 +9,7 @@
     </label>
   }
 
-  <div
-    class="select__wrapper"
-    [class.select__wrapper--error]="!!error()"
-  >
+  <div class="select__wrapper" [class.select__wrapper--error]="!!error()">
     <select
       class="select__control"
       [id]="id()"
@@ -29,10 +25,7 @@
       </option>
 
       @for (option of options(); track option.value) {
-        <option
-          [value]="option.value"
-          [disabled]="option.disabled ?? false"
-        >
+        <option [value]="option.value" [disabled]="option.disabled ?? false">
           {{ option.label }}
         </option>
       }

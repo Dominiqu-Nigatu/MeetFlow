@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Button } from './button';
 
@@ -23,15 +22,13 @@ describe('Button', () => {
   });
 
   it('should display the provided label', () => {
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.textContent).toContain('Save Changes');
   });
 
   it('should use the primary variant by default', () => {
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.classList).toContain('button--primary');
   });
@@ -40,8 +37,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('variant', 'secondary');
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.classList).toContain('button--secondary');
   });
@@ -50,8 +46,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('size', 'lg');
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.classList).toContain('button--lg');
   });
@@ -60,8 +55,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.disabled).toBe(true);
   });
@@ -70,8 +64,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.disabled).toBe(true);
   });
@@ -89,8 +82,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('fullWidth', true);
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.classList).toContain('button--full-width');
   });
@@ -99,8 +91,7 @@ describe('Button', () => {
     fixture.componentRef.setInput('type', 'submit');
     fixture.detectChanges();
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('button');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
     expect(button.type).toBe('submit');
   });

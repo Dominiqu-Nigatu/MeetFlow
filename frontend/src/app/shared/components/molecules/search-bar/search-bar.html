@@ -1,4 +1,3 @@
-
 <form class="search-bar" (submit)="onSubmit($event)">
   <div class="search-bar__input">
     <app-input
@@ -6,16 +5,9 @@
       [label]="showLabel() ? 'Search' : ''"
       type="search"
       [placeholder]="placeholder()"
-      [value]="initialValue()"
+      [value]="query()"
       [disabled]="disabled()"
       (valueChange)="onValueChange($event)"
     />
   </div>
-
-  <app-button
-    label="Search"
-    type="submit"
-    size="md"
-    [disabled]="disabled()"
-  />
 </form>

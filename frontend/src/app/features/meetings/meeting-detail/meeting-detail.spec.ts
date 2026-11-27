@@ -15,9 +15,7 @@ describe('MeetingDetail', () => {
 
   it('should initialise the meeting title', () => {
     const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.meetingTitle()).toBe(
-      'Product Strategy Meeting',
-    );
+    expect(fixture.componentInstance.meetingTitle()).toBe('Product Strategy Meeting');
   });
 
   it('should initialise the meeting status', () => {
@@ -75,9 +73,9 @@ describe('MeetingDetail', () => {
       completed: true,
     });
 
-    expect(
-      fixture.componentInstance.actionItems().find(item => item.id === '1')?.completed,
-    ).toBe(true);
+    expect(fixture.componentInstance.actionItems().find((item) => item.id === '1')?.completed).toBe(
+      true,
+    );
   });
 
   it('should mark an action item as incomplete', () => {
@@ -88,9 +86,9 @@ describe('MeetingDetail', () => {
       completed: false,
     });
 
-    expect(
-      fixture.componentInstance.actionItems().find(item => item.id === '3')?.completed,
-    ).toBe(false);
+    expect(fixture.componentInstance.actionItems().find((item) => item.id === '3')?.completed).toBe(
+      false,
+    );
   });
 
   it('should update completed action count when a task is completed', () => {
@@ -130,9 +128,7 @@ describe('MeetingDetail', () => {
     const fixture = TestBed.createComponent(MeetingDetail);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain(
-      'Product Strategy Meeting',
-    );
+    expect(fixture.nativeElement.textContent).toContain('Product Strategy Meeting');
   });
 
   it('should render the summary tab', () => {
@@ -146,9 +142,7 @@ describe('MeetingDetail', () => {
     const fixture = TestBed.createComponent(MeetingDetail);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain(
-      'Key discussion points',
-    );
+    expect(fixture.nativeElement.textContent).toContain('Key discussion points');
   });
 
   it('should render the key decisions', () => {

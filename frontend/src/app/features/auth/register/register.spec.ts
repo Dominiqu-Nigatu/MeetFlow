@@ -97,9 +97,7 @@ describe('Register', () => {
     const fixture = TestBed.createComponent(Register);
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please fill in all required fields.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Please fill in all required fields.');
   });
 
   it('should reject invalid email', () => {
@@ -112,9 +110,7 @@ describe('Register', () => {
 
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please enter a valid email address.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Please enter a valid email address.');
   });
 
   it('should reject passwords shorter than 8 characters', () => {
@@ -142,9 +138,7 @@ describe('Register', () => {
 
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Passwords do not match.',
-    );
+    expect(fixture.componentInstance.errorMessage()).toBe('Passwords do not match.');
   });
 
   it('should reject unaccepted terms', () => {

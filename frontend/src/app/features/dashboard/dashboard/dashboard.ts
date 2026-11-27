@@ -1,18 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { DashboardStats, DashboardStat } from '../../../shared/components/organisms/dashboard-stats/dashboard-stats';
-import { RecentMeetings, RecentMeeting } from '../../../shared/components/organisms/recent-meetings/recent-meetings';
-import { ActionItemsPanel, PanelActionItem } from '../../../shared/components/organisms/action-items-panel/action-items-panel';
-import { MeetingUploadPanel, MeetingUploadData } from '../../../shared/components/organisms/meeting-upload-panel/meeting-upload-panel';
+import {
+  DashboardStats,
+  DashboardStat,
+} from '../../../shared/components/organisms/dashboard-stats/dashboard-stats';
+import {
+  RecentMeetings,
+  RecentMeeting,
+} from '../../../shared/components/organisms/recent-meetings/recent-meetings';
+import {
+  ActionItemsPanel,
+  PanelActionItem,
+} from '../../../shared/components/organisms/action-items-panel/action-items-panel';
+import {
+  MeetingUploadPanel,
+  MeetingUploadData,
+} from '../../../shared/components/organisms/meeting-upload-panel/meeting-upload-panel';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    DashboardStats,
-    RecentMeetings,
-    ActionItemsPanel,
-    MeetingUploadPanel,
-  ],
+  imports: [DashboardStats, RecentMeetings, ActionItemsPanel, MeetingUploadPanel],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -117,12 +124,8 @@ export class Dashboard {
   ]);
 
   onActionItemCompleted(event: { id: string; completed: boolean }): void {
-    this.actionItems.update(items =>
-      items.map(item =>
-        item.id === event.id
-          ? { ...item, completed: event.completed }
-          : item,
-      ),
+    this.actionItems.update((items) =>
+      items.map((item) => (item.id === event.id ? { ...item, completed: event.completed } : item)),
     );
   }
 

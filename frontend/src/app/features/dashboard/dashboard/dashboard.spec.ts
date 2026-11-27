@@ -41,7 +41,7 @@ describe('Dashboard', () => {
       completed: true,
     });
 
-    const item = fixture.componentInstance.actionItems().find(item => item.id === '1');
+    const item = fixture.componentInstance.actionItems().find((item) => item.id === '1');
 
     expect(item?.completed).toBe(true);
   });
@@ -49,10 +49,8 @@ describe('Dashboard', () => {
   it('should mark an action item as incomplete', () => {
     const fixture = TestBed.createComponent(Dashboard);
 
-    fixture.componentInstance.actionItems.update(items =>
-      items.map(item =>
-        item.id === '1' ? { ...item, completed: true } : item,
-      ),
+    fixture.componentInstance.actionItems.update((items) =>
+      items.map((item) => (item.id === '1' ? { ...item, completed: true } : item)),
     );
 
     fixture.componentInstance.onActionItemCompleted({
@@ -60,7 +58,7 @@ describe('Dashboard', () => {
       completed: false,
     });
 
-    const item = fixture.componentInstance.actionItems().find(item => item.id === '1');
+    const item = fixture.componentInstance.actionItems().find((item) => item.id === '1');
 
     expect(item?.completed).toBe(false);
   });
@@ -77,11 +75,12 @@ describe('Dashboard', () => {
     expect(fixture.componentInstance.actionItems()[1]).toEqual(originalSecondItem);
   });
 
-  it('should render the welcome section', () => {
+  it('should not render the removed welcome banner', () => {
     const fixture = TestBed.createComponent(Dashboard);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Good to see you');
+    expect(fixture.nativeElement.querySelector('.welcome-section')).toBeNull();
+    expect(fixture.nativeElement.textContent).not.toContain('Good to see you');
   });
 
   it('should render the dashboard stats', () => {

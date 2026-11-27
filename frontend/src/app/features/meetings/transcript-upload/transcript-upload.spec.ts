@@ -7,11 +7,7 @@ describe('TranscriptUpload', () => {
   let fixture: ComponentFixture<TranscriptUpload>;
   let router: Router;
 
-  const mockFile = new File(
-    ['Meeting transcript content'],
-    'meeting.txt',
-    { type: 'text/plain' }
-  );
+  const mockFile = new File(['Meeting transcript content'], 'meeting.txt', { type: 'text/plain' });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -132,9 +128,7 @@ describe('TranscriptUpload', () => {
   it('should display an error when submitting invalid data', () => {
     component.submitMeeting();
 
-    expect(component.errorMessage()).toBe(
-      'Please provide a meeting title and transcript.'
-    );
+    expect(component.errorMessage()).toBe('Please provide a meeting title and transcript.');
   });
 
   it('should reset the form', () => {
@@ -155,8 +149,7 @@ describe('TranscriptUpload', () => {
   it('should render the upload heading', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent)
-      .toContain('Upload a meeting');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Upload a meeting');
   });
 
   it('should render the meeting details section', () => {

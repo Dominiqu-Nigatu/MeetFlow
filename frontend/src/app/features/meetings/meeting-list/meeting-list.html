@@ -8,9 +8,7 @@
 
       <h1>Meetings</h1>
 
-      <p>
-        Keep track of your conversations, summaries and action items.
-      </p>
+      <p>Keep track of your conversations, summaries and action items.</p>
     </div>
 
     <button class="upload-button" type="button" (click)="onUploadMeeting()">
@@ -62,6 +60,7 @@
 
       <app-search-bar
         placeholder="Search meetings..."
+        [initialValue]="searchQuery()"
         (search)="onSearch($event)"
       />
     </div>
@@ -127,9 +126,7 @@
 
         <h3>No meetings found</h3>
 
-        <p>
-          Try adjusting your search or selecting a different filter.
-        </p>
+        <p>Try adjusting your search or selecting a different filter.</p>
 
         <button
           type="button"

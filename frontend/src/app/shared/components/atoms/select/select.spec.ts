@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Select, SelectOption } from './select';
 
@@ -41,8 +40,7 @@ describe('Select', () => {
   });
 
   it('should display the placeholder', () => {
-    expect(fixture.nativeElement.textContent)
-      .toContain('Select an option');
+    expect(fixture.nativeElement.textContent).toContain('Select an option');
   });
 
   it('should render all options', () => {
@@ -78,16 +76,14 @@ describe('Select', () => {
     fixture.componentRef.setInput('hint', 'Choose a date range');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Choose a date range');
+    expect(fixture.nativeElement.textContent).toContain('Choose a date range');
   });
 
   it('should display an error', () => {
     fixture.componentRef.setInput('error', 'Please select an option');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Please select an option');
+    expect(fixture.nativeElement.textContent).toContain('Please select an option');
   });
 
   it('should emit the selected value', () => {

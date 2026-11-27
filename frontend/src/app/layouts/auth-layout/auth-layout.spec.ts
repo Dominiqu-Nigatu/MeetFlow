@@ -28,26 +28,18 @@ describe('AuthLayout', () => {
   });
 
   it('should display the brand tagline', () => {
-    expect(fixture.nativeElement.textContent).toContain(
-      'Summarise. Organise. Get things done.'
-    );
+    expect(fixture.nativeElement.textContent).toContain('Summarise. Organise. Get things done.');
   });
 
   it('should render the content projection area', () => {
-    expect(
-      fixture.nativeElement.querySelector('.content-container')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.content-container')).toBeTruthy();
   });
 
   it('should render the branding section', () => {
-    expect(
-      fixture.nativeElement.querySelector('.auth-brand')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.auth-brand')).toBeTruthy();
   });
 
   it('should render the authentication content section', () => {
-    expect(
-      fixture.nativeElement.querySelector('.auth-content')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.auth-content')).toBeTruthy();
   });
 });

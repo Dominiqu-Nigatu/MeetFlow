@@ -1,4 +1,3 @@
-
 import { Component, input, output } from '@angular/core';
 
 @Component({
@@ -20,10 +19,7 @@ export class Modal {
   }
 
   onBackdropClick(event: MouseEvent): void {
-    if (
-      this.closeOnBackdrop() &&
-      event.target === event.currentTarget
-    ) {
+    if (this.closeOnBackdrop() && event.target === event.currentTarget) {
       this.close();
     }
   }

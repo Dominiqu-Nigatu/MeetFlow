@@ -1,12 +1,10 @@
-
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, linkedSignal } from '@angular/core';
 import { Input } from '../../atoms/input/input';
-import { Button } from '../../atoms/button/button';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [Input, Button],
+  imports: [Input],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
 })
@@ -18,19 +16,20 @@ export class SearchBar {
 
   search = output<string>();
 
-  query = signal('');
+  query = linkedSignal(() => this.initialValue());
 
   onValueChange(value: string): void {
+    if (this.disabled()) return;
+
     this.query.set(value);
+    this.search.emit(value.trim());
   }
 
   onSubmit(event: Event): void {
     event.preventDefault();
 
-    const searchValue = this.query().trim() || this.initialValue().trim();
+    if (this.disabled()) return;
 
-    if (searchValue) {
-      this.search.emit(searchValue);
-    }
+    this.search.emit(this.query().trim());
   }
 }

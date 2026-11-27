@@ -1,5 +1,4 @@
 <div class="upload-page">
-
   <button class="back-button" type="button" (click)="goBack()">
     <span class="back-icon">←</span>
     Back to Dashboard
@@ -23,38 +22,27 @@
       <div class="success-content">
         <h3>Transcript uploaded successfully!</h3>
         <p>
-          Your meeting has been added to MeetFlow.
-          AI processing will be available once the backend is connected.
+          Your meeting has been added to MeetFlow. AI processing will be available once the backend
+          is connected.
         </p>
       </div>
 
       <div class="success-actions">
-        <app-button
-          label="Upload another"
-          variant="outline"
-          (click)="resetForm()"
-        />
+        <app-button label="Upload another" variant="outline" (click)="resetForm()" />
 
-        <app-button
-          label="Back to dashboard"
-          (click)="goBack()"
-        />
+        <app-button label="Back to dashboard" (click)="goBack()" />
       </div>
     </div>
   } @else {
-
     <div class="upload-grid">
-
       <!-- Main form -->
       <section class="upload-card">
-
         <div class="card-heading">
           <h2>Meeting details</h2>
           <p>Give your meeting a name so you can easily find it later.</p>
         </div>
 
         <div class="form-section">
-
           <app-input
             id="meeting-title"
             label="Meeting title"
@@ -71,7 +59,6 @@
             [value]="meetingDate()"
             (valueChange)="onDateChange($event)"
           />
-
         </div>
 
         <div class="form-divider"></div>
@@ -92,7 +79,6 @@
 
         @if (selectedFile()) {
           <div class="file-preview">
-
             <div class="file-icon">
               <span>TXT</span>
             </div>
@@ -110,7 +96,6 @@
             >
               ×
             </button>
-
           </div>
         }
 
@@ -121,12 +106,9 @@
         }
 
         <div class="form-footer">
-
           <div class="footer-note">
             <span class="note-icon">ⓘ</span>
-            <span>
-              Your transcript must be in TXT, VTT or Markdown format.
-            </span>
+            <span> Your transcript must be in TXT, VTT or Markdown format. </span>
           </div>
 
           <app-button
@@ -137,27 +119,22 @@
             [loading]="isSubmitting()"
             (click)="submitMeeting()"
           />
-
         </div>
-
       </section>
 
       <!-- Information panel -->
       <aside class="upload-info">
-
         <div class="info-card">
-
           <div class="info-icon">✦</div>
 
           <h2>What happens next?</h2>
 
           <p>
-            MeetFlow is designed to transform lengthy conversations
-            into information you can actually use.
+            MeetFlow is designed to transform lengthy conversations into information you can
+            actually use.
           </p>
 
           <div class="workflow">
-
             <div class="workflow-item">
               <div class="workflow-number">01</div>
 
@@ -193,13 +170,10 @@
                 <p>Track your meetings and tasks from one place.</p>
               </div>
             </div>
-
           </div>
-
         </div>
 
         <div class="supported-card">
-
           <h3>Supported file formats</h3>
 
           <div class="format-list">
@@ -223,13 +197,8 @@
             <span>Maximum file size</span>
             <strong>10 MB</strong>
           </div>
-
         </div>
-
       </aside>
-
     </div>
-
   }
-
 </div>

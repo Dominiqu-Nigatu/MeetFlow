@@ -45,9 +45,9 @@ describe('MeetingList', () => {
 
     expect(fixture.componentInstance.filteredMeetings().length).toBe(4);
     expect(
-      fixture.componentInstance.filteredMeetings().every(
-        meeting => meeting.summaryStatus === 'completed',
-      ),
+      fixture.componentInstance
+        .filteredMeetings()
+        .every((meeting) => meeting.summaryStatus === 'completed'),
     ).toBe(true);
   });
 
@@ -58,9 +58,9 @@ describe('MeetingList', () => {
 
     expect(fixture.componentInstance.filteredMeetings().length).toBe(2);
     expect(
-      fixture.componentInstance.filteredMeetings().every(
-        meeting => meeting.summaryStatus === 'processing',
-      ),
+      fixture.componentInstance
+        .filteredMeetings()
+        .every((meeting) => meeting.summaryStatus === 'processing'),
     ).toBe(true);
   });
 
@@ -71,9 +71,9 @@ describe('MeetingList', () => {
 
     expect(fixture.componentInstance.filteredMeetings().length).toBe(2);
     expect(
-      fixture.componentInstance.filteredMeetings().every(
-        meeting => meeting.summaryStatus === 'pending',
-      ),
+      fixture.componentInstance
+        .filteredMeetings()
+        .every((meeting) => meeting.summaryStatus === 'pending'),
     ).toBe(true);
   });
 
@@ -92,9 +92,7 @@ describe('MeetingList', () => {
     fixture.componentInstance.onSearch('Product Strategy');
 
     expect(fixture.componentInstance.filteredMeetings().length).toBe(1);
-    expect(fixture.componentInstance.filteredMeetings()[0].title).toBe(
-      'Product Strategy Meeting',
-    );
+    expect(fixture.componentInstance.filteredMeetings()[0].title).toBe('Product Strategy Meeting');
   });
 
   it('should search case-insensitively', () => {
@@ -120,9 +118,7 @@ describe('MeetingList', () => {
     fixture.componentInstance.onFilterChange('completed');
 
     expect(fixture.componentInstance.filteredMeetings().length).toBe(1);
-    expect(fixture.componentInstance.filteredMeetings()[0].title).toBe(
-      'Design Review',
-    );
+    expect(fixture.componentInstance.filteredMeetings()[0].title).toBe('Design Review');
   });
 
   it('should render the page heading', () => {
@@ -136,9 +132,7 @@ describe('MeetingList', () => {
     const fixture = TestBed.createComponent(MeetingList);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('app-meeting-card').length,
-    ).toBe(8);
+    expect(fixture.nativeElement.querySelectorAll('app-meeting-card').length).toBe(8);
   });
 
   it('should render the filter buttons', () => {

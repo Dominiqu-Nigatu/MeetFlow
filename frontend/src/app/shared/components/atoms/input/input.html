@@ -1,4 +1,3 @@
-
 <div class="input-field">
   @if (label()) {
     <label class="input-field__label" [for]="id()">
@@ -19,16 +18,14 @@
     [disabled]="disabled()"
     [required]="required()"
     [attr.aria-invalid]="!!error()"
-    [attr.aria-describedby]="
-      error() ? id() + '-error' :
-      hint() ? id() + '-hint' : null
-    "
+    [attr.aria-describedby]="error() ? id() + '-error' : hint() ? id() + '-hint' : null"
     (input)="onInput($event)"
+    (search)="onInput($event)"
+    (change)="onInput($event)"
   />
 
   @if (error()) {
-    <span class="input-field__message input-field__message--error"
-      [id]="id() + '-error'">
+    <span class="input-field__message input-field__message--error" [id]="id() + '-error'">
       {{ error() }}
     </span>
   } @else if (hint()) {

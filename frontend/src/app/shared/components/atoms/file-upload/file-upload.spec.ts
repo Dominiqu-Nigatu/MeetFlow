@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FileUpload } from './file-upload';
 
@@ -26,11 +25,7 @@ describe('FileUpload', () => {
   });
 
   it('should accept text, vtt and markdown files by default', () => {
-    expect(component.acceptedExtensions).toEqual([
-      '.txt',
-      '.vtt',
-      '.md',
-    ]);
+    expect(component.acceptedExtensions).toEqual(['.txt', '.vtt', '.md']);
   });
 
   it('should select a valid text file', () => {

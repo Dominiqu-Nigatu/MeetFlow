@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Modal } from './modal';
 
@@ -23,24 +22,21 @@ describe('Modal', () => {
   });
 
   it('should be closed by default', () => {
-    expect(fixture.nativeElement.querySelector('[role="dialog"]'))
-      .toBeFalsy();
+    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeFalsy();
   });
 
   it('should display when open', () => {
     fixture.componentRef.setInput('open', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('[role="dialog"]'))
-      .toBeTruthy();
+    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeTruthy();
   });
 
   it('should display its title', () => {
     fixture.componentRef.setInput('open', true);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Confirm action');
+    expect(fixture.nativeElement.textContent).toContain('Confirm action');
   });
 
   it('should support small size', () => {
@@ -48,9 +44,7 @@ describe('Modal', () => {
     fixture.componentRef.setInput('size', 'sm');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.modal--sm')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.modal--sm')).toBeTruthy();
   });
 
   it('should support medium size', () => {
@@ -58,9 +52,7 @@ describe('Modal', () => {
     fixture.componentRef.setInput('size', 'md');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.modal--md')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.modal--md')).toBeTruthy();
   });
 
   it('should support large size', () => {
@@ -68,9 +60,7 @@ describe('Modal', () => {
     fixture.componentRef.setInput('size', 'lg');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.modal--lg')
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.modal--lg')).toBeTruthy();
   });
 
   it('should have dialog accessibility attributes', () => {

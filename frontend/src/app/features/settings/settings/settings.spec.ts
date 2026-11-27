@@ -196,8 +196,7 @@ describe('Settings', () => {
   it('should render the settings heading', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent)
-      .toContain('Settings');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Settings');
   });
 
   it('should render profile settings', () => {

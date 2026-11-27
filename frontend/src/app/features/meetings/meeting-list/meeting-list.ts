@@ -1,4 +1,5 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { MeetingSearch } from '../../../core/services/meeting-search';
 import { SearchBar } from '../../../shared/components/molecules/search-bar/search-bar';
 import { MeetingCard } from '../../../shared/components/molecules/meeting-card/meeting-card';
 
@@ -19,7 +20,7 @@ export interface MeetingListItem {
   styleUrl: './meeting-list.scss',
 })
 export class MeetingList {
-  searchQuery = signal('');
+  searchQuery = inject(MeetingSearch).query;
   activeFilter = signal<'all' | 'completed' | 'processing' | 'pending'>('all');
 
   meetings = signal<MeetingListItem[]>([
@@ -93,25 +94,24 @@ export class MeetingList {
     const query = this.searchQuery().toLowerCase().trim();
     const filter = this.activeFilter();
 
-    return this.meetings().filter(meeting => {
+    return this.meetings().filter((meeting) => {
       const matchesSearch = meeting.title.toLowerCase().includes(query);
-      const matchesFilter =
-        filter === 'all' || meeting.summaryStatus === filter;
+      const matchesFilter = filter === 'all' || meeting.summaryStatus === filter;
 
       return matchesSearch && matchesFilter;
     });
   });
 
   completedCount = computed(
-    () => this.meetings().filter(meeting => meeting.summaryStatus === 'completed').length,
+    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'completed').length,
   );
 
   processingCount = computed(
-    () => this.meetings().filter(meeting => meeting.summaryStatus === 'processing').length,
+    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'processing').length,
   );
 
   pendingCount = computed(
-    () => this.meetings().filter(meeting => meeting.summaryStatus === 'pending').length,
+    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'pending').length,
   );
 
   onSearch(query: string): void {

@@ -1,4 +1,3 @@
-
 import { Component, input, output } from '@angular/core';
 
 @Component({
@@ -10,9 +9,7 @@ import { Component, input, output } from '@angular/core';
 export class Input {
   id = input.required<string>();
   label = input<string>('');
-  type = input<
-    'text' | 'email' | 'password' | 'search' | 'number' | 'date'
-  >('text');
+  type = input<'text' | 'email' | 'password' | 'search' | 'number' | 'date'>('text');
 
   placeholder = input('');
   value = input('');

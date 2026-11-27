@@ -59,9 +59,7 @@ describe('DashboardStats', () => {
   });
 
   it('should display an upward trend indicator', () => {
-    expect(
-      fixture.nativeElement.querySelector('.stat-card__trend--up'),
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.stat-card__trend--up')).toBeTruthy();
   });
 
   it('should display a downward trend indicator', () => {
@@ -76,17 +74,13 @@ describe('DashboardStats', () => {
     ]);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.stat-card__trend--down'),
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.stat-card__trend--down')).toBeTruthy();
   });
 
   it('should display an empty state when there are no statistics', () => {
     fixture.componentRef.setInput('stats', []);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelector('.dashboard-stats__empty'),
-    ).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.dashboard-stats__empty')).toBeTruthy();
   });
 });

@@ -1,8 +1,8 @@
-
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { MeetingSearch } from '../../core/services/meeting-search';
 import { Sidebar } from '../../shared/components/organisms/sidebar/sidebar';
 import { Navbar } from '../../shared/components/organisms/navbar/navbar';
 
@@ -14,6 +14,8 @@ import { Navbar } from '../../shared/components/organisms/navbar/navbar';
   styleUrl: './main-layout.scss',
 })
 export class MainLayout {
+  readonly meetingSearch = inject(MeetingSearch);
+  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
   sidebarCollapsed = signal(false);
@@ -26,11 +28,32 @@ export class MainLayout {
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(event => this.updatePageTitle(event.urlAfterRedirects));
+      .subscribe((event) => this.updatePageTitle(event.urlAfterRedirects));
+  }
+
+  private searchReturnUrl: string | null = null;
+
+  onMeetingSearch(query: string): void {
+    const value = query.trim();
+    this.meetingSearch.query.set(value);
+
+    if (!value) {
+      const returnUrl = this.searchReturnUrl;
+      this.searchReturnUrl = null;
+      if (returnUrl && this.router.url.split(/[?#]/, 1)[0] === '/meetings') {
+        void this.router.navigateByUrl(returnUrl);
+      }
+      return;
+    }
+
+    if (this.router.url.split(/[?#]/, 1)[0] !== '/meetings') {
+      this.searchReturnUrl ??= this.router.url;
+      void this.router.navigate(['/meetings']);
+    }
   }
 
   toggleSidebar(): void {
-    this.sidebarCollapsed.update(value => !value);
+    this.sidebarCollapsed.update((value) => !value);
   }
 
   openMobileSidebar(): void {

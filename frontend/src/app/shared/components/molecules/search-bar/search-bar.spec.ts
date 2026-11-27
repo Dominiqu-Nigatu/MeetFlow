@@ -1,4 +1,3 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchBar } from './search-bar';
 
@@ -25,8 +24,8 @@ describe('SearchBar', () => {
     expect(fixture.nativeElement.querySelector('app-input')).toBeTruthy();
   });
 
-  it('should render the button atom', () => {
-    expect(fixture.nativeElement.querySelector('app-button')).toBeTruthy();
+  it('should not render a search button', () => {
+    expect(fixture.nativeElement.querySelector('app-button')).toBeNull();
   });
 
   it('should display the default placeholder', () => {
@@ -68,12 +67,12 @@ describe('SearchBar', () => {
     expect(emitSpy).toHaveBeenCalledWith('Project meeting');
   });
 
-  it('should not emit an empty search', () => {
+  it('should emit an empty search to restore all results', () => {
     const emitSpy = vi.spyOn(component.search, 'emit');
 
     component.onSubmit(new Event('submit'));
 
-    expect(emitSpy).not.toHaveBeenCalled();
+    expect(emitSpy).toHaveBeenCalledWith('');
   });
 
   it('should support a disabled state', () => {
@@ -82,5 +81,47 @@ describe('SearchBar', () => {
 
     const input = fixture.nativeElement.querySelector('input');
     expect(input.disabled).toBe(true);
+  });
+});
+
+describe('SearchBar live search', () => {
+  it('should search on every input event and reset when cleared', async () => {
+    await TestBed.configureTestingModule({ imports: [SearchBar] }).compileComponents();
+    const fixture = TestBed.createComponent(SearchBar);
+    fixture.detectChanges();
+    const emitSpy = vi.spyOn(fixture.componentInstance.search, 'emit');
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    for (const value of ['P', 'Project', '']) {
+      input.value = value;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(emitSpy).toHaveBeenLastCalledWith(value);
+    }
+    expect(emitSpy).toHaveBeenCalledTimes(3);
+  });
+
+  it('should not reuse the initial value after clearing', async () => {
+    await TestBed.configureTestingModule({ imports: [SearchBar] }).compileComponents();
+    const fixture = TestBed.createComponent(SearchBar);
+    fixture.componentRef.setInput('initialValue', 'Project');
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    const emitSpy = vi.spyOn(component.search, 'emit');
+    component.onValueChange('');
+    component.onSubmit(new Event('submit'));
+    expect(emitSpy).toHaveBeenLastCalledWith('');
+  });
+
+  it('should not search when disabled', async () => {
+    await TestBed.configureTestingModule({ imports: [SearchBar] }).compileComponents();
+    const fixture = TestBed.createComponent(SearchBar);
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    const emitSpy = vi.spyOn(component.search, 'emit');
+    component.onValueChange('Project');
+    component.onSubmit(new Event('submit'));
+    expect(emitSpy).not.toHaveBeenCalled();
   });
 });

@@ -1,4 +1,3 @@
-
 import { Component, computed, input } from '@angular/core';
 
 @Component({
@@ -23,7 +22,7 @@ export class Avatar {
 
     return parts
       .slice(0, 2)
-      .map(part => part.charAt(0).toUpperCase())
+      .map((part) => part.charAt(0).toUpperCase())
       .join('');
   });
 }

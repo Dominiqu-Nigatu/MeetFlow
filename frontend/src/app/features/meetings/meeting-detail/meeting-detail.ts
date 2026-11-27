@@ -83,12 +83,10 @@ export class MeetingDetail {
     'John: Perfect. I will prepare the roadmap presentation and send the notes to everyone.',
   ]);
 
-  completedActionCount = computed(
-    () => this.actionItems().filter(item => item.completed).length,
-  );
+  completedActionCount = computed(() => this.actionItems().filter((item) => item.completed).length);
 
   remainingActionCount = computed(
-    () => this.actionItems().filter(item => !item.completed).length,
+    () => this.actionItems().filter((item) => !item.completed).length,
   );
 
   progressPercentage = computed(() => {
@@ -103,12 +101,8 @@ export class MeetingDetail {
   }
 
   onActionItemCompleted(event: { id: string; completed: boolean }): void {
-    this.actionItems.update(items =>
-      items.map(item =>
-        item.id === event.id
-          ? { ...item, completed: event.completed }
-          : item,
-      ),
+    this.actionItems.update((items) =>
+      items.map((item) => (item.id === event.id ? { ...item, completed: event.completed } : item)),
     );
   }
 

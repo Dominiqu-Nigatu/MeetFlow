@@ -20,34 +20,23 @@
     [attr.maxlength]="maxLength()"
     [attr.minlength]="minLength()"
     [attr.aria-invalid]="!!error()"
-    [attr.aria-describedby]="
-      error() ? id() + '-error' :
-      hint() ? id() + '-hint' : null
-    "
+    [attr.aria-describedby]="error() ? id() + '-error' : hint() ? id() + '-hint' : null"
     (input)="onInput($event)"
   ></textarea>
 
   <div class="textarea-field__footer">
     @if (error()) {
-      <span
-        class="textarea-field__message textarea-field__message--error"
-        [id]="id() + '-error'"
-      >
+      <span class="textarea-field__message textarea-field__message--error" [id]="id() + '-error'">
         {{ error() }}
       </span>
     } @else if (hint()) {
-      <span
-        class="textarea-field__message"
-        [id]="id() + '-hint'"
-      >
+      <span class="textarea-field__message" [id]="id() + '-hint'">
         {{ hint() }}
       </span>
     }
 
     @if (maxLength()) {
-      <span class="textarea-field__counter">
-        {{ value().length }} / {{ maxLength() }}
-      </span>
+      <span class="textarea-field__counter"> {{ value().length }} / {{ maxLength() }} </span>
     }
   </div>
 </div>

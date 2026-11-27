@@ -50,11 +50,11 @@ export class Register {
   }
 
   togglePasswordVisibility(): void {
-    this.showPassword.update(value => !value);
+    this.showPassword.update((value) => !value);
   }
 
   toggleConfirmPasswordVisibility(): void {
-    this.showConfirmPassword.update(value => !value);
+    this.showConfirmPassword.update((value) => !value);
   }
 
   onSubmit(): void {

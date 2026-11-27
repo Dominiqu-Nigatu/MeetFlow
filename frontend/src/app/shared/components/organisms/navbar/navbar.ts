@@ -16,6 +16,7 @@ export class Navbar {
   userRole = input('Member');
   avatarSrc = input<string | null>(null);
   showSearch = input(true);
+  searchQuery = input('');
 
   menuClicked = output<void>();
   notificationClicked = output<void>();

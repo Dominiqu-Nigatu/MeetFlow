@@ -34,8 +34,7 @@ describe('RadioButton', () => {
     fixture.componentRef.setInput('label', 'Weekly summary');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('Weekly summary');
+    expect(fixture.nativeElement.textContent).toContain('Weekly summary');
   });
 
   it('should use the supplied name', () => {
@@ -81,8 +80,7 @@ describe('RadioButton', () => {
     fixture.componentRef.setInput('description', 'A short summary');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent)
-      .toContain('A short summary');
+    expect(fixture.nativeElement.textContent).toContain('A short summary');
   });
 
   it('should emit its value when selected', () => {

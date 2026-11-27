@@ -29,19 +29,17 @@ export class ActionItemsPanel {
     const filter = this.activeFilter();
 
     if (filter === 'open') {
-      return items.filter(item => !item.completed);
+      return items.filter((item) => !item.completed);
     }
 
     if (filter === 'completed') {
-      return items.filter(item => item.completed);
+      return items.filter((item) => item.completed);
     }
 
     return items;
   });
 
-  openCount = computed(
-    () => this.items().filter(item => !item.completed).length
-  );
+  openCount = computed(() => this.items().filter((item) => !item.completed).length);
 
   onFilterChange(filter: 'all' | 'open' | 'completed'): void {
     this.activeFilter.set(filter);
