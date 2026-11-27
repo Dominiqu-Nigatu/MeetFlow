@@ -1,0 +1,54 @@
+frontend/src/app/shared/components/molecules/search-bar/search-bar.html
+  s_1a550b1a3c5cf4::t_8bb7c19bd365da 6
+  h_04318c1d16cd5e 1-5,7-21
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.ts
+  h_04318c1d16cd5e 1-49
+frontend/src/app/shared/components/molecules/search-bar/search-bar.spec.ts
+  h_04318c1d16cd5e 1-86
+frontend/src/app/shared/components/molecules/form-field/form-field.html
+  h_04318c1d16cd5e 1-15
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.scss
+  h_04318c1d16cd5e 1-93
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.spec.ts
+  h_04318c1d16cd5e 1-92
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.html
+  h_04318c1d16cd5e 1-70
+frontend/src/app/shared/components/molecules/search-bar/search-bar.scss
+  h_04318c1d16cd5e 1-20
+frontend/src/app/shared/components/molecules/form-field/form-field.spec.ts
+  h_04318c1d16cd5e 1-89
+frontend/src/app/shared/components/molecules/form-field/form-field.scss
+  h_04318c1d16cd5e 1-6
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.scss
+  h_04318c1d16cd5e 1-127
+frontend/src/app/shared/components/molecules/search-bar/search-bar.ts
+  s_1a550b1a3c5cf4::t_8bb7c19bd365da 17
+  h_04318c1d16cd5e 1-16,18-36
+frontend/src/app/shared/components/molecules/form-field/form-field.ts
+  h_04318c1d16cd5e 1-30
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.html
+  h_04318c1d16cd5e 1-35
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.ts
+  h_04318c1d16cd5e 1-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f85c91368fc3bfc1213f50330a25a849389d4066",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1a550b1a3c5cf4": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "296bb9ab-2ab7-4b90-abeb-07e5c380a4f3",
+        "model": "unknown"
+      },
+      "human_author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
