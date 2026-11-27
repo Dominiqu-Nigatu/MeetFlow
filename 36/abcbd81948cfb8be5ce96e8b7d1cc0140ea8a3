@@ -1,0 +1,380 @@
+.prettierignore
+  h_04318c1d16cd5e 1-9
+README.md
+  h_04318c1d16cd5e 2
+frontend/angular.json
+  h_04318c1d16cd5e 32
+frontend/package.json
+  h_04318c1d16cd5e 32
+frontend/src/app/app.config.ts
+  h_04318c1d16cd5e 6-7
+frontend/src/app/app.html
+  h_04318c1d16cd5e 1
+frontend/src/app/app.routes.ts
+  h_04318c1d16cd5e 50
+frontend/src/app/app.scss
+  h_04318c1d16cd5e 4
+frontend/src/app/app.spec.ts
+  h_04318c1d16cd5e 25
+frontend/src/app/app.ts
+  h_04318c1d16cd5e 11
+frontend/src/app/core/services/meeting-search.ts
+  h_04318c1d16cd5e 1-6
+frontend/src/app/features/action-items/action-items/action-items.html
+  h_04318c1d16cd5e 63,80,129,182,188,191
+frontend/src/app/features/action-items/action-items/action-items.scss
+  h_04318c1d16cd5e 469
+frontend/src/app/features/action-items/action-items/action-items.spec.ts
+  h_04318c1d16cd5e 62,69,76,110,119,145,183,212
+frontend/src/app/features/action-items/action-items/action-items.ts
+  h_04318c1d16cd5e 95,97,111,136-137,142,161
+frontend/src/app/features/auth/login/login.html
+  h_04318c1d16cd5e 16,59,69,88
+frontend/src/app/features/auth/login/login.scss
+  h_04318c1d16cd5e 219
+frontend/src/app/features/auth/login/login.spec.ts
+  h_04318c1d16cd5e 71,79,88,157,159
+frontend/src/app/features/auth/login/login.ts
+  h_04318c1d16cd5e 44,72
+frontend/src/app/features/auth/register/register.html
+  h_04318c1d16cd5e 16,19,129
+frontend/src/app/features/auth/register/register.scss
+  h_04318c1d16cd5e 224
+frontend/src/app/features/auth/register/register.spec.ts
+  h_04318c1d16cd5e 100,113,141,228
+frontend/src/app/features/auth/register/register.ts
+  h_04318c1d16cd5e 53,57,99
+frontend/src/app/features/dashboard/dashboard/dashboard.html
+  h_04318c1d16cd5e 22,29,40
+frontend/src/app/features/dashboard/dashboard/dashboard.spec.ts
+  h_04318c1d16cd5e 44,52-53,61,78,82-83,120
+frontend/src/app/features/dashboard/dashboard/dashboard.ts
+  h_04318c1d16cd5e 2-17,22,127-128
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.html
+  h_04318c1d16cd5e 33-39,68,190,205
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.scss
+  h_04318c1d16cd5e 576
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.spec.ts
+  h_04318c1d16cd5e 18,76-78,89-91,131,145,192
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.ts
+  h_04318c1d16cd5e 86,89,104-105,116
+frontend/src/app/features/meetings/meeting-list/meeting-list.html
+  h_04318c1d16cd5e 11,63,129,141
+frontend/src/app/features/meetings/meeting-list/meeting-list.scss
+  h_04318c1d16cd5e 382
+frontend/src/app/features/meetings/meeting-list/meeting-list.spec.ts
+  h_04318c1d16cd5e 48-50,61-63,74-76,95,121,135,160
+frontend/src/app/features/meetings/meeting-list/meeting-list.ts
+  h_04318c1d16cd5e 1-2,23,97,99,106,110,114
+frontend/src/app/features/meetings/transcript-upload/transcript-upload.html
+  h_04318c1d16cd5e 25-26,31,33,111,133-134,204
+frontend/src/app/features/meetings/transcript-upload/transcript-upload.scss
+  h_04318c1d16cd5e 443
+frontend/src/app/features/meetings/transcript-upload/transcript-upload.spec.ts
+  h_04318c1d16cd5e 10,131,152,204
+frontend/src/app/features/meetings/transcript-upload/transcript-upload.ts
+  h_04318c1d16cd5e 93
+frontend/src/app/features/settings/settings/settings.html
+  h_04318c1d16cd5e 23,182,200,277,279,282
+frontend/src/app/features/settings/settings/settings.scss
+  h_04318c1d16cd5e 148-150,231,235,248,259,264,268,469
+frontend/src/app/features/settings/settings/settings.spec.ts
+  h_04318c1d16cd5e 199,244
+frontend/src/app/features/settings/settings/settings.ts
+  h_04318c1d16cd5e 79
+frontend/src/app/layouts/auth-layout/auth-layout.html
+  h_04318c1d16cd5e 20-21,70
+frontend/src/app/layouts/auth-layout/auth-layout.scss
+  h_04318c1d16cd5e 261
+frontend/src/app/layouts/auth-layout/auth-layout.spec.ts
+  h_04318c1d16cd5e 31,35,39,43,45
+frontend/src/app/layouts/auth-layout/auth-layout.ts
+  h_04318c1d16cd5e 9
+frontend/src/app/layouts/main-layout/main-layout.html
+  h_04318c1d16cd5e 7,19-20
+frontend/src/app/layouts/main-layout/main-layout.scss
+  h_04318c1d16cd5e 7-8,17-20,22-23,27-28,33-34,91
+frontend/src/app/layouts/main-layout/main-layout.spec.ts
+  h_04318c1d16cd5e 2,143-167
+frontend/src/app/layouts/main-layout/main-layout.ts
+  h_04318c1d16cd5e 5,17-18,31-52,56
+frontend/src/app/shared/components/atoms/avatar/avatar.html
+  h_04318c1d16cd5e 12
+frontend/src/app/shared/components/atoms/avatar/avatar.spec.ts
+  h_04318c1d16cd5e 65,69
+frontend/src/app/shared/components/atoms/avatar/avatar.ts
+  h_04318c1d16cd5e 25
+frontend/src/app/shared/components/atoms/badge/badge.ts
+  h_04318c1d16cd5e 12
+frontend/src/app/shared/components/atoms/button/button.html
+  h_04318c1d16cd5e 19
+frontend/src/app/shared/components/atoms/button/button.scss
+  h_04318c1d16cd5e 96
+frontend/src/app/shared/components/atoms/button/button.spec.ts
+  h_04318c1d16cd5e 25,31,40,49,58,67,85,94
+frontend/src/app/shared/components/atoms/button/button.ts
+  h_04318c1d16cd5e 17
+frontend/src/app/shared/components/atoms/checkbox/checkbox.html
+  h_04318c1d16cd5e 1
+frontend/src/app/shared/components/atoms/checkbox/checkbox.spec.ts
+  h_04318c1d16cd5e 69
+frontend/src/app/shared/components/atoms/file-upload/file-upload.html
+  h_04318c1d16cd5e 22-29,36,38,44,49-56
+frontend/src/app/shared/components/atoms/file-upload/file-upload.spec.ts
+  h_04318c1d16cd5e 28
+frontend/src/app/shared/components/atoms/file-upload/file-upload.ts
+  h_04318c1d16cd5e 27,71,78
+frontend/src/app/shared/components/atoms/input/input.html
+  h_04318c1d16cd5e 21,23-24,28
+frontend/src/app/shared/components/atoms/input/input.spec.ts
+  h_04318c1d16cd5e 38,45,52,59,66,73,80,92-101
+frontend/src/app/shared/components/atoms/input/input.ts
+  h_04318c1d16cd5e 12
+frontend/src/app/shared/components/atoms/modal/modal.html
+  h_04318c1d16cd5e 2,15
+frontend/src/app/shared/components/atoms/modal/modal.spec.ts
+  h_04318c1d16cd5e 25,32,39,47,55,63
+frontend/src/app/shared/components/atoms/modal/modal.ts
+  h_04318c1d16cd5e 22
+frontend/src/app/shared/components/atoms/radio-button/radio-button.html
+  h_04318c1d16cd5e 1
+frontend/src/app/shared/components/atoms/radio-button/radio-button.spec.ts
+  h_04318c1d16cd5e 37,83
+frontend/src/app/shared/components/atoms/select/select.html
+  h_04318c1d16cd5e 12,28
+frontend/src/app/shared/components/atoms/select/select.scss
+  h_04318c1d16cd5e 42-44
+frontend/src/app/shared/components/atoms/select/select.spec.ts
+  h_04318c1d16cd5e 43,79,86
+frontend/src/app/shared/components/atoms/skeleton/skeleton.spec.ts
+  h_04318c1d16cd5e 31,38,58,65
+frontend/src/app/shared/components/atoms/spinner/spinner.html
+  h_04318c1d16cd5e 1
+frontend/src/app/shared/components/atoms/spinner/spinner.spec.ts
+  h_04318c1d16cd5e 29,38,47,53,62
+frontend/src/app/shared/components/atoms/textarea/textarea.html
+  h_04318c1d16cd5e 23,29,33,39
+frontend/src/app/shared/components/atoms/textarea/textarea.spec.ts
+  h_04318c1d16cd5e 39,57,64,71,78
+frontend/src/app/shared/components/atoms/toggle/toggle.html
+  h_04318c1d16cd5e 1
+frontend/src/app/shared/components/atoms/toggle/toggle.spec.ts
+  h_04318c1d16cd5e 38,45
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.html
+  h_04318c1d16cd5e 1,13,15,19,28
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.scss
+  h_04318c1d16cd5e 60
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.spec.ts
+  h_04318c1d16cd5e 26,79
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.ts
+  h_04318c1d16cd5e 24
+frontend/src/app/shared/components/molecules/form-field/form-field.ts
+  h_04318c1d16cd5e 14
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.html
+  h_04318c1d16cd5e 38
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.scss
+  h_04318c1d16cd5e 15-17,88
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.spec.ts
+  h_04318c1d16cd5e 71
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.ts
+  h_04318c1d16cd5e 23
+frontend/src/app/shared/components/molecules/search-bar/search-bar.html
+  h_04318c1d16cd5e 8
+frontend/src/app/shared/components/molecules/search-bar/search-bar.spec.ts
+  h_04318c1d16cd5e 27-28,70,75,86-127
+frontend/src/app/shared/components/molecules/search-bar/search-bar.ts
+  h_04318c1d16cd5e 1,7,19,22-23,25,31,33
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.html
+  h_04318c1d16cd5e 12,55-60,78
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.scss
+  h_04318c1d16cd5e 150
+frontend/src/app/shared/components/organisms/action-items-panel/action-items-panel.ts
+  h_04318c1d16cd5e 32,36,42,55
+frontend/src/app/shared/components/organisms/action-items-panel/action-items.spec.ts
+  h_04318c1d16cd5e 95,97
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.html
+  h_04318c1d16cd5e 35
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.scss
+  h_04318c1d16cd5e 93
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.spec.ts
+  h_04318c1d16cd5e 62,77,84,86
+frontend/src/app/shared/components/organisms/dashboard-stats/dashboard-stats.ts
+  h_04318c1d16cd5e 49
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.html
+  h_04318c1d16cd5e 20,56,65
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.scss
+  h_04318c1d16cd5e 127
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.spec.ts
+  h_04318c1d16cd5e 102
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.ts
+  h_04318c1d16cd5e 48
+frontend/src/app/shared/components/organisms/navbar/navbar.html
+  h_04318c1d16cd5e 21,37-38,48
+frontend/src/app/shared/components/organisms/navbar/navbar.scss
+  h_04318c1d16cd5e 165
+frontend/src/app/shared/components/organisms/navbar/navbar.spec.ts
+  h_04318c1d16cd5e 42,49,87
+frontend/src/app/shared/components/organisms/navbar/navbar.ts
+  h_04318c1d16cd5e 19,41
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.html
+  h_04318c1d16cd5e 5,8,31
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.scss
+  h_04318c1d16cd5e 98
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.spec.ts
+  h_04318c1d16cd5e 52,90,94
+frontend/src/app/shared/components/organisms/recent-meetings/recent-meetings.ts
+  h_04318c1d16cd5e 33
+frontend/src/app/shared/components/organisms/sidebar/sidebar.html
+  h_04318c1d16cd5e 14,66
+frontend/src/app/shared/components/organisms/sidebar/sidebar.scss
+  h_04318c1d16cd5e 3,115-117,175
+frontend/src/app/shared/components/organisms/sidebar/sidebar.spec.ts
+  h_04318c1d16cd5e 55,77
+frontend/src/app/shared/components/organisms/sidebar/sidebar.ts
+  h_04318c1d16cd5e 50
+frontend/src/app/shared/styles/tokens/colors.scss
+  h_04318c1d16cd5e 3-4,7-9,12,16-18,21-22
+frontend/src/app/shared/styles/tokens/typography.scss
+  h_04318c1d16cd5e 26
+frontend/src/index.html
+  h_04318c1d16cd5e 3-15,17-20
+frontend/src/main.ts
+  h_04318c1d16cd5e 5
+frontend/src/styles.scss
+  h_04318c1d16cd5e 46
+frontend/tsconfig.app.json
+  h_04318c1d16cd5e 10-11
+frontend/tsconfig.spec.json
+  h_04318c1d16cd5e 8,10
+node_modules/.bin/prettier
+  h_04318c1d16cd5e 1
+node_modules/.package-lock.json
+  h_04318c1d16cd5e 170-185
+node_modules/prettier/LICENSE
+  h_04318c1d16cd5e 1-7
+node_modules/prettier/README.md
+  h_04318c1d16cd5e 1-104
+node_modules/prettier/THIRD-PARTY-NOTICES.md
+  h_04318c1d16cd5e 1-6059
+node_modules/prettier/bin/prettier.cjs
+  h_04318c1d16cd5e 1-80
+node_modules/prettier/doc.d.ts
+  h_04318c1d16cd5e 1-254
+node_modules/prettier/doc.js
+  h_04318c1d16cd5e 1-1511
+node_modules/prettier/doc.mjs
+  h_04318c1d16cd5e 1-1480
+node_modules/prettier/index.cjs
+  h_04318c1d16cd5e 1-720
+node_modules/prettier/index.d.ts
+  h_04318c1d16cd5e 1-968
+node_modules/prettier/index.mjs
+  h_04318c1d16cd5e 1-18793
+node_modules/prettier/internal/experimental-cli-worker.mjs
+  h_04318c1d16cd5e 1-2841
+node_modules/prettier/internal/experimental-cli.mjs
+  h_04318c1d16cd5e 1-12790
+node_modules/prettier/internal/legacy-cli.mjs
+  h_04318c1d16cd5e 1-6229
+node_modules/prettier/package.json
+  h_04318c1d16cd5e 1-203
+node_modules/prettier/plugins/acorn.d.ts
+  h_04318c1d16cd5e 1-6
+node_modules/prettier/plugins/acorn.js
+  h_04318c1d16cd5e 1-16
+node_modules/prettier/plugins/acorn.mjs
+  h_04318c1d16cd5e 1-16
+node_modules/prettier/plugins/angular.d.ts
+  h_04318c1d16cd5e 1-8
+node_modules/prettier/plugins/angular.js
+  h_04318c1d16cd5e 1-4
+node_modules/prettier/plugins/angular.mjs
+  h_04318c1d16cd5e 1-4
+node_modules/prettier/plugins/babel.d.ts
+  h_04318c1d16cd5e 1-18
+node_modules/prettier/plugins/babel.js
+  h_04318c1d16cd5e 1-15
+node_modules/prettier/plugins/babel.mjs
+  h_04318c1d16cd5e 1-15
+node_modules/prettier/plugins/estree.d.ts
+  h_04318c1d16cd5e 1-6
+node_modules/prettier/plugins/estree.js
+  h_04318c1d16cd5e 1-44
+node_modules/prettier/plugins/estree.mjs
+  h_04318c1d16cd5e 1-44
+node_modules/prettier/plugins/flow.d.ts
+  h_04318c1d16cd5e 1-5
+node_modules/prettier/plugins/flow.js
+  h_04318c1d16cd5e 1-20
+node_modules/prettier/plugins/flow.mjs
+  h_04318c1d16cd5e 1-20
+node_modules/prettier/plugins/glimmer.d.ts
+  h_04318c1d16cd5e 1-9
+node_modules/prettier/plugins/glimmer.js
+  h_04318c1d16cd5e 1-37
+node_modules/prettier/plugins/glimmer.mjs
+  h_04318c1d16cd5e 1-37
+node_modules/prettier/plugins/graphql.d.ts
+  h_04318c1d16cd5e 1-9
+node_modules/prettier/plugins/graphql.js
+  h_04318c1d16cd5e 1-28
+node_modules/prettier/plugins/graphql.mjs
+  h_04318c1d16cd5e 1-28
+node_modules/prettier/plugins/html.d.ts
+  h_04318c1d16cd5e 1-13
+node_modules/prettier/plugins/html.js
+  h_04318c1d16cd5e 1-24
+node_modules/prettier/plugins/html.mjs
+  h_04318c1d16cd5e 1-24
+node_modules/prettier/plugins/markdown.d.ts
+  h_04318c1d16cd5e 1-11
+node_modules/prettier/plugins/markdown.js
+  h_04318c1d16cd5e 1-62
+node_modules/prettier/plugins/markdown.mjs
+  h_04318c1d16cd5e 1-62
+node_modules/prettier/plugins/meriyah.d.ts
+  h_04318c1d16cd5e 1-5
+node_modules/prettier/plugins/meriyah.js
+  h_04318c1d16cd5e 1-5
+node_modules/prettier/plugins/meriyah.mjs
+  h_04318c1d16cd5e 1-5
+node_modules/prettier/plugins/postcss.d.ts
+  h_04318c1d16cd5e 1-11
+node_modules/prettier/plugins/postcss.js
+  h_04318c1d16cd5e 1-61
+node_modules/prettier/plugins/postcss.mjs
+  h_04318c1d16cd5e 1-61
+node_modules/prettier/plugins/typescript.d.ts
+  h_04318c1d16cd5e 1-5
+node_modules/prettier/plugins/typescript.js
+  h_04318c1d16cd5e 1-21
+node_modules/prettier/plugins/typescript.mjs
+  h_04318c1d16cd5e 1-21
+node_modules/prettier/plugins/yaml.d.ts
+  h_04318c1d16cd5e 1-9
+node_modules/prettier/plugins/yaml.js
+  h_04318c1d16cd5e 1-159
+node_modules/prettier/plugins/yaml.mjs
+  h_04318c1d16cd5e 1-159
+node_modules/prettier/standalone.d.ts
+  h_04318c1d16cd5e 1-33
+node_modules/prettier/standalone.js
+  h_04318c1d16cd5e 1-29
+node_modules/prettier/standalone.mjs
+  h_04318c1d16cd5e 1-29
+package-lock.json
+  h_04318c1d16cd5e 12-13,179-194
+package.json
+  h_04318c1d16cd5e 9-11,17-18,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "36abcbd81948cfb8be5ce96e8b7d1cc0140ea8a3",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
