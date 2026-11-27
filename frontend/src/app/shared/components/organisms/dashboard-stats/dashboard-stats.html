@@ -1,0 +1,35 @@
+<section class="dashboard-stats" aria-label="Dashboard statistics">
+  @for (stat of stats(); track stat.label) {
+    <article class="stat-card">
+      <div class="stat-card__top">
+        <span class="stat-card__label">{{ stat.label }}</span>
+
+        <span class="stat-card__icon" aria-hidden="true">
+          {{ stat.icon }}
+        </span>
+      </div>
+
+      <div class="stat-card__value">
+        {{ stat.value }}
+      </div>
+
+      <div class="stat-card__description">
+        <span
+          class="stat-card__trend"
+          [class.stat-card__trend--up]="stat.trend === 'up'"
+          [class.stat-card__trend--down]="stat.trend === 'down'"
+        >
+          @if (stat.trend === 'up') {
+            ↑
+          } @else if (stat.trend === 'down') {
+            ↓
+          }
+        </span>
+
+        {{ stat.description }}
+      </div>
+    </article>
+  } @empty {
+    <p class="dashboard-stats__empty">No statistics available yet.</p>
+  }
+</section>

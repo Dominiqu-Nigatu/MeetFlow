@@ -1,0 +1,70 @@
+<section class="upload-panel">
+  <header class="panel-header">
+    <div class="header-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 16V4" />
+        <path d="m7 9 5-5 5 5" />
+        <path d="M20 16.5v2A1.5 1.5 0 0 1 18.5 20h-13A1.5 1.5 0 0 1 4 18.5v-2" />
+      </svg>
+    </div>
+
+    <div>
+      <h2>Upload a meeting transcript</h2>
+      <p>
+        Turn your meeting conversations into summaries, decisions and action
+        items.
+      </p>
+    </div>
+  </header>
+
+  <form class="upload-form" (submit)="onSubmit($event)">
+    <app-input
+      id="meeting-title"
+      label="Meeting title"
+      placeholder="e.g. Weekly team stand-up"
+      [value]="title()"
+      [required]="true"
+      (valueChange)="onTitleChange($event)"
+    />
+
+    <div class="file-section">
+      <label class="field-label">Transcript file</label>
+
+      <app-file-upload
+        label="Upload your transcript"
+        hint="Drag and drop your file here, or browse"
+        accept=".txt,.vtt,.md"
+        [maxSizeMB]="10"
+        (fileSelected)="onFileSelected($event)"
+        (fileRemoved)="onFileRemoved()"
+      />
+    </div>
+
+    <div class="supported-formats">
+      <span>Supported formats:</span>
+      <span class="format-tag">TXT</span>
+      <span class="format-tag">VTT</span>
+      <span class="format-tag">MD</span>
+      <span class="size-note">Maximum 10 MB</span>
+    </div>
+
+    <div class="form-footer">
+      <p>
+        Your transcript will be processed to generate meeting insights.
+      </p>
+
+      <app-button
+        label="Upload transcript"
+        type="submit"
+        [disabled]="!title().trim() || !selectedFile()"
+      />
+    </div>
+  </form>
+</section>

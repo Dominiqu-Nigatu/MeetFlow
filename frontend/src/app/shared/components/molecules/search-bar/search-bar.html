@@ -1,0 +1,21 @@
+
+<form class="search-bar" (submit)="onSubmit($event)">
+  <div class="search-bar__input">
+    <app-input
+      id="meeting-search"
+      [label]="showLabel() ? 'Search' : ''"
+      type="search"
+      [placeholder]="placeholder()"
+      [value]="initialValue()"
+      [disabled]="disabled()"
+      (valueChange)="onValueChange($event)"
+    />
+  </div>
+
+  <app-button
+    label="Search"
+    type="submit"
+    size="md"
+    [disabled]="disabled()"
+  />
+</form>
