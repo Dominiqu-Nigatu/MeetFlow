@@ -1,0 +1,66 @@
+frontend/src/app/shared/components/atoms/radio-button/radio-button.scss
+  h_04318c1d16cd5e 1-90
+frontend/src/app/features/meetings/meeting-list/meeting-list.spec.ts
+  h_04318c1d16cd5e 1-166
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.scss
+  h_04318c1d16cd5e 1-60
+frontend/src/app/features/meetings/meeting-list/meeting-list.scss
+  h_04318c1d16cd5e 1-382
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.spec.ts
+  h_04318c1d16cd5e 1-81
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.scss
+  h_04318c1d16cd5e 1-576
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.ts
+  h_04318c1d16cd5e 1,4-122
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 2-3
+frontend/src/app/features/meetings/meeting-list/meeting-list.html
+  h_04318c1d16cd5e 1-144
+frontend/src/app/shared/components/organisms/meeting-upload-panel/meeting-upload-panel.spec.ts
+  h_04318c1d16cd5e 1-102
+frontend/src/app/shared/components/atoms/radio-button/radio-button.spec.ts
+  h_04318c1d16cd5e 1-97
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.spec.ts
+  h_04318c1d16cd5e 1-71
+frontend/src/app/shared/components/atoms/radio-button/radio-button.ts
+  h_04318c1d16cd5e 1-25
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.ts
+  h_04318c1d16cd5e 1-24
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.ts
+  h_04318c1d16cd5e 1-23
+frontend/src/app/shared/components/molecules/action-item-row/action-item-row.html
+  h_04318c1d16cd5e 1-37
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.scss
+  h_04318c1d16cd5e 1-86
+frontend/src/app/features/meetings/meeting-list/meeting-list.ts
+  h_04318c1d16cd5e 1,4-132
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 2-3
+frontend/src/app/shared/components/atoms/radio-button/radio-button.html
+  h_04318c1d16cd5e 1-33
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.spec.ts
+  h_04318c1d16cd5e 1-198
+frontend/src/app/features/meetings/meeting-detail/meeting-detail.html
+  h_04318c1d16cd5e 1-203
+frontend/src/app/shared/components/molecules/meeting-card/meeting-card.html
+  h_04318c1d16cd5e 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e2225c97873e97fe624116570e20af9275b222e",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1a550b1a3c5cf4": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "296bb9ab-2ab7-4b90-abeb-07e5c380a4f3",
+        "model": "unknown"
+      },
+      "human_author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
