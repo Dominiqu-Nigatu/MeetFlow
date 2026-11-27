@@ -41,26 +41,4 @@
     </nav>
   </div>
 
-  <div class="sidebar__bottom">
-    <a
-      class="sidebar__link"
-      [routerLink]="settingsPath"
-      routerLinkActive="sidebar__link--active"
-      [title]="collapsed() ? 'Settings' : ''"
-      (click)="onNavigationSelected({ label: 'Settings', path: settingsPath, icon: '⚙' })"
-    >
-      <span class="sidebar__link-icon">⚙</span>
-
-      @if (!collapsed()) {
-        <span class="sidebar__link-label">Settings</span>
-      }
-    </a>
-
-    @if (!collapsed()) {
-      <div class="sidebar__footer">
-        <span>MeetFlow</span>
-        <span>Meeting productivity</span>
-      </div>
-    }
-  </div>
 </aside>

@@ -1,4 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { of } from 'rxjs';
+import { LocalMeetings } from '../../../core/services/local-meetings';
 import { Badge } from '../../../shared/components/atoms/badge/badge';
 import { ActionItemRow } from '../../../shared/components/molecules/action-item-row/action-item-row';
 
@@ -18,6 +22,15 @@ export interface MeetingDetailActionItem {
   styleUrl: './meeting-detail.scss',
 })
 export class MeetingDetail {
+  readonly localMeetings = inject(LocalMeetings);
+  private readonly route = inject(ActivatedRoute, { optional: true });
+  private readonly router = inject(Router, { optional: true });
+  private readonly params = toSignal(this.route?.paramMap ?? of(null));
+  readonly isLocal = computed(() => this.params()?.get('id')?.startsWith('local-') ?? false);
+  readonly localMeeting = computed(() =>
+    this.localMeetings.uploads().find((meeting) => meeting.id === this.params()?.get('id')),
+  );
+
   meetingTitle = signal('Product Strategy Meeting');
   meetingDate = signal('25 November 2026');
   meetingDuration = signal('45 minutes');
@@ -107,7 +120,7 @@ export class MeetingDetail {
   }
 
   onBack(): void {
-    console.log('Back to meetings');
+    void this.router?.navigate(['/meetings']);
   }
 
   onDownload(): void {

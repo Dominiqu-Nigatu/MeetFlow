@@ -5,35 +5,84 @@
 
   <section class="dashboard-grid">
     <div class="dashboard-main-column">
-      <app-recent-meetings
-        [meetings]="meetings()"
-        (meetingSelected)="onMeetingSelected($event)"
-        (viewAllClicked)="onViewAllMeetings()"
-      />
-
-      <app-action-items-panel
-        [items]="actionItems()"
-        (itemCompleted)="onActionItemCompleted($event)"
-        (viewAllClicked)="onViewAllActionItems()"
-      />
+      <app-meeting-upload-panel (uploadSubmitted)="onUploadMeeting($event)" />
     </div>
 
-    <aside class="dashboard-side-column">
-      <app-meeting-upload-panel (uploadSubmitted)="onUploadMeeting($event)" />
+    <aside class="dashboard-side-column activity-card" aria-label="Meetings and tasks">
+      <div class="activity-tabs" role="tablist" aria-label="Dashboard activity">
+        <button
+          id="recent-meetings-tab"
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeTab() === 'meetings'"
+          [attr.tabindex]="activeTab() === 'meetings' ? 0 : -1"
+          aria-controls="recent-meetings-panel"
+          (click)="activeTab.set('meetings')"
+          (keydown)="onTabKeydown($event)"
+        >
+          Recent Meetings
+        </button>
+        <button
+          id="action-items-tab"
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeTab() === 'actions'"
+          [attr.tabindex]="activeTab() === 'actions' ? 0 : -1"
+          aria-controls="action-items-panel"
+          (click)="activeTab.set('actions')"
+          (keydown)="onTabKeydown($event)"
+        >
+          Action Items
+        </button>
+      </div>
 
-      <div class="productivity-card">
-        <div class="productivity-icon">✦</div>
-
-        <h3>Make every meeting count.</h3>
-
-        <p>Turn conversations into clear summaries, meaningful decisions and actionable tasks.</p>
-
-        <div class="productivity-divider"></div>
-
-        <div class="productivity-footer">
-          <span class="productivity-dot"></span>
-          <span>Powered by MeetFlow</span>
-        </div>
+      <div
+        id="recent-meetings-panel"
+        class="activity-panel"
+        role="tabpanel"
+        aria-labelledby="recent-meetings-tab"
+        [hidden]="activeTab() !== 'meetings'"
+        tabindex="0"
+      >
+        <ul class="activity-list">
+          @for (meeting of meetings(); track meeting.id) {
+            <li>
+              <a class="activity-link" [routerLink]="['/meetings', meeting.id]">
+                <span>{{ meeting.title }}</span>
+                <span class="activity-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          } @empty {
+            <li class="activity-empty">No meetings yet.</li>
+          }
+        </ul>
+        <a class="activity-view-all" routerLink="/meetings"
+          >View all meetings <span aria-hidden="true">→</span></a
+        >
+      </div>
+      <div
+        id="action-items-panel"
+        class="activity-panel"
+        role="tabpanel"
+        aria-labelledby="action-items-tab"
+        [hidden]="activeTab() !== 'actions'"
+        tabindex="0"
+      >
+        <ul class="activity-list">
+          @for (item of actionItems(); track item.id) {
+            <li>
+              <a class="activity-link" routerLink="/action-items">
+                <span>{{ item.description }}</span>
+                <span class="activity-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          } @empty {
+            <li class="activity-empty">No action items yet.</li>
+          }
+        </ul>
+        <a class="activity-view-all" routerLink="/action-items"
+          >View all action items <span aria-hidden="true">→</span></a
+        >
       </div>
     </aside>
   </section>

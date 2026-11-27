@@ -1,6 +1,5 @@
 import { Component, input, output } from '@angular/core';
 import { Avatar } from '../../atoms/avatar/avatar';
-import { Button } from '../../atoms/button/button';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
 
 @Component({
@@ -17,18 +16,14 @@ export class Navbar {
   avatarSrc = input<string | null>(null);
   showSearch = input(true);
   searchQuery = input('');
+  searchPlaceholder = input('Search meetings...');
 
   menuClicked = output<void>();
-  notificationClicked = output<void>();
   profileClicked = output<void>();
   searchSubmitted = output<string>();
 
   onMenuClick(): void {
     this.menuClicked.emit();
-  }
-
-  onNotificationClick(): void {
-    this.notificationClicked.emit();
   }
 
   onProfileClick(): void {

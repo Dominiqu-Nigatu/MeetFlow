@@ -16,7 +16,8 @@
   <div class="main-content">
     <app-navbar
       [pageTitle]="pageTitle()"
-      [searchQuery]="meetingSearch.query()"
+      [searchQuery]="pageTitle() === 'Action Items' ? actionSearch.query() : meetingSearch.query()"
+      [searchPlaceholder]="pageTitle() === 'Action Items' ? 'Search actions' : 'Search meetings...'"
       (searchSubmitted)="onMeetingSearch($event)"
       (menuClicked)="onMenuClicked()"
     />

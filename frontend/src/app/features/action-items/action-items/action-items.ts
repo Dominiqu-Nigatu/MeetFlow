@@ -1,7 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActionItemRow } from '../../../shared/components/molecules/action-item-row/action-item-row';
 import { Badge } from '../../../shared/components/atoms/badge/badge';
-import { Input } from '../../../shared/components/atoms/input/input';
+import { ActionSearch } from '../../../core/services/action-search';
 
 export interface ActionItem {
   id: string;
@@ -15,12 +15,12 @@ export interface ActionItem {
 @Component({
   selector: 'app-action-items',
   standalone: true,
-  imports: [ActionItemRow, Badge, Input],
+  imports: [ActionItemRow, Badge],
   templateUrl: './action-items.html',
   styleUrl: './action-items.scss',
 })
 export class ActionItems {
-  searchQuery = signal('');
+  searchQuery = inject(ActionSearch).query;
   activeFilter = signal<'all' | 'open' | 'completed'>('all');
 
   items = signal<ActionItem[]>([

@@ -28,17 +28,17 @@
       placeholder="e.g. Weekly team stand-up"
       [value]="title()"
       [required]="true"
+      [disabled]="saving()"
       (valueChange)="onTitleChange($event)"
     />
 
     <div class="file-section">
-      <label class="field-label">Transcript file</label>
-
       <app-file-upload
         label="Upload your transcript"
         hint="Drag and drop your file here, or browse"
         accept=".txt,.vtt,.md"
         [maxSizeMB]="10"
+        [disabled]="saving()"
         (fileSelected)="onFileSelected($event)"
         (fileRemoved)="onFileRemoved()"
       />
@@ -52,13 +52,20 @@
       <span class="size-note">Maximum 10 MB</span>
     </div>
 
+    @if (successMessage()) {
+      <p class="upload-success" role="status">{{ successMessage() }}</p>
+    }
+    @if (errorMessage()) {
+      <p class="upload-error" role="alert">{{ errorMessage() }}</p>
+    }
     <div class="form-footer">
-      <p>Your transcript will be processed to generate meeting insights.</p>
+      <p>Saved only in this browser. Clearing site data removes saved transcripts.</p>
 
       <app-button
-        label="Upload transcript"
+        [label]="saving() ? 'Saving…' : 'Upload transcript'"
+        [loading]="saving()"
         type="submit"
-        [disabled]="!title().trim() || !selectedFile()"
+        [disabled]="saving() || !title().trim() || !selectedFile()"
       />
     </div>
   </form>

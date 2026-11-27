@@ -1,11 +1,6 @@
 <div class="meetings-page">
   <section class="page-header">
     <div class="page-header-content">
-      <div class="page-eyebrow">
-        <span class="eyebrow-dot"></span>
-        Your workspace
-      </div>
-
       <h1>Meetings</h1>
 
       <p>Keep track of your conversations, summaries and action items.</p>
@@ -17,94 +12,15 @@
     </button>
   </section>
 
-  <section class="meeting-overview">
-    <div class="overview-card">
-      <div class="overview-icon total-icon">◷</div>
-      <div class="overview-content">
-        <span class="overview-label">Total meetings</span>
-        <strong>{{ meetings().length }}</strong>
-      </div>
-    </div>
-
-    <div class="overview-card">
-      <div class="overview-icon completed-icon">✓</div>
-      <div class="overview-content">
-        <span class="overview-label">Completed</span>
-        <strong>{{ completedCount() }}</strong>
-      </div>
-    </div>
-
-    <div class="overview-card">
-      <div class="overview-icon processing-icon">↻</div>
-      <div class="overview-content">
-        <span class="overview-label">Processing</span>
-        <strong>{{ processingCount() }}</strong>
-      </div>
-    </div>
-
-    <div class="overview-card">
-      <div class="overview-icon pending-icon">○</div>
-      <div class="overview-content">
-        <span class="overview-label">Pending</span>
-        <strong>{{ pendingCount() }}</strong>
-      </div>
-    </div>
-  </section>
-
+  @if (uploadNotice()) {
+    <p class="upload-notice" role="status">{{ uploadNotice() }}</p>
+  }
   <section class="meetings-content">
     <div class="meetings-toolbar">
       <div class="toolbar-heading">
         <h2>All meetings</h2>
         <span class="meeting-count">{{ filteredMeetings().length }}</span>
       </div>
-
-      <app-search-bar
-        placeholder="Search meetings..."
-        [initialValue]="searchQuery()"
-        (search)="onSearch($event)"
-      />
-    </div>
-
-    <div class="filter-tabs">
-      <button
-        type="button"
-        class="filter-tab"
-        [class.active]="activeFilter() === 'all'"
-        (click)="onFilterChange('all')"
-      >
-        All
-        <span>{{ meetings().length }}</span>
-      </button>
-
-      <button
-        type="button"
-        class="filter-tab"
-        [class.active]="activeFilter() === 'completed'"
-        (click)="onFilterChange('completed')"
-      >
-        Completed
-        <span>{{ completedCount() }}</span>
-      </button>
-
-      <button
-        type="button"
-        class="filter-tab"
-        [class.active]="activeFilter() === 'processing'"
-        (click)="onFilterChange('processing')"
-      >
-        Processing
-        <span>{{ processingCount() }}</span>
-      </button>
-
-      <button
-        type="button"
-        class="filter-tab"
-        [class.active]="activeFilter() === 'pending'"
-        (click)="onFilterChange('pending')"
-      >
-        Pending
-        <span>{{ pendingCount() }}</span>
-      </button>
     </div>
 
     @if (filteredMeetings().length > 0) {
@@ -126,16 +42,38 @@
 
         <h3>No meetings found</h3>
 
-        <p>Try adjusting your search or selecting a different filter.</p>
+        <p>Try a different meeting title.</p>
 
-        <button
-          type="button"
-          class="reset-button"
-          (click)="searchQuery.set(''); onFilterChange('all')"
-        >
-          Clear filters
-        </button>
+        <button type="button" class="reset-button" (click)="onSearch('')">Clear search</button>
       </div>
     }
   </section>
 </div>
+
+<dialog
+  #uploadDialog
+  class="upload-dialog"
+  aria-label="Upload a meeting transcript"
+  (click)="onUploadBackdropClick($event)"
+  (close)="uploadOpen.set(false)"
+>
+  @if (uploadOpen()) {
+    <button
+      class="upload-dialog__close"
+      type="button"
+      aria-label="Close upload dialog"
+      autofocus
+      (click)="closeUpload()"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="m6 6 12 12M18 6 6 18"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+    <app-meeting-upload-panel (uploadSubmitted)="onTranscriptSubmitted($event)" />
+  }
+</dialog>

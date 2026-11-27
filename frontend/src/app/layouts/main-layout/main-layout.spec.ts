@@ -165,4 +165,20 @@ describe('MainLayout', () => {
     expect(fixture.componentInstance.meetingSearch.query()).toBe('');
     expect(navigate).not.toHaveBeenCalled();
   });
+  it('should search actions in place without changing the meeting query', () => {
+    const router = TestBed.inject(Router);
+    vi.spyOn(router, 'url', 'get').mockReturnValue('/action-items');
+    const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const fixture = TestBed.createComponent(MainLayout);
+    fixture.componentInstance.onMeetingSearch('Jane');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.actionSearch.query()).toBe('Jane');
+    expect(fixture.componentInstance.meetingSearch.query()).toBe('');
+    expect(navigate).not.toHaveBeenCalled();
+    expect(fixture.nativeElement.querySelector('input').placeholder).toBe('Search actions');
+    fixture.componentInstance.onMeetingSearch('');
+    expect(fixture.componentInstance.actionSearch.query()).toBe('');
+  });
+
 });

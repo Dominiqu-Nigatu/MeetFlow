@@ -2,7 +2,6 @@
   <!-- Header -->
   <section class="page-header">
     <div>
-      <div class="eyebrow">PRODUCTIVITY</div>
       <h1>Action items</h1>
       <p>Keep track of everything that needs to get done after your meetings.</p>
     </div>
@@ -13,60 +12,26 @@
     <article class="overview-card">
       <div class="overview-top">
         <span class="overview-label">Total tasks</span>
-        <div class="overview-icon total-icon">☷</div>
       </div>
 
       <div class="overview-value">{{ totalCount() }}</div>
-      <p>Across all meetings</p>
     </article>
 
     <article class="overview-card">
       <div class="overview-top">
         <span class="overview-label">Outstanding</span>
-        <div class="overview-icon open-icon">◷</div>
       </div>
 
       <div class="overview-value">{{ openCount() }}</div>
-      <p>Still need your attention</p>
     </article>
 
     <article class="overview-card">
       <div class="overview-top">
         <span class="overview-label">Completed</span>
-        <div class="overview-icon completed-icon">✓</div>
       </div>
 
       <div class="overview-value">{{ completedCount() }}</div>
-      <p>Tasks checked off</p>
     </article>
-  </section>
-
-  <!-- Progress -->
-  <section class="progress-card">
-    <div class="progress-header">
-      <div>
-        <h2>Your progress</h2>
-        <p>Keep the momentum going.</p>
-      </div>
-
-      <span class="progress-percentage">{{ progressPercentage() }}%</span>
-    </div>
-
-    <div
-      class="progress-track"
-      role="progressbar"
-      aria-label="Task completion progress"
-      [attr.aria-valuenow]="progressPercentage()"
-      aria-valuemin="0"
-      aria-valuemax="100"
-    >
-      <div class="progress-fill" [style.width.%]="progressPercentage()"></div>
-    </div>
-
-    <div class="progress-footer">
-      <span>{{ completedCount() }} of {{ totalCount() }} tasks completed</span>
-      <span>{{ openCount() }} remaining</span>
-    </div>
   </section>
 
   <!-- Task List -->
@@ -82,13 +47,6 @@
 
     <!-- Filters -->
     <div class="toolbar">
-      <app-input
-        id="action-item-search"
-        placeholder="Search tasks, owners or meetings..."
-        [value]="searchQuery()"
-        (valueChange)="onSearchChange($event)"
-      />
-
       <div class="filter-group">
         <button
           type="button"
@@ -150,15 +108,6 @@
               </div>
             </div>
 
-            <button
-              type="button"
-              class="delete-button"
-              [attr.aria-label]="'Delete task: ' + item.description"
-              title="Delete task"
-              (click)="deleteItem(item.id)"
-            >
-              <span>×</span>
-            </button>
           </article>
         }
       } @else {

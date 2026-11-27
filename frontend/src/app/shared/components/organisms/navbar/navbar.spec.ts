@@ -34,8 +34,9 @@ describe('Navbar', () => {
     expect(fixture.nativeElement.textContent).toContain('John Doe');
   });
 
-  it('should display the user role', () => {
-    expect(fixture.nativeElement.textContent).toContain('Member');
+  it('should not display the user role or dropdown arrow', () => {
+    expect(fixture.nativeElement.textContent).not.toContain('Member');
+    expect(fixture.nativeElement.querySelector('.navbar__profile-arrow')).toBeNull();
   });
 
   it('should render the search bar by default', () => {
@@ -58,13 +59,8 @@ describe('Navbar', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should emit when notifications are clicked', () => {
-    const spy = vi.fn();
-    component.notificationClicked.subscribe(spy);
-
-    component.onNotificationClick();
-
-    expect(spy).toHaveBeenCalled();
+  it('should not render the removed notification button', () => {
+    expect(fixture.nativeElement.querySelector('[aria-label="Notifications"]')).toBeNull();
   });
 
   it('should emit when the profile is clicked', () => {

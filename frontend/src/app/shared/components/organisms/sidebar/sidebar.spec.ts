@@ -25,6 +25,11 @@ describe('Sidebar', () => {
     expect(fixture.nativeElement.textContent).toContain('MeetFlow');
   });
 
+  it('should not display the removed footer branding', () => {
+    expect(fixture.nativeElement.textContent).not.toContain('Meeting productivity');
+    expect(fixture.nativeElement.querySelector('.sidebar__footer')).toBeNull();
+  });
+
   it('should display the default navigation items', () => {
     const text = fixture.nativeElement.textContent;
 
@@ -33,8 +38,8 @@ describe('Sidebar', () => {
     expect(text).toContain('Action Items');
   });
 
-  it('should display Settings', () => {
-    expect(fixture.nativeElement.textContent).toContain('Settings');
+  it('should not display Settings', () => {
+    expect(fixture.nativeElement.textContent).not.toContain('Settings');
   });
 
   it('should accept custom navigation items', () => {

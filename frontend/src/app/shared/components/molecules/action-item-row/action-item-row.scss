@@ -19,23 +19,6 @@
     min-width: 0;
   }
 
-  &__details {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-1);
-    min-width: 120px;
-  }
-
-  &__owner,
-  &__date {
-    color: var(--color-text-secondary);
-    font-size: var(--text-xs);
-  }
-
-  &__owner--unassigned {
-    color: var(--color-warning);
-  }
-
   &--completed {
     .action-item__checkbox {
       opacity: 0.65;
@@ -50,11 +33,6 @@
 
     &__checkbox {
       flex-basis: 100%;
-    }
-
-    &__details {
-      flex: 1;
-      padding-left: 36px;
     }
   }
 }

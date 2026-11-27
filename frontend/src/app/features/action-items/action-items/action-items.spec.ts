@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActionItems } from './action-items';
+import { ActionSearch } from '../../../core/services/action-search';
 
 describe('ActionItems', () => {
   let component: ActionItems;
@@ -183,10 +184,40 @@ describe('ActionItems', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Action items');
   });
 
-  it('should render the progress section', () => {
+  it('should not render the removed progress section', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.textContent).toContain('Your progress');
+    expect(compiled.textContent).not.toContain('Your progress');
+    expect(compiled.querySelector('[role="progressbar"]')).toBeNull();
+  });
+
+  it('should not render delete crosses on task cards', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.querySelectorAll('.task-card').length).toBe(8);
+    expect(compiled.querySelector('.delete-button')).toBeNull();
+    expect(compiled.textContent).not.toContain('×');
+  });
+
+  it('should show overview labels without icons', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const overview = compiled.querySelector('.overview-grid');
+
+    expect(overview?.textContent).toContain('Total tasks');
+    expect(overview?.textContent).toContain('Outstanding');
+    expect(overview?.textContent).toContain('Completed');
+    expect(overview?.querySelector('.overview-icon')).toBeNull();
+  });
+
+  it('should not show helper text beneath overview counts', () => {
+    const overview = fixture.nativeElement.querySelector('.overview-grid') as HTMLElement;
+
+    expect(overview.querySelectorAll('.overview-label').length).toBe(3);
+    expect(overview.querySelectorAll('.overview-value').length).toBe(3);
+    expect(overview.querySelector('p')).toBeNull();
+    expect(overview.textContent).not.toContain('Tasks checked off');
+    expect(overview.textContent).not.toContain('Across all meetings');
+    expect(overview.textContent).not.toContain('Still need your attention');
   });
 
   it('should render the task list', () => {
@@ -196,10 +227,21 @@ describe('ActionItems', () => {
     expect(compiled.textContent).toContain('Weekly Project Stand-up');
   });
 
-  it('should render the search input', () => {
+  it('should not render a duplicate search input', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('#action-item-search')).toBeTruthy();
+    expect(compiled.querySelector('app-input')).toBeNull();
+  });
+
+  it('should filter using the shared top-bar action search', () => {
+    TestBed.inject(ActionSearch).query.set('budget');
+    fixture.detectChanges();
+
+    expect(component.filteredItems().length).toBe(1);
+    expect(fixture.nativeElement.textContent).toContain('Send the revised budget proposal');
+    expect(fixture.nativeElement.textContent).not.toContain('Prepare the updated project timeline');
+    component.clearSearch();
+    expect(TestBed.inject(ActionSearch).query()).toBe('');
   });
 
   it('should render the task filters', () => {

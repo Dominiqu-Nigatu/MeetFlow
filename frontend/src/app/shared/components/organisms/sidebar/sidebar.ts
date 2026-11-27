@@ -35,8 +35,6 @@ export class Sidebar {
     },
   ]);
 
-  settingsPath = '/settings';
-
   navigationSelected = output<SidebarItem>();
   closeRequested = output<void>();
 

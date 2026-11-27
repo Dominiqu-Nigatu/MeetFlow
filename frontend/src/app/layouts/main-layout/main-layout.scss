@@ -9,7 +9,7 @@
   display: flex;
   min-height: 100vh;
   background: var(--color-background);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 app-sidebar {
@@ -36,6 +36,12 @@ app-sidebar {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .page-content {

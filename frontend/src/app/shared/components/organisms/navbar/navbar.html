@@ -16,7 +16,7 @@
     @if (showSearch()) {
       <div class="navbar__search">
         <app-search-bar
-          placeholder="Search meetings..."
+          [placeholder]="searchPlaceholder()"
           [showLabel]="false"
           [initialValue]="searchQuery()"
           (search)="onSearch($event)"
@@ -24,25 +24,12 @@
       </div>
     }
 
-    <button
-      class="navbar__notification"
-      type="button"
-      aria-label="Notifications"
-      (click)="onNotificationClick()"
-    >
-      ♧
-      <span class="navbar__notification-dot"></span>
-    </button>
-
     <button class="navbar__profile" type="button" (click)="onProfileClick()">
       <app-avatar [name]="userName()" [src]="avatarSrc()" size="md" />
 
       <span class="navbar__user-details">
         <span class="navbar__user-name">{{ userName() }}</span>
-        <span class="navbar__user-role">{{ userRole() }}</span>
       </span>
-
-      <span class="navbar__profile-arrow">⌄</span>
     </button>
   </div>
 </header>

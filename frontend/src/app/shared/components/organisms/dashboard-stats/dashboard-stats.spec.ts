@@ -58,11 +58,12 @@ describe('DashboardStats', () => {
     expect(fixture.nativeElement.textContent).toContain('This month');
   });
 
-  it('should display an upward trend indicator', () => {
-    expect(fixture.nativeElement.querySelector('.stat-card__trend--up')).toBeTruthy();
+  it('should not render decorative icons or upward arrows', () => {
+    expect(fixture.nativeElement.querySelector('.stat-card__icon')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.stat-card__trend')).toBeNull();
   });
 
-  it('should display a downward trend indicator', () => {
+  it('should keep descriptions without downward arrows', () => {
     fixture.componentRef.setInput('stats', [
       {
         label: 'Overdue',
@@ -74,7 +75,8 @@ describe('DashboardStats', () => {
     ]);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.stat-card__trend--down')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.stat-card__trend')).toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Tasks overdue');
   });
 
   it('should display an empty state when there are no statistics', () => {

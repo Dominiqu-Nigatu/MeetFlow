@@ -574,3 +574,14 @@
     padding: 16px;
   }
 }
+
+.local-transcript {
+  padding: 28px;
+}
+.local-transcript pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+}

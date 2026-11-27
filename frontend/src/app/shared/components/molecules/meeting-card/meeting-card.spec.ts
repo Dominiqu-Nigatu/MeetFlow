@@ -68,4 +68,7 @@ describe('MeetingCard', () => {
 
     expect(fixture.nativeElement.textContent).toContain('processing');
   });
+  it('should not display decorative metadata icons', () => {
+    expect(fixture.nativeElement.querySelector('.meeting-card__icon')).toBeNull();
+  });
 });

@@ -5,7 +5,6 @@ import { MeetingList } from './features/meetings/meeting-list/meeting-list';
 import { MeetingDetail } from './features/meetings/meeting-detail/meeting-detail';
 import { TranscriptUpload } from './features/meetings/transcript-upload/transcript-upload';
 import { ActionItems } from './features/action-items/action-items/action-items';
-import { Settings } from './features/settings/settings/settings';
 
 export const routes: Routes = [
   {
@@ -36,10 +35,6 @@ export const routes: Routes = [
       {
         path: 'action-items',
         component: ActionItems,
-      },
-      {
-        path: 'settings',
-        component: Settings,
       },
     ],
   },

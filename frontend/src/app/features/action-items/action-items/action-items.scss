@@ -29,13 +29,6 @@
   }
 }
 
-.eyebrow {
-  color: var(--color-secondary);
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
-  letter-spacing: 1.5px;
-}
-
 .overview-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -69,97 +62,12 @@
   font-weight: var(--font-medium);
 }
 
-.overview-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-lg);
-  font-size: 20px;
-  font-weight: var(--font-semibold);
-}
-
-.total-icon {
-  background: rgba(77, 124, 145, 0.12);
-  color: var(--color-secondary);
-}
-
-.open-icon {
-  background: rgba(214, 164, 93, 0.14);
-  color: var(--color-warning);
-}
-
-.completed-icon {
-  background: rgba(111, 146, 125, 0.14);
-  color: var(--color-success);
-}
-
 .overview-value {
   margin-top: 20px;
   color: var(--color-text-primary);
   font-size: 36px;
   font-weight: var(--font-bold);
   line-height: 1.1;
-}
-
-.progress-card {
-  padding: 24px;
-  background: var(--color-surface);
-  border: var(--border-width) var(--border-style) var(--color-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-}
-
-.progress-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-
-  h2 {
-    margin: 0;
-    color: var(--color-text-primary);
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-  }
-
-  p {
-    margin: 6px 0 0;
-    color: var(--color-text-secondary);
-    font-size: var(--text-sm);
-  }
-}
-
-.progress-percentage {
-  color: var(--color-success);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-}
-
-.progress-track {
-  height: 10px;
-  margin-top: 24px;
-  overflow: hidden;
-  background: var(--color-surface-muted);
-  border-radius: var(--radius-full);
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--color-success);
-  border-radius: var(--radius-full);
-  transition: width 0.3s ease;
-}
-
-.progress-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 12px;
-  color: var(--color-text-secondary);
-  font-size: var(--text-sm);
 }
 
 .tasks-card {
@@ -324,31 +232,6 @@
   color: var(--color-text-secondary);
 }
 
-.delete-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  span {
-    font-size: 24px;
-    line-height: 1;
-  }
-
-  &:hover {
-    background: rgba(197, 107, 101, 0.1);
-    color: var(--color-danger);
-  }
-}
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -457,13 +340,5 @@
   .task-meta {
     margin-left: 36px;
     gap: 10px;
-  }
-
-  .progress-card {
-    padding: 20px;
-  }
-
-  .progress-footer {
-    flex-wrap: wrap;
   }
 }

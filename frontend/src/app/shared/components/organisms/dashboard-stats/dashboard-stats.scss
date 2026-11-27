@@ -38,19 +38,6 @@
     font-weight: var(--font-medium);
   }
 
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: var(--radius-md);
-    background: rgba(77, 124, 145, 0.12);
-    color: var(--color-secondary);
-    font-size: var(--text-lg);
-  }
-
   &__value {
     margin-bottom: var(--spacing-2);
     color: var(--color-text-primary);
@@ -65,18 +52,6 @@
     gap: var(--spacing-1);
     color: var(--color-text-secondary);
     font-size: var(--text-xs);
-  }
-
-  &__trend {
-    font-weight: var(--font-bold);
-
-    &--up {
-      color: var(--color-success);
-    }
-
-    &--down {
-      color: var(--color-danger);
-    }
   }
 }
 

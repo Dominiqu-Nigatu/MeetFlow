@@ -1,16 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { LocalMeetings } from '../../../core/services/local-meetings';
+import { RouterLink } from '@angular/router';
 import {
   DashboardStats,
   DashboardStat,
 } from '../../../shared/components/organisms/dashboard-stats/dashboard-stats';
-import {
-  RecentMeetings,
-  RecentMeeting,
-} from '../../../shared/components/organisms/recent-meetings/recent-meetings';
-import {
-  ActionItemsPanel,
-  PanelActionItem,
-} from '../../../shared/components/organisms/action-items-panel/action-items-panel';
+import { RecentMeeting } from '../../../shared/components/organisms/recent-meetings/recent-meetings';
+import { PanelActionItem } from '../../../shared/components/organisms/action-items-panel/action-items-panel';
 import {
   MeetingUploadPanel,
   MeetingUploadData,
@@ -19,12 +15,33 @@ import {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DashboardStats, RecentMeetings, ActionItemsPanel, MeetingUploadPanel],
+  imports: [DashboardStats, RouterLink, MeetingUploadPanel],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
   userName = signal('John');
+  activeTab = signal<'meetings' | 'actions'>('meetings');
+
+  onTabKeydown(event: KeyboardEvent): void {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const tab =
+      event.key === 'Home'
+        ? 'meetings'
+        : event.key === 'End'
+          ? 'actions'
+          : this.activeTab() === 'meetings'
+            ? 'actions'
+            : 'meetings';
+    this.activeTab.set(tab);
+    const button = event.currentTarget as HTMLButtonElement;
+    button.parentElement
+      ?.querySelector<HTMLButtonElement>(
+        tab === 'meetings' ? '#recent-meetings-tab' : '#action-items-tab',
+      )
+      ?.focus();
+  }
 
   stats = signal<DashboardStat[]>([
     {
@@ -57,7 +74,11 @@ export class Dashboard {
     },
   ]);
 
-  meetings = signal<RecentMeeting[]>([
+  private readonly localMeetings = inject(LocalMeetings);
+  readonly meetings = computed(() =>
+    [...this.localMeetings.cards(), ...this.sampleMeetings()].slice(0, 4),
+  );
+  sampleMeetings = signal<RecentMeeting[]>([
     {
       id: '1',
       title: 'Product Strategy Meeting',

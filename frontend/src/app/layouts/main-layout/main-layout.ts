@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { ActionSearch } from '../../core/services/action-search';
 import { MeetingSearch } from '../../core/services/meeting-search';
 import { Sidebar } from '../../shared/components/organisms/sidebar/sidebar';
 import { Navbar } from '../../shared/components/organisms/navbar/navbar';
@@ -15,6 +16,7 @@ import { Navbar } from '../../shared/components/organisms/navbar/navbar';
 })
 export class MainLayout {
   readonly meetingSearch = inject(MeetingSearch);
+  readonly actionSearch = inject(ActionSearch);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -23,6 +25,7 @@ export class MainLayout {
   pageTitle = signal('Dashboard');
 
   constructor(router: Router) {
+    this.updatePageTitle(router.url);
     router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -35,6 +38,10 @@ export class MainLayout {
 
   onMeetingSearch(query: string): void {
     const value = query.trim();
+    if (this.router.url.split(/[?#]/, 1)[0] === '/action-items') {
+      this.actionSearch.query.set(value);
+      return;
+    }
     this.meetingSearch.query.set(value);
 
     if (!value) {
@@ -82,17 +89,15 @@ export class MainLayout {
   private updatePageTitle(url: string): void {
     const path = url.split(/[?#]/, 1)[0];
     const title =
-      path === '/settings'
-        ? 'Settings'
-        : path === '/action-items'
-          ? 'Action Items'
-          : path === '/meetings'
-            ? 'Meetings'
-            : path === '/meetings/upload'
-              ? 'Upload Meeting'
-              : path.startsWith('/meetings/')
-                ? 'Meeting Details'
-                : 'Dashboard';
+      path === '/action-items'
+        ? 'Action Items'
+        : path === '/meetings'
+          ? 'Meetings'
+          : path === '/meetings/upload'
+            ? 'Upload Meeting'
+            : path.startsWith('/meetings/')
+              ? 'Meeting Details'
+              : 'Dashboard';
 
     this.pageTitle.set(title);
   }

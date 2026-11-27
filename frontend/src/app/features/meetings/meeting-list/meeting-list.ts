@@ -1,7 +1,13 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalMeetings } from '../../../core/services/local-meetings';
 import { MeetingSearch } from '../../../core/services/meeting-search';
-import { SearchBar } from '../../../shared/components/molecules/search-bar/search-bar';
 import { MeetingCard } from '../../../shared/components/molecules/meeting-card/meeting-card';
+
+import {
+  MeetingUploadPanel,
+  MeetingUploadData,
+} from '../../../shared/components/organisms/meeting-upload-panel/meeting-upload-panel';
 
 export interface MeetingListItem {
   id: string;
@@ -15,13 +21,17 @@ export interface MeetingListItem {
 @Component({
   selector: 'app-meeting-list',
   standalone: true,
-  imports: [SearchBar, MeetingCard],
+  imports: [MeetingCard, MeetingUploadPanel],
   templateUrl: './meeting-list.html',
   styleUrl: './meeting-list.scss',
 })
 export class MeetingList {
+  readonly localMeetings = inject(LocalMeetings);
+  private readonly router = inject(Router);
   searchQuery = inject(MeetingSearch).query;
-  activeFilter = signal<'all' | 'completed' | 'processing' | 'pending'>('all');
+  readonly uploadDialog = viewChild.required<ElementRef<HTMLDialogElement>>('uploadDialog');
+  readonly uploadOpen = signal(false);
+  readonly uploadNotice = signal('');
 
   meetings = signal<MeetingListItem[]>([
     {
@@ -92,41 +102,45 @@ export class MeetingList {
 
   filteredMeetings = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    const filter = this.activeFilter();
-
-    return this.meetings().filter((meeting) => {
-      const matchesSearch = meeting.title.toLowerCase().includes(query);
-      const matchesFilter = filter === 'all' || meeting.summaryStatus === filter;
-
-      return matchesSearch && matchesFilter;
-    });
+    return [...this.localMeetings.cards(), ...this.meetings()].filter((meeting) =>
+      meeting.title.toLowerCase().includes(query),
+    );
   });
-
-  completedCount = computed(
-    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'completed').length,
-  );
-
-  processingCount = computed(
-    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'processing').length,
-  );
-
-  pendingCount = computed(
-    () => this.meetings().filter((meeting) => meeting.summaryStatus === 'pending').length,
-  );
 
   onSearch(query: string): void {
     this.searchQuery.set(query);
   }
 
-  onFilterChange(filter: 'all' | 'completed' | 'processing' | 'pending'): void {
-    this.activeFilter.set(filter);
-  }
-
   onMeetingSelected(meetingId: string): void {
-    console.log('Selected meeting:', meetingId);
+    void this.router.navigate(['/meetings', meetingId]);
   }
 
   onUploadMeeting(): void {
-    console.log('Upload meeting clicked');
+    this.uploadOpen.set(true);
+    this.uploadDialog().nativeElement.showModal();
+  }
+  closeUpload(): void {
+    this.uploadDialog().nativeElement.close();
+    this.uploadOpen.set(false);
+  }
+
+  onUploadBackdropClick(event: MouseEvent): void {
+    const dialog = this.uploadDialog().nativeElement;
+    if (event.target !== dialog) return;
+    const rect = dialog.getBoundingClientRect();
+    if (
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom
+    ) {
+      this.closeUpload();
+    }
+  }
+
+  onTranscriptSubmitted(_data: MeetingUploadData): void {
+    this.searchQuery.set('');
+    this.uploadNotice.set('Transcript saved in this browser. Select your meeting to read it.');
+    this.closeUpload();
   }
 }

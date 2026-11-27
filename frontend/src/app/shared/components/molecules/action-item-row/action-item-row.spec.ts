@@ -26,22 +26,24 @@ describe('ActionItemRow', () => {
     expect(fixture.nativeElement.textContent).toContain('Prepare project proposal');
   });
 
-  it('should display the owner when provided', () => {
+  it('should not display owner text when provided', () => {
     fixture.componentRef.setInput('owner', 'John Doe');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Assigned to John Doe');
+    expect(fixture.nativeElement.textContent).not.toContain('Assigned to');
+    expect(fixture.nativeElement.textContent).not.toContain('John Doe');
   });
 
-  it('should display unassigned when no owner is provided', () => {
-    expect(fixture.nativeElement.textContent).toContain('Unassigned');
+  it('should not display an unassigned label', () => {
+    expect(fixture.nativeElement.textContent).not.toContain('Unassigned');
   });
 
-  it('should display the due date when provided', () => {
+  it('should not display due-date text when provided', () => {
     fixture.componentRef.setInput('dueDate', '30 November 2026');
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Due 30 November 2026');
+    expect(fixture.nativeElement.textContent).not.toContain('Due 30 November 2026');
+    expect(component.dueDate()).toBe('30 November 2026');
   });
 
   it('should default to incomplete', () => {

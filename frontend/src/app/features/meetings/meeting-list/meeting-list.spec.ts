@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { MeetingList } from './meeting-list';
 
 describe('MeetingList', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MeetingList],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -20,69 +22,6 @@ describe('MeetingList', () => {
 
   it('should initially show all meetings', () => {
     const fixture = TestBed.createComponent(MeetingList);
-    expect(fixture.componentInstance.filteredMeetings().length).toBe(8);
-  });
-
-  it('should count completed meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-    expect(fixture.componentInstance.completedCount()).toBe(4);
-  });
-
-  it('should count processing meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-    expect(fixture.componentInstance.processingCount()).toBe(2);
-  });
-
-  it('should count pending meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-    expect(fixture.componentInstance.pendingCount()).toBe(2);
-  });
-
-  it('should filter completed meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-
-    fixture.componentInstance.onFilterChange('completed');
-
-    expect(fixture.componentInstance.filteredMeetings().length).toBe(4);
-    expect(
-      fixture.componentInstance
-        .filteredMeetings()
-        .every((meeting) => meeting.summaryStatus === 'completed'),
-    ).toBe(true);
-  });
-
-  it('should filter processing meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-
-    fixture.componentInstance.onFilterChange('processing');
-
-    expect(fixture.componentInstance.filteredMeetings().length).toBe(2);
-    expect(
-      fixture.componentInstance
-        .filteredMeetings()
-        .every((meeting) => meeting.summaryStatus === 'processing'),
-    ).toBe(true);
-  });
-
-  it('should filter pending meetings', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-
-    fixture.componentInstance.onFilterChange('pending');
-
-    expect(fixture.componentInstance.filteredMeetings().length).toBe(2);
-    expect(
-      fixture.componentInstance
-        .filteredMeetings()
-        .every((meeting) => meeting.summaryStatus === 'pending'),
-    ).toBe(true);
-  });
-
-  it('should return all meetings when the filter is reset', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-
-    fixture.componentInstance.onFilterChange('completed');
-    fixture.componentInstance.onFilterChange('all');
-
     expect(fixture.componentInstance.filteredMeetings().length).toBe(8);
   });
 
@@ -111,16 +50,6 @@ describe('MeetingList', () => {
     expect(fixture.componentInstance.filteredMeetings().length).toBe(0);
   });
 
-  it('should combine search and status filtering', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-
-    fixture.componentInstance.onSearch('review');
-    fixture.componentInstance.onFilterChange('completed');
-
-    expect(fixture.componentInstance.filteredMeetings().length).toBe(1);
-    expect(fixture.componentInstance.filteredMeetings()[0].title).toBe('Design Review');
-  });
-
   it('should render the page heading', () => {
     const fixture = TestBed.createComponent(MeetingList);
     fixture.detectChanges();
@@ -135,20 +64,13 @@ describe('MeetingList', () => {
     expect(fixture.nativeElement.querySelectorAll('app-meeting-card').length).toBe(8);
   });
 
-  it('should render the filter buttons', () => {
+  it('should not render duplicate search or summary controls', () => {
     const fixture = TestBed.createComponent(MeetingList);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Completed');
-    expect(fixture.nativeElement.textContent).toContain('Processing');
-    expect(fixture.nativeElement.textContent).toContain('Pending');
-  });
-
-  it('should render the search bar', () => {
-    const fixture = TestBed.createComponent(MeetingList);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('app-search-bar')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('app-search-bar')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.meeting-overview')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.filter-tabs')).toBeNull();
   });
 
   it('should render the new meeting button', () => {
@@ -156,5 +78,42 @@ describe('MeetingList', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain('New meeting');
+  });
+  it('should restore all meetings after clearing the shared topbar search', () => {
+    const fixture = TestBed.createComponent(MeetingList);
+    fixture.componentInstance.onSearch('frontend');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelectorAll('app-meeting-card').length).toBe(1);
+    fixture.componentInstance.onSearch('');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelectorAll('app-meeting-card').length).toBe(8);
+  });
+  it('should open the dashboard upload component in a modal from New meeting', () => {
+    const fixture = TestBed.createComponent(MeetingList);
+    fixture.detectChanges();
+    const dialog = fixture.nativeElement.querySelector('dialog');
+    const showModal = vi.fn(() => dialog.setAttribute('open', ''));
+    Object.defineProperty(dialog, 'showModal', { value: showModal, configurable: true });
+    fixture.nativeElement.querySelector('.upload-button').click();
+    fixture.detectChanges();
+    expect(showModal).toHaveBeenCalled();
+    expect(dialog.querySelector('app-meeting-upload-panel')).toBeTruthy();
+    expect(dialog.textContent).toContain('Upload a meeting transcript');
+  });
+
+  it('should close and reset the upload form', () => {
+    const fixture = TestBed.createComponent(MeetingList);
+    fixture.detectChanges();
+    const dialog = fixture.nativeElement.querySelector('dialog');
+    Object.defineProperty(dialog, 'showModal', { value: vi.fn(), configurable: true });
+    const close = vi.fn();
+    Object.defineProperty(dialog, 'close', { value: close, configurable: true });
+    fixture.componentInstance.onUploadMeeting();
+    fixture.detectChanges();
+    dialog.querySelector('.upload-dialog__close').click();
+    fixture.detectChanges();
+    expect(close).toHaveBeenCalled();
+    expect(fixture.componentInstance.uploadOpen()).toBe(false);
+    expect(dialog.querySelector('app-meeting-upload-panel')).toBeNull();
   });
 });

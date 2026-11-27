@@ -3,10 +3,6 @@
     <article class="stat-card">
       <div class="stat-card__top">
         <span class="stat-card__label">{{ stat.label }}</span>
-
-        <span class="stat-card__icon" aria-hidden="true">
-          {{ stat.icon }}
-        </span>
       </div>
 
       <div class="stat-card__value">
@@ -14,18 +10,6 @@
       </div>
 
       <div class="stat-card__description">
-        <span
-          class="stat-card__trend"
-          [class.stat-card__trend--up]="stat.trend === 'up'"
-          [class.stat-card__trend--down]="stat.trend === 'down'"
-        >
-          @if (stat.trend === 'up') {
-            ↑
-          } @else if (stat.trend === 'down') {
-            ↓
-          }
-        </span>
-
         {{ stat.description }}
       </div>
     </article>
