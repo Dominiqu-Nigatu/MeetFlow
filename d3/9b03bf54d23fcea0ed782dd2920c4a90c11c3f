@@ -1,0 +1,50 @@
+frontend/src/app/app.ts
+  h_04318c1d16cd5e 1,6,9,11
+frontend/src/index.html
+  h_04318c1d16cd5e 3,10-12,14,18-19
+frontend/src/app/layouts/main-layout/main-layout.spec.ts
+  h_04318c1d16cd5e 1-90,92,94-97,99-102,104,106,116-118,122-144
+  s_1a550b1a3c5cf4::t_900c3706b935c2 93,98,103,105,107-115,119-121
+  s_1a550b1a3c5cf4::t_1009f669568f01 91
+frontend/tsconfig.spec.json
+  h_04318c1d16cd5e 7
+frontend/src/app/app.scss
+  h_04318c1d16cd5e 1-4
+frontend/src/app/app.routes.ts
+  s_1a550b1a3c5cf4::t_a5cd9c989e7b5d 3,7-8
+  h_04318c1d16cd5e 2,4-6,11-49
+  s_1a550b1a3c5cf4::t_422242782180d2 10,50
+frontend/tsconfig.app.json
+  h_04318c1d16cd5e 7
+frontend/src/app/app.spec.ts
+  h_04318c1d16cd5e 3,9,15-16,19,21-23
+  h_04318c1d16cd5e 25
+frontend/src/app/app.config.ts
+  h_04318c1d16cd5e 1,7-8
+  h_04318c1d16cd5e 9
+frontend/src/app/app.html
+  h_04318c1d16cd5e 1
+frontend/src/styles.scss
+  h_04318c1d16cd5e 1-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d39b03bf54d23fcea0ed782dd2920c4a90c11c3f",
+  "prompts": {},
+  "humans": {
+    "h_04318c1d16cd5e": {
+      "author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1a550b1a3c5cf4": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "296bb9ab-2ab7-4b90-abeb-07e5c380a4f3",
+        "model": "unknown"
+      },
+      "human_author": "Dominiqu <ndominiqu@gmail.com>"
+    }
+  }
+}
