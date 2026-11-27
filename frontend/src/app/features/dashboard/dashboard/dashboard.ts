@@ -5,8 +5,7 @@ import {
   DashboardStats,
   DashboardStat,
 } from '../../../shared/components/organisms/dashboard-stats/dashboard-stats';
-import { RecentMeeting } from '../../../shared/components/organisms/recent-meetings/recent-meetings';
-import { PanelActionItem } from '../../../shared/components/organisms/action-items-panel/action-items-panel';
+import type { RecentMeeting, PanelActionItem } from '../../../shared/types/dashboard';
 import {
   MeetingUploadPanel,
   MeetingUploadData,
