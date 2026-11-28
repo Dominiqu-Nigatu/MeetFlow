@@ -22,7 +22,7 @@
   }
 
   &--collapsed {
-    width: 76px;
+    width: 180px;
     padding-inline: var(--spacing-3);
 
     .sidebar__brand {
@@ -128,19 +128,32 @@
     }
   }
 
-  &__link-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    flex-shrink: 0;
-    font-size: var(--text-xl);
+  &__logout {
+    margin-top: auto;
+    width: 100%;
+    min-height: 44px;
+    padding: var(--spacing-3);
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
   }
 
   &__link-label {
     font-size: var(--text-sm);
   }
-
 }
 
 @media (max-width: 768px) {

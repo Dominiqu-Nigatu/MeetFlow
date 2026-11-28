@@ -1,192 +1,75 @@
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { signal } from '@angular/core';
 import { MeetingDetail } from './meeting-detail';
-
+import { LocalMeetings } from '../../../core/services/local-meetings';
 describe('MeetingDetail', () => {
+  let params: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
   beforeEach(async () => {
+    localStorage.clear();
+    params = new BehaviorSubject(convertToParamMap({ id: 'local-test' }));
     await TestBed.configureTestingModule({
       imports: [MeetingDetail],
+      providers: [
+        provideRouter([]),
+        { provide: ActivatedRoute, useValue: { paramMap: params } },
+        {
+          provide: LocalMeetings,
+          useValue: {
+            uploads: signal([
+              {
+                id: 'local-test',
+                title: 'Real meeting',
+                transcript: 'Original words',
+                createdAt: '2026-11-28',
+                fileName: 'notes.txt',
+              },
+            ]),
+            loaded: signal(true),
+            loadError: signal(''),
+          },
+        },
+      ],
     }).compileComponents();
   });
-
-  it('should create the meeting detail component', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance).toBeTruthy();
-  });
-
-  it('should initialise the meeting title', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.meetingTitle()).toBe('Product Strategy Meeting');
-  });
-
-  it('should initialise the meeting status', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.meetingStatus()).toBe('completed');
-  });
-
-  it('should initialise the summary tab', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.activeTab()).toBe('summary');
-  });
-
-  it('should initialise four action items', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.actionItems().length).toBe(4);
-  });
-
-  it('should initialise one completed action item', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.completedActionCount()).toBe(1);
-  });
-
-  it('should initialise three remaining action items', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.remainingActionCount()).toBe(3);
-  });
-
-  it('should calculate the progress percentage', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    expect(fixture.componentInstance.progressPercentage()).toBe(25);
-  });
-
-  it('should switch to the transcript tab', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onTabChange('transcript');
-
-    expect(fixture.componentInstance.activeTab()).toBe('transcript');
-  });
-
-  it('should switch back to the summary tab', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onTabChange('transcript');
-    fixture.componentInstance.onTabChange('summary');
-
-    expect(fixture.componentInstance.activeTab()).toBe('summary');
-  });
-
-  it('should mark an action item as completed', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onActionItemCompleted({
-      id: '1',
-      completed: true,
-    });
-
-    expect(fixture.componentInstance.actionItems().find((item) => item.id === '1')?.completed).toBe(
-      true,
-    );
-  });
-
-  it('should mark an action item as incomplete', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onActionItemCompleted({
-      id: '3',
-      completed: false,
-    });
-
-    expect(fixture.componentInstance.actionItems().find((item) => item.id === '3')?.completed).toBe(
-      false,
-    );
-  });
-
-  it('should update completed action count when a task is completed', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onActionItemCompleted({
-      id: '1',
-      completed: true,
-    });
-
-    expect(fixture.componentInstance.completedActionCount()).toBe(2);
-  });
-
-  it('should update remaining action count when a task is completed', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onActionItemCompleted({
-      id: '1',
-      completed: true,
-    });
-
-    expect(fixture.componentInstance.remainingActionCount()).toBe(2);
-  });
-
-  it('should update the progress percentage when a task is completed', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onActionItemCompleted({
-      id: '1',
-      completed: true,
-    });
-
-    expect(fixture.componentInstance.progressPercentage()).toBe(50);
-  });
-
-  it('should render the meeting title', () => {
+  afterEach(() => localStorage.clear());
+  it('renders real uploaded content with no borrowed results', () => {
     const fixture = TestBed.createComponent(MeetingDetail);
     fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Product Strategy Meeting');
+    expect(fixture.nativeElement.textContent).toContain('Real meeting');
+    expect(fixture.nativeElement.textContent).toContain('Original words');
+    expect(fixture.nativeElement.textContent).toContain('No summary yet.');
+    expect(fixture.nativeElement.textContent).not.toContain('John Doe');
   });
-
-  it('should render the summary tab', () => {
+  it('shows not found instead of sample data for unknown ids', () => {
+    params.next(convertToParamMap({ id: 'missing' }));
     const fixture = TestBed.createComponent(MeetingDetail);
     fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Meeting summary');
+    expect(fixture.nativeElement.textContent).toContain('Meeting not found');
+    expect(fixture.nativeElement.querySelector('pre')).toBeNull();
   });
-
-  it('should render the key discussion points', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Key discussion points');
+  it('edits, saves and cancels notes and decisions', () => {
+    const component = TestBed.createComponent(MeetingDetail).componentInstance;
+    component.startEdit('summary');
+    component.summaryDraft = 'New summary';
+    component.saveNotes(new Event('submit'));
+    expect(component.notes().summary).toBe('New summary');
+    component.startEdit('summary');
+    component.summaryDraft = 'Cancelled';
+    component.editing.set(null);
+    expect(component.notes().summary).toBe('New summary');
+    component.startEdit('decisions');
+    component.decisionsDraft = 'Decision one\nDecision two';
+    component.saveNotes(new Event('submit'));
+    expect(component.notes().decisions).toEqual(['Decision one', 'Decision two']);
   });
-
-  it('should render the key decisions', () => {
+  it('renders clear retry state when no provider is connected', async () => {
     const fixture = TestBed.createComponent(MeetingDetail);
+    const component = fixture.componentInstance;
+    await component.store.analyze('local-test');
     fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Key decisions');
-  });
-
-  it('should render the action items', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Action items');
-  });
-
-  it('should render the transcript tab button', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Transcript');
-  });
-
-  it('should render the export button', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Export summary');
-  });
-
-  it('should render the back button', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Back to meetings');
-  });
-
-  it('should display the transcript when the transcript tab is selected', () => {
-    const fixture = TestBed.createComponent(MeetingDetail);
-
-    fixture.componentInstance.onTabChange('transcript');
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Meeting transcript');
-    expect(fixture.nativeElement.textContent).toContain('Welcome everyone');
+    expect(fixture.nativeElement.textContent).toContain('Retry analysis');
+    expect(component.meeting()?.transcript).toBe('Original words');
   });
 });

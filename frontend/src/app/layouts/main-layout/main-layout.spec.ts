@@ -181,4 +181,19 @@ describe('MainLayout', () => {
     expect(fixture.componentInstance.actionSearch.query()).toBe('');
   });
 
+  it('should label the account route and hide unrelated search', () => {
+    vi.spyOn(TestBed.inject(Router), 'url', 'get').mockReturnValue('/account');
+    const fixture = TestBed.createComponent(MainLayout);
+    fixture.detectChanges();
+    expect(fixture.componentInstance.pageTitle()).toBe('Account');
+    expect(fixture.nativeElement.querySelector('app-search-bar')).toBeNull();
+  });
+
+  it('should navigate to account from the profile button', () => {
+    const fixture = TestBed.createComponent(MainLayout);
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    fixture.detectChanges();
+    fixture.nativeElement.querySelector('.navbar__profile').click();
+    expect(navigate).toHaveBeenCalledWith(['/account']);
+  });
 });

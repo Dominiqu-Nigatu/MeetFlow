@@ -1,28 +1,19 @@
 <app-auth-layout>
   <div class="register-container">
     <div class="register-header">
-      <div class="mobile-brand">
-        <div class="brand-icon">M</div>
-        <span>MeetFlow</span>
-      </div>
-
-      <div class="welcome-badge">
-        <span class="badge-dot"></span>
-        Get started
-      </div>
-
       <h1>Create your <span>account</span></h1>
-
-      <p class="register-subtitle">Start organising your meetings, notes and action items.</p>
     </div>
 
-    <form class="register-form" (submit)="$event.preventDefault(); onSubmit()">
+    <form novalidate class="register-form" (submit)="$event.preventDefault(); onSubmit()">
       <app-input
         id="full-name"
         label="Full name"
         type="text"
         placeholder="John Doe"
         [value]="fullName()"
+        [error]="fieldError('fullName')"
+        [disabled]="submitting()"
+        (focusout)="touch('fullName')"
         [required]="true"
         (valueChange)="onFullNameChange($event)"
       />
@@ -33,6 +24,9 @@
         type="email"
         placeholder="you@example.com"
         [value]="email()"
+        [error]="fieldError('email')"
+        [disabled]="submitting()"
+        (focusout)="touch('email')"
         [required]="true"
         (valueChange)="onEmailChange($event)"
       />
@@ -44,6 +38,9 @@
           [type]="showPassword() ? 'text' : 'password'"
           placeholder="At least 8 characters"
           [value]="password()"
+          [error]="fieldError('password')"
+          [disabled]="submitting()"
+          (focusout)="touch('password')"
           [required]="true"
           (valueChange)="onPasswordChange($event)"
         />
@@ -65,6 +62,9 @@
           [type]="showConfirmPassword() ? 'text' : 'password'"
           placeholder="Enter your password again"
           [value]="confirmPassword()"
+          [error]="fieldError('confirmPassword')"
+          [disabled]="submitting()"
+          (focusout)="touch('confirmPassword')"
           [required]="true"
           (valueChange)="onConfirmPasswordChange($event)"
         />
@@ -79,51 +79,30 @@
         </button>
       </div>
 
-      <div class="terms-field">
-        <app-checkbox
-          id="accept-terms"
-          [checked]="acceptTerms()"
-          (checkedChange)="onTermsChange($event)"
-        />
-
-        <label for="accept-terms" class="terms-label">
-          I agree to the
-          <a href="#" (click)="$event.preventDefault()">Terms of Service</a>
-          and
-          <a href="#" (click)="$event.preventDefault()">Privacy Policy</a>.
-        </label>
-      </div>
-
       @if (errorMessage()) {
         <div class="error-message" role="alert">
-          <span class="error-icon">!</span>
           {{ errorMessage() }}
         </div>
       }
 
       <app-button
-        label="Create account"
+        label="Register"
         type="submit"
         variant="primary"
         size="lg"
         [fullWidth]="true"
+        [disabled]="submitting()"
+        [loading]="submitting()"
       />
     </form>
-
-    <div class="register-divider">
-      <span>or</span>
-    </div>
 
     <div class="signin-prompt">
       <p>
         Already have an account?
-        <a href="#" (click)="$event.preventDefault()">Sign in</a>
+        <a routerLink="/login">Sign in</a>
       </p>
     </div>
 
-    <div class="security-note">
-      <span class="security-icon">✦</span>
-      <span>Your workspace is private and secure.</span>
-    </div>
+    <a class="dashboard-preview" routerLink="/dashboard">Go to dashboard</a>
   </div>
 </app-auth-layout>

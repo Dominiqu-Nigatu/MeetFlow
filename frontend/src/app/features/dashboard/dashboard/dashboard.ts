@@ -1,11 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { LocalMeetings } from '../../../core/services/local-meetings';
+import { WorkspaceStore } from '../../../core/services/workspace-store';
 import { RouterLink } from '@angular/router';
 import {
   DashboardStats,
   DashboardStat,
 } from '../../../shared/components/organisms/dashboard-stats/dashboard-stats';
-import type { RecentMeeting, PanelActionItem } from '../../../shared/types/dashboard';
 import {
   MeetingUploadPanel,
   MeetingUploadData,
@@ -42,132 +41,30 @@ export class Dashboard {
       ?.focus();
   }
 
-  stats = signal<DashboardStat[]>([
-    {
-      label: 'Total Meetings',
-      value: '24',
-      description: 'Meetings recorded · +4 this week',
-      icon: '▤',
-      trend: 'up',
-    },
-    {
-      label: 'Action Items',
-      value: '38',
-      description: 'Tasks identified · 8 pending',
-      icon: '☑',
-      trend: 'neutral',
-    },
+  readonly store = inject(WorkspaceStore);
+  readonly stats = computed<DashboardStat[]>(() => [
+    { label: 'Total Meetings', value: this.store.meetings().length, description: '', icon: '' },
+    { label: 'Action Items', value: this.store.actions().length, description: '', icon: '' },
     {
       label: 'Completed Tasks',
-      value: '29',
-      description: 'Tasks completed · 76% completion',
-      icon: '✓',
-      trend: 'up',
+      value: this.store.actions().filter((a) => a.completed).length,
+      description: '',
+      icon: '',
     },
     {
-      label: 'Meeting Hours',
-      value: '12.5',
-      description: 'Time spent in meetings · This month',
-      icon: '◷',
-      trend: 'neutral',
+      label: 'Overdue Tasks',
+      value: this.store.actions().filter((a) => this.store.isOverdue(a)).length,
+      description: '',
+      icon: '',
     },
   ]);
-
-  private readonly localMeetings = inject(LocalMeetings);
-  readonly meetings = computed(() =>
-    [...this.localMeetings.cards(), ...this.sampleMeetings()].slice(0, 4),
-  );
-  sampleMeetings = signal<RecentMeeting[]>([
-    {
-      id: '1',
-      title: 'Product Strategy Meeting',
-      date: '25 Nov 2026',
-      duration: '45 min',
-      summaryStatus: 'completed',
-      actionItemCount: 4,
-    },
-    {
-      id: '2',
-      title: 'Frontend Sprint Planning',
-      date: '24 Nov 2026',
-      duration: '60 min',
-      summaryStatus: 'completed',
-      actionItemCount: 6,
-    },
-    {
-      id: '3',
-      title: 'Marketing Weekly Sync',
-      date: '23 Nov 2026',
-      duration: '30 min',
-      summaryStatus: 'processing',
-      actionItemCount: 3,
-    },
-    {
-      id: '4',
-      title: 'Client Feedback Review',
-      date: '22 Nov 2026',
-      duration: '50 min',
-      summaryStatus: 'pending',
-      actionItemCount: 5,
-    },
-  ]);
-
-  actionItems = signal<PanelActionItem[]>([
-    {
-      id: '1',
-      description: 'Prepare the product roadmap presentation',
-      owner: 'John Doe',
-      dueDate: '28 Nov 2026',
-      completed: false,
-    },
-    {
-      id: '2',
-      description: 'Review the frontend design system',
-      owner: 'Sarah',
-      dueDate: '27 Nov 2026',
-      completed: false,
-    },
-    {
-      id: '3',
-      description: 'Send meeting notes to the team',
-      owner: 'John Doe',
-      dueDate: '26 Nov 2026',
-      completed: true,
-    },
-    {
-      id: '4',
-      description: 'Finalise API documentation',
-      owner: 'Michael',
-      dueDate: '30 Nov 2026',
-      completed: false,
-    },
-  ]);
-
+  readonly meetings = computed(() => this.store.meetings().slice(0, 4));
+  readonly actionItems = computed(() => this.store.actions().slice(0, 4));
   onActionItemCompleted(event: { id: string; completed: boolean }): void {
-    this.actionItems.update((items) =>
-      items.map((item) => (item.id === event.id ? { ...item, completed: event.completed } : item)),
-    );
+    const action = this.store.actions().find((a) => a.id === event.id);
+    if (action) this.store.completeAction(action.meetingId, action.id, event.completed);
   }
-
-  onMeetingSelected(meetingId: string): void {
-    console.log('Meeting selected:', meetingId);
-    // Meeting details navigation will be connected through routing.
-  }
-
-  onViewAllMeetings(): void {
-    console.log('View all meetings clicked');
-    // Navigation will be connected through routing.
-  }
-
-  onViewAllActionItems(): void {
-    console.log('View all action items clicked');
-    // Navigation will be connected through routing.
-  }
-
-  onUploadMeeting(data: MeetingUploadData): void {
-    console.log('Meeting upload submitted:', {
-      title: data.title,
-      fileName: data.file.name,
-    });
+  onUploadMeeting(_data: MeetingUploadData): void {
+    /* Upload panel owns saving. Signals update automatically. */
   }
 }

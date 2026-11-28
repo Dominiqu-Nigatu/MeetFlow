@@ -1,16 +1,62 @@
-<article class="action-item" [class.action-item--completed]="completed()">
-  <div class="action-item__checkbox">
-    <app-checkbox
-      [id]="id()"
-      [checked]="completed()"
-      [label]="description()"
-      (checkedChange)="onCompletedChange($event)"
+@if (editing() || creating()) {
+  <form class="action-editor" (submit)="save($event)">
+    <label [for]="id() + '-description'">Description</label>
+    <input
+      [id]="id() + '-description'"
+      name="description"
+      [(ngModel)]="descriptionDraft"
+      required
     />
-  </div>
-
-  <app-badge
-    [label]="completed() ? 'Completed' : 'Open'"
-    [variant]="completed() ? 'success' : 'warning'"
-    size="sm"
-  />
-</article>
+    <label [for]="id() + '-owner'">Owner</label>
+    <input [id]="id() + '-owner'" name="owner" [(ngModel)]="ownerDraft" />
+    <label [for]="id() + '-date'">Due date</label>
+    <input [id]="id() + '-date'" name="date" type="date" [(ngModel)]="dateDraft" />
+    <label [for]="id() + '-status'">Status</label>
+    <select [id]="id() + '-status'" name="status" [(ngModel)]="statusDraft">
+      <option value="todo">To do</option>
+      <option value="in progress">In progress</option>
+      <option value="done">Done</option>
+    </select>
+    @if (error()) {
+      <p role="alert">{{ error() }}</p>
+    }
+    <div class="editor-buttons">
+      <button type="submit">Save</button><button type="button" (click)="cancel()">Cancel</button>
+      @if (!creating()) {
+        <button type="button" (click)="confirmingDelete.set(true)">Delete</button>
+      }
+    </div>
+    @if (confirmingDelete()) {
+      <div role="group" aria-label="Confirm task deletion">
+        <p>Delete this task? This cannot be undone.</p>
+        <button type="button" (click)="remove()">Confirm delete</button>
+        <button type="button" (click)="confirmingDelete.set(false)">Keep task</button>
+      </div>
+    }
+  </form>
+} @else {
+  <article
+    class="action-item"
+    [class.action-item--completed]="completed()"
+    (change)="restoreCheckbox($event)"
+  >
+    <div class="action-item__checkbox">
+      <app-checkbox
+        [id]="id()"
+        [checked]="completed()"
+        [label]="description()"
+        (checkedChange)="onCompletedChange($event)"
+      />
+    </div>
+    <app-badge
+      [label]="completed() ? 'Completed' : status() === 'in progress' ? 'In progress' : 'Open'"
+      [variant]="completed() ? 'success' : 'warning'"
+      size="sm"
+    />
+    @if (meetingId()) {
+      <button type="button" (click)="startEdit()" [attr.aria-label]="'Edit ' + description()">
+        Edit
+      </button>
+    }
+  </article>
+}

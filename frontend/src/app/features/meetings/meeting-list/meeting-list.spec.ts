@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { WorkspaceStore } from '../../../core/services/workspace-store';
 import { MeetingList } from './meeting-list';
 
 describe('MeetingList', () => {
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [MeetingList],
       providers: [provideRouter([])],
@@ -98,7 +100,7 @@ describe('MeetingList', () => {
     fixture.detectChanges();
     expect(showModal).toHaveBeenCalled();
     expect(dialog.querySelector('app-meeting-upload-panel')).toBeTruthy();
-    expect(dialog.textContent).toContain('Upload a meeting transcript');
+    expect(dialog.textContent).toContain('Add a meeting transcript');
   });
 
   it('should close and reset the upload form', () => {
@@ -115,5 +117,23 @@ describe('MeetingList', () => {
     expect(close).toHaveBeenCalled();
     expect(fixture.componentInstance.uploadOpen()).toBe(false);
     expect(dialog.querySelector('app-meeting-upload-panel')).toBeNull();
+  });
+  it('should update card counts and statuses when meeting notes change', () => {
+    const fixture = TestBed.createComponent(MeetingList);
+    const store = TestBed.inject(WorkspaceStore);
+    const before = fixture.componentInstance.meetings().find((m) => m.id === '2')!;
+    expect(before.actionItemCount).toBe(0);
+    expect(
+      store.addAction('2', {
+        description: 'Review checklist',
+        owner: null,
+        dueDate: null,
+        status: 'todo',
+      }),
+    ).toBe(true);
+    store.saveNotes('2', 'Updated meeting notes', []);
+    const after = fixture.componentInstance.meetings().find((m) => m.id === '2')!;
+    expect(after.actionItemCount).toBe(1);
+    expect(after.summaryStatus).toBe('completed');
   });
 });

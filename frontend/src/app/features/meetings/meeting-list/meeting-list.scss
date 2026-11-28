@@ -50,13 +50,11 @@
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   cursor: pointer;
-  transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .upload-button:hover {
   background: var(--color-secondary);
-  transform: translateY(-1px);
 }
 
 .upload-icon {
@@ -122,19 +120,6 @@
   justify-content: center;
   text-align: center;
   padding: 64px 24px;
-}
-
-.empty-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  background: var(--color-surface-muted);
-  color: var(--color-secondary);
-  border-radius: var(--radius-xl);
-  font-size: 2rem;
-  margin-bottom: 20px;
 }
 
 .empty-state h3 {
@@ -231,7 +216,6 @@
 
   &::backdrop {
     background: rgba(35, 61, 86, 0.48);
-    backdrop-filter: blur(4px);
   }
 
   &__close {
@@ -264,10 +248,6 @@
   }
 }
 
-:host:has(.upload-dialog[open]) {
-  position: relative;
-}
-
 .upload-notice {
   margin: 0;
   padding: 14px 18px;
@@ -276,4 +256,12 @@
   background: var(--color-surface);
   color: var(--color-primary);
   font-size: var(--text-sm);
+}
+
+.sample-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+.meeting-entry {
+  min-width: 0;
 }

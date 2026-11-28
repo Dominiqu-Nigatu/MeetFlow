@@ -1,0 +1,57 @@
+<section class="account" aria-labelledby="account-title">
+  <h1 id="account-title">Account</h1>
+  <h2>Delete account</h2>
+  @if (deletedAt()) {
+    <p role="status">
+      Local workspace account marked deleted. Meetings are unchanged. No server account was deleted.
+    </p>
+    <app-button
+      label="Return to sign in"
+      [disabled]="deleting()"
+      [loading]="deleting()"
+      (click)="returnToLogin()"
+    />
+  } @else {
+    <p>
+      This only marks the account deleted in this browser. Meetings stay saved; no server account is
+      deleted.
+    </p>
+    @if (!confirming()) {
+      <app-button label="Delete account" variant="outline" (click)="beginDeletion()" />
+    } @else {
+      <form
+        novalidate
+        (submit)="$event.preventDefault(); deleteAccount()"
+        aria-label="Confirm account deletion"
+      >
+        <app-input
+          id="delete-confirmation"
+          label="Type DELETE to confirm"
+          [value]="confirmation()"
+          [required]="true"
+          [disabled]="deleting()"
+          [error]="confirmationError()"
+          (focusout)="touched.set(true)"
+          (valueChange)="confirmation.set($event)"
+        />
+        <div class="account__actions">
+          <app-button
+            label="Confirm deletion"
+            type="submit"
+            [disabled]="deleting()"
+            [loading]="deleting()"
+          />
+          <app-button
+            label="Cancel"
+            variant="ghost"
+            [disabled]="deleting()"
+            (click)="cancelDeletion()"
+          />
+        </div>
+      </form>
+    }
+  }
+  @if (errorMessage()) {
+    <p role="alert">{{ errorMessage() }}</p>
+  }
+</section>

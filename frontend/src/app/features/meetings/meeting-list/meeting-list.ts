@@ -1,6 +1,7 @@
 import { Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalMeetings } from '../../../core/services/local-meetings';
+import { WorkspaceStore } from '../../../core/services/workspace-store';
 import { MeetingSearch } from '../../../core/services/meeting-search';
 import { MeetingCard } from '../../../shared/components/molecules/meeting-card/meeting-card';
 
@@ -33,78 +34,29 @@ export class MeetingList {
   readonly uploadOpen = signal(false);
   readonly uploadNotice = signal('');
 
-  meetings = signal<MeetingListItem[]>([
-    {
-      id: '1',
-      title: 'Product Strategy Meeting',
-      date: '25 Nov 2026',
-      duration: '45 min',
-      summaryStatus: 'completed',
-      actionItemCount: 4,
-    },
-    {
-      id: '2',
-      title: 'Frontend Sprint Planning',
-      date: '24 Nov 2026',
-      duration: '60 min',
-      summaryStatus: 'completed',
-      actionItemCount: 6,
-    },
-    {
-      id: '3',
-      title: 'Marketing Weekly Sync',
-      date: '23 Nov 2026',
-      duration: '30 min',
-      summaryStatus: 'processing',
-      actionItemCount: 3,
-    },
-    {
-      id: '4',
-      title: 'Client Feedback Review',
-      date: '22 Nov 2026',
-      duration: '50 min',
-      summaryStatus: 'pending',
-      actionItemCount: 5,
-    },
-    {
-      id: '5',
-      title: 'Design Review',
-      date: '21 Nov 2026',
-      duration: '40 min',
-      summaryStatus: 'completed',
-      actionItemCount: 2,
-    },
-    {
-      id: '6',
-      title: 'Engineering Stand-up',
-      date: '20 Nov 2026',
-      duration: '20 min',
-      summaryStatus: 'completed',
-      actionItemCount: 3,
-    },
-    {
-      id: '7',
-      title: 'Client Onboarding',
-      date: '19 Nov 2026',
-      duration: '55 min',
-      summaryStatus: 'processing',
-      actionItemCount: 7,
-    },
-    {
-      id: '8',
-      title: 'Monthly Retrospective',
-      date: '18 Nov 2026',
-      duration: '60 min',
-      summaryStatus: 'pending',
-      actionItemCount: 4,
-    },
-  ]);
-
-  filteredMeetings = computed(() => {
+  readonly workspace = inject(WorkspaceStore);
+  readonly meetings = computed(() =>
+    this.workspace.meetings().map((meeting) => ({
+      id: meeting.id,
+      title: meeting.title,
+      date: new Date(meeting.meetingDate + 'T12:00:00').toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }),
+      duration: 'Not recorded',
+      sample: meeting.sample,
+      summaryStatus: (this.workspace.analysis()[meeting.id]?.status === 'loading'
+        ? 'processing'
+        : this.workspace.notes(meeting.id).summary
+          ? 'completed'
+          : 'pending') as 'processing' | 'completed' | 'pending',
+      actionItemCount: this.workspace.notes(meeting.id).actions.length,
+    })),
+  );
+  readonly filteredMeetings = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    return [...this.localMeetings.cards(), ...this.meetings()].filter((meeting) =>
-      meeting.title.toLowerCase().includes(query),
-    );
+    return this.meetings().filter((meeting) => meeting.title.toLowerCase().includes(query));
   });
 
   onSearch(query: string): void {

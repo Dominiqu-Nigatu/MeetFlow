@@ -8,6 +8,7 @@ import { LocalMeetings } from '../../../../core/services/local-meetings';
 export interface MeetingUploadData {
   title: string;
   file: File;
+  meetingDate?: string;
 }
 
 @Component({
@@ -23,9 +24,34 @@ export class MeetingUploadPanel {
   readonly successMessage = signal('');
   readonly errorMessage = signal('');
   title = signal('');
+  readonly meetingDate = signal('');
+  readonly transcriptText = signal('');
+  readonly mode = signal<'file' | 'text'>('file');
+  private static nextId = 0;
+  readonly formId = `transcript-intake-${MeetingUploadPanel.nextId++}`;
   selectedFile = signal<File | null>(null);
 
   uploadSubmitted = output<MeetingUploadData>();
+
+  setMode(mode: 'file' | 'text'): void {
+    if (this.saving()) return;
+    this.mode.set(mode);
+    this.errorMessage.set('');
+    this.successMessage.set('');
+  }
+
+  canSubmit(): boolean {
+    return (
+      !!this.title().trim() &&
+      (this.mode() === 'file' ? !!this.selectedFile() : !!this.transcriptText().trim())
+    );
+  }
+
+  onValidationError(message: string): void {
+    this.selectedFile.set(null);
+    this.errorMessage.set(message);
+    this.successMessage.set('');
+  }
 
   onTitleChange(value: string): void {
     this.title.set(value);
@@ -48,7 +74,9 @@ export class MeetingUploadPanel {
     const title = this.title().trim();
     const file = this.selectedFile();
 
-    if (!title || !file || this.saving()) {
+    if (this.saving()) return;
+    if (!this.canSubmit()) {
+      this.errorMessage.set('Please provide a meeting title and transcript.');
       return;
     }
 
@@ -56,11 +84,22 @@ export class MeetingUploadPanel {
     this.successMessage.set('');
     this.errorMessage.set('');
     try {
-      await this.localMeetings.save(title, file);
-      this.successMessage.set(
-        'Saved in this browser. You can find it in Meetings. AI processing is not connected yet.',
-      );
-      this.uploadSubmitted.emit({ title, file });
+      const date = this.meetingDate() || undefined;
+      const text = this.transcriptText();
+      if (this.mode() === 'file') {
+        await this.localMeetings.save(title, file!, date);
+      } else {
+        await this.localMeetings.saveText(title, text, date);
+      }
+      this.successMessage.set('Saved in this browser.');
+      this.uploadSubmitted.emit({
+        title,
+        file:
+          this.mode() === 'file'
+            ? file!
+            : new File([text], 'Pasted transcript.txt', { type: 'text/plain' }),
+        ...(date ? { meetingDate: date } : {}),
+      });
     } catch (error) {
       this.errorMessage.set(
         error instanceof Error

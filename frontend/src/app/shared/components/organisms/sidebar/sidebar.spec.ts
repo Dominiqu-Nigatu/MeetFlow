@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { Sidebar } from './sidebar';
 
 describe('Sidebar', () => {
@@ -36,6 +36,7 @@ describe('Sidebar', () => {
     expect(text).toContain('Dashboard');
     expect(text).toContain('Meetings');
     expect(text).toContain('Action Items');
+    expect(fixture.nativeElement.querySelector('a[href="/account"]')).toBeTruthy();
   });
 
   it('should not display Settings', () => {
@@ -43,9 +44,7 @@ describe('Sidebar', () => {
   });
 
   it('should accept custom navigation items', () => {
-    fixture.componentRef.setInput('navigationItems', [
-      { label: 'Reports', path: '/reports', icon: '▧' },
-    ]);
+    fixture.componentRef.setInput('navigationItems', [{ label: 'Reports', path: '/reports' }]);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain('Reports');
@@ -59,6 +58,19 @@ describe('Sidebar', () => {
     expect(
       fixture.nativeElement.querySelector('.sidebar').classList.contains('sidebar--collapsed'),
     ).toBe(true);
+  });
+
+  it('should render text-only navigation even when compact', () => {
+    fixture.componentRef.setInput('collapsed', true);
+    fixture.detectChanges();
+    const links = fixture.nativeElement.querySelectorAll('nav a') as NodeListOf<HTMLAnchorElement>;
+    expect(Array.from(links, (link) => link.textContent?.trim())).toEqual([
+      'Dashboard',
+      'Meetings',
+      'Action Items',
+      'Account',
+    ]);
+    expect(fixture.nativeElement.querySelector('.sidebar__link-icon')).toBeNull();
   });
 
   it('should emit when a navigation item is selected', () => {
@@ -78,5 +90,39 @@ describe('Sidebar', () => {
     component.onClose();
 
     expect(spy).toHaveBeenCalled();
+  });
+  it('should return to login and close the sidebar when Logout is clicked', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    const close = vi.fn();
+    component.closeRequested.subscribe(close);
+    fixture.nativeElement.querySelector('.sidebar__logout').click();
+    expect(navigate).toHaveBeenCalledWith(['/login']);
+    expect(close).toHaveBeenCalled();
+  });
+
+  it('should keep Logout available when compact', () => {
+    fixture.componentRef.setInput('collapsed', true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.sidebar__logout').textContent.trim()).toBe(
+      'Logout',
+    );
+  });
+  it('guards repeat Logout clicks and handles navigation rejection', async () => {
+    let reject!: (reason: Error) => void;
+    const navigate = vi
+      .spyOn(TestBed.inject(Router), 'navigate')
+      .mockReturnValue(new Promise<boolean>((_, fail) => (reject = fail)));
+    const first = component.onLogout();
+    await component.onLogout();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.sidebar__logout').disabled).toBe(true);
+    expect(navigate).toHaveBeenCalledTimes(1);
+    reject(new Error('offline'));
+    await first;
+    fixture.detectChanges();
+    expect(component.loggingOut()).toBe(false);
+    expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toContain(
+      'Could not open sign in',
+    );
   });
 });

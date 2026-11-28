@@ -1,57 +1,66 @@
 <section class="upload-panel">
-  <header class="panel-header">
-    <div class="header-icon" aria-hidden="true">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M12 16V4" />
-        <path d="m7 9 5-5 5 5" />
-        <path d="M20 16.5v2A1.5 1.5 0 0 1 18.5 20h-13A1.5 1.5 0 0 1 4 18.5v-2" />
-      </svg>
-    </div>
-
-    <div>
-      <h2>Upload a meeting transcript</h2>
-      <p>Turn your meeting conversations into summaries, decisions and action items.</p>
-    </div>
-  </header>
-
-  <form class="upload-form" (submit)="onSubmit($event)">
+  <header class="panel-header"><h2>Add a meeting transcript</h2></header>
+  <form class="upload-form" (submit)="onSubmit($event)" [attr.aria-busy]="saving()">
     <app-input
-      id="meeting-title"
+      [id]="formId + '-title'"
       label="Meeting title"
-      placeholder="e.g. Weekly team stand-up"
       [value]="title()"
       [required]="true"
       [disabled]="saving()"
       (valueChange)="onTitleChange($event)"
     />
-
-    <div class="file-section">
+    <app-input
+      [id]="formId + '-date'"
+      label="Meeting date"
+      type="date"
+      [value]="meetingDate()"
+      [disabled]="saving()"
+      (valueChange)="meetingDate.set($event)"
+    />
+    <fieldset [disabled]="saving()">
+      <legend>Transcript source</legend>
+      <label
+        ><input
+          type="radio"
+          [name]="formId + '-source'"
+          [checked]="mode() === 'file'"
+          (change)="setMode('file')"
+        />
+        Upload file</label
+      >
+      <label
+        ><input
+          type="radio"
+          [name]="formId + '-source'"
+          [checked]="mode() === 'text'"
+          (change)="setMode('text')"
+        />
+        Paste text</label
+      >
+    </fieldset>
+    <div [hidden]="mode() !== 'file'">
       <app-file-upload
-        label="Upload your transcript"
-        hint="Drag and drop your file here, or browse"
+        label="Transcript file"
         accept=".txt,.vtt,.md"
         [maxSizeMB]="10"
         [disabled]="saving()"
         (fileSelected)="onFileSelected($event)"
         (fileRemoved)="onFileRemoved()"
+        (validationError)="onValidationError($event)"
       />
     </div>
-
-    <div class="supported-formats">
-      <span>Supported formats:</span>
-      <span class="format-tag">TXT</span>
-      <span class="format-tag">VTT</span>
-      <span class="format-tag">MD</span>
-      <span class="size-note">Maximum 10 MB</span>
-    </div>
-
+    @if (mode() === 'text') {
+      <div class="text-field">
+        <label [for]="formId + '-text'">Transcript text</label>
+        <textarea
+          [id]="formId + '-text'"
+          rows="10"
+          [value]="transcriptText()"
+          [disabled]="saving()"
+          (input)="transcriptText.set($any($event.target).value)"
+        ></textarea>
+      </div>
+    }
     @if (successMessage()) {
       <p class="upload-success" role="status">{{ successMessage() }}</p>
     }
@@ -59,13 +68,11 @@
       <p class="upload-error" role="alert">{{ errorMessage() }}</p>
     }
     <div class="form-footer">
-      <p>Saved only in this browser. Clearing site data removes saved transcripts.</p>
-
       <app-button
-        [label]="saving() ? 'Saving…' : 'Upload transcript'"
+        [label]="saving() ? 'Saving…' : 'Save meeting'"
         [loading]="saving()"
         type="submit"
-        [disabled]="saving() || !title().trim() || !selectedFile()"
+        [disabled]="saving() || !canSubmit()"
       />
     </div>
   </form>

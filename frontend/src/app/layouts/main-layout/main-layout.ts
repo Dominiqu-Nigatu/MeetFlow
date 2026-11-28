@@ -59,6 +59,10 @@ export class MainLayout {
     }
   }
 
+  openAccount(): void {
+    void this.router.navigate(['/account']);
+  }
+
   toggleSidebar(): void {
     this.sidebarCollapsed.update((value) => !value);
   }
@@ -89,15 +93,17 @@ export class MainLayout {
   private updatePageTitle(url: string): void {
     const path = url.split(/[?#]/, 1)[0];
     const title =
-      path === '/action-items'
-        ? 'Action Items'
-        : path === '/meetings'
-          ? 'Meetings'
-          : path === '/meetings/upload'
-            ? 'Upload Meeting'
-            : path.startsWith('/meetings/')
-              ? 'Meeting Details'
-              : 'Dashboard';
+      path === '/account'
+        ? 'Account'
+        : path === '/action-items'
+          ? 'Action Items'
+          : path === '/meetings'
+            ? 'Meetings'
+            : path === '/meetings/upload'
+              ? 'Upload Meeting'
+              : path.startsWith('/meetings/')
+                ? 'Meeting Details'
+                : 'Dashboard';
 
     this.pageTitle.set(title);
   }

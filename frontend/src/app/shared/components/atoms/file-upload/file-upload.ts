@@ -65,6 +65,7 @@ export class FileUpload {
   }
 
   validateFile(file: File): void {
+    if (this.disabled()) return;
     const extension = `.${file.name.split('.').pop()?.toLowerCase()}`;
 
     if (!this.acceptedExtensions.includes(extension)) {
@@ -85,12 +86,15 @@ export class FileUpload {
   }
 
   removeFile(): void {
+    if (this.disabled()) return;
     this.selectedFile.set(null);
     this.errorMessage.set(null);
     this.fileRemoved.emit();
   }
 
   private setError(message: string): void {
+    this.selectedFile.set(null);
+    this.fileRemoved.emit();
     this.errorMessage.set(message);
     this.validationError.emit(message);
   }

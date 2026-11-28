@@ -1,10 +1,9 @@
-import { Component, input, output } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, input, output, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface SidebarItem {
   label: string;
   path: string;
-  icon: string;
 }
 
 @Component({
@@ -15,24 +14,25 @@ export interface SidebarItem {
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  private readonly router = inject(Router);
   collapsed = input(false);
+  loggingOut = signal(false);
+  logoutError = signal('');
 
   navigationItems = input<SidebarItem[]>([
     {
       label: 'Dashboard',
       path: '/dashboard',
-      icon: '⌂',
     },
     {
       label: 'Meetings',
       path: '/meetings',
-      icon: '▤',
     },
     {
       label: 'Action Items',
       path: '/action-items',
-      icon: '☑',
     },
+    { label: 'Account', path: '/account' },
   ]);
 
   navigationSelected = output<SidebarItem>();
@@ -40,6 +40,22 @@ export class Sidebar {
 
   onNavigationSelected(item: SidebarItem): void {
     this.navigationSelected.emit(item);
+  }
+
+  async onLogout(): Promise<void> {
+    if (this.loggingOut()) return;
+    this.loggingOut.set(true);
+    this.logoutError.set('');
+    this.closeRequested.emit();
+    try {
+      if (!(await this.router.navigate(['/login']))) {
+        this.logoutError.set('Could not open sign in. Please try again.');
+      }
+    } catch {
+      this.logoutError.set('Could not open sign in. Please try again.');
+    } finally {
+      this.loggingOut.set(false);
+    }
   }
 
   onClose(): void {

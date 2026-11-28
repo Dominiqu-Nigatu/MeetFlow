@@ -146,34 +146,12 @@
     border-color: color-mix(in srgb, var(--color-secondary) 45%, var(--color-border));
     background: color-mix(in srgb, var(--color-secondary) 7%, var(--color-surface));
     box-shadow: 0 3px 10px rgba(35, 61, 86, 0.05);
-
-    .activity-arrow {
-      background: var(--color-primary);
-      color: var(--color-surface);
-      transform: translateX(2px);
-    }
   }
 
   &:focus-visible {
     outline: 2px solid var(--color-secondary);
     outline-offset: 3px;
   }
-}
-
-.activity-arrow {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
-  color: var(--color-secondary);
-  font-size: var(--text-lg);
-  transition:
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
 }
 
 .activity-empty {
@@ -213,7 +191,6 @@
   .activity-tabs button,
   .activity-tabs button::after,
   .activity-link,
-  .activity-arrow,
   .activity-view-all {
     transition: none;
   }

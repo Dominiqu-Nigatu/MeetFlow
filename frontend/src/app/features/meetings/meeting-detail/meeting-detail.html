@@ -1,233 +1,146 @@
-@if (isLocal()) {
-  <div class="meeting-detail-page">
-    <button class="back-button" type="button" (click)="onBack()">← Back to meetings</button>
-    @if (localMeeting(); as meeting) {
-      <section class="meeting-header">
-        <div class="meeting-header-content">
-          <h1>{{ meeting.title }}</h1>
-          <p>{{ meeting.fileName }}</p>
-        </div>
-      </section>
-      <section class="meeting-content local-transcript">
-        <h2>Meeting transcript</h2>
-        <p class="transcript-notice">
-          Saved in this browser only. AI summaries and action-item extraction are not connected yet.
+<div class="meeting-detail-page">
+  <button type="button" class="back-button" (click)="onBack()">Back to meetings</button>
+  @if (store.storageError()) {
+    <p role="alert">{{ store.storageError() }}</p>
+  }
+  @if (meeting(); as meeting) {
+    <header>
+      <h1>{{ meeting.title }}</h1>
+      <p>{{ meeting.meetingDate }}</p>
+      @if (meeting.sample) {
+        <p class="sample-notice">
+          Sample meeting — demonstration content, not an uploaded transcript.
         </p>
-        <pre>{{ meeting.transcript }}</pre>
-      </section>
-    } @else if (!localMeetings.loaded()) {
-      <p role="status">Loading saved transcript…</p>
-    } @else {
-      <p role="alert">
-        {{ localMeetings.loadError() || 'This transcript is not saved in this browser.' }}
-      </p>
-    }
-  </div>
-} @else {
-  <div class="meeting-detail-page">
-    <button class="back-button" type="button" (click)="onBack()">
-      <span class="back-arrow">←</span>
-      Back to meetings
-    </button>
-
-    <section class="meeting-header">
-      <div class="meeting-header-content">
-        <div class="meeting-eyebrow">
-          <span class="eyebrow-dot"></span>
-          Meeting overview
-        </div>
-
-        <h1>{{ meetingTitle() }}</h1>
-
-        <div class="meeting-meta">
-          <span class="meta-item">
-            <span class="meta-icon">◷</span>
-            {{ meetingDate() }}
-          </span>
-
-          <span class="meta-divider"></span>
-
-          <span class="meta-item">
-            <span class="meta-icon">◴</span>
-            {{ meetingDuration() }}
-          </span>
-
-          <span class="meta-divider"></span>
-
-          <app-badge
-            [label]="meetingStatus()"
-            [variant]="
-              meetingStatus() === 'completed'
-                ? 'success'
-                : meetingStatus() === 'processing'
-                  ? 'warning'
-                  : 'neutral'
-            "
-          />
-        </div>
-      </div>
-
-      <button class="download-button" type="button" (click)="onDownload()">
-        <span>↓</span>
-        Export summary
+      }
+    </header>
+    <section
+      aria-labelledby="analysis-heading"
+      [attr.aria-busy]="analysisState().status === 'loading'"
+    >
+      <h2 id="analysis-heading">AI analysis</h2>
+      @if (!analysisState().message) {
+        <p>No AI provider is connected. You can edit notes and tasks manually.</p>
+      }
+      @if (analysisState().message) {
+        <p [attr.role]="analysisState().status === 'error' ? 'alert' : 'status'">
+          {{ analysisState().message }}
+        </p>
+      }
+      <button type="button" [disabled]="analysisState().status === 'loading'" (click)="analyze()">
+        {{
+          analysisState().status === 'loading'
+            ? 'Analyzing…'
+            : analysisState().status === 'error' || analysisState().status === 'no-result'
+              ? 'Retry analysis'
+              : 'Analyze transcript'
+        }}
       </button>
     </section>
-
-    <section class="action-progress">
-      <div class="progress-header">
-        <div class="progress-heading">
-          <div class="progress-icon">✓</div>
-
-          <div>
-            <h2>Action item progress</h2>
-            <p>Track tasks identified during this meeting.</p>
+    <section aria-labelledby="summary-heading">
+      <div class="section-header">
+        <h2 id="summary-heading">Summary</h2>
+        <button
+          type="button"
+          [disabled]="analysisState().status === 'loading'"
+          (click)="startEdit('summary')"
+        >
+          Edit summary
+        </button>
+      </div>
+      @if (editing() === 'summary') {
+        <form (submit)="saveNotes($event)">
+          <label for="summary-draft">Summary</label
+          ><textarea
+            id="summary-draft"
+            name="summary"
+            rows="6"
+            [(ngModel)]="summaryDraft"
+          ></textarea>
+          <div class="buttons">
+            <button type="submit">Save</button
+            ><button type="button" (click)="editing.set(null)">Cancel</button>
           </div>
-        </div>
-
-        <div class="progress-count">
-          <strong>{{ completedActionCount() }}</strong>
-          <span>of {{ actionItems().length }} completed</span>
-        </div>
-      </div>
-
-      <div class="progress-track">
-        <div class="progress-fill" [style.width.%]="progressPercentage()"></div>
-      </div>
-
-      <div class="progress-footer">
-        <span>{{ remainingActionCount() }} tasks remaining</span>
-        <span>{{ progressPercentage() }}% complete</span>
-      </div>
-    </section>
-
-    <section class="meeting-content">
-      <div class="content-tabs">
-        <button
-          type="button"
-          class="content-tab"
-          [class.active]="activeTab() === 'summary'"
-          (click)="onTabChange('summary')"
-        >
-          <span class="tab-icon">✦</span>
-          AI Summary
-        </button>
-
-        <button
-          type="button"
-          class="content-tab"
-          [class.active]="activeTab() === 'transcript'"
-          (click)="onTabChange('transcript')"
-        >
-          <span class="tab-icon">≡</span>
-          Transcript
-        </button>
-      </div>
-
-      @if (activeTab() === 'summary') {
-        <div class="summary-content">
-          <section class="content-section summary-section">
-            <div class="section-heading">
-              <div class="section-icon summary-icon">✦</div>
-              <div>
-                <h2>Meeting summary</h2>
-                <p>A concise overview of the discussion.</p>
-              </div>
-            </div>
-
-            <div class="summary-text">
-              <p>{{ summary() }}</p>
-            </div>
-          </section>
-
-          <section class="content-section">
-            <div class="section-heading">
-              <div class="section-icon keypoints-icon">◎</div>
-              <div>
-                <h2>Key discussion points</h2>
-                <p>The main topics covered during the meeting.</p>
-              </div>
-            </div>
-
-            <div class="keypoints-list">
-              @for (point of keyPoints(); track point; let i = $index) {
-                <div class="keypoint">
-                  <span class="keypoint-number">{{ i + 1 }}</span>
-                  <p>{{ point }}</p>
-                </div>
-              }
-            </div>
-          </section>
-
-          <section class="content-section">
-            <div class="section-heading">
-              <div class="section-icon decisions-icon">✓</div>
-              <div>
-                <h2>Key decisions</h2>
-                <p>Agreements reached during the discussion.</p>
-              </div>
-            </div>
-
-            <div class="decisions-list">
-              @for (decision of decisions(); track decision) {
-                <div class="decision-item">
-                  <div class="decision-check">✓</div>
-                  <p>{{ decision }}</p>
-                </div>
-              }
-            </div>
-          </section>
-
-          <section class="content-section action-section">
-            <div class="section-heading">
-              <div class="section-icon action-icon">☑</div>
-              <div>
-                <h2>Action items</h2>
-                <p>Tasks assigned during the meeting.</p>
-              </div>
-            </div>
-
-            <div class="action-items-list">
-              @for (item of actionItems(); track item.id) {
-                <app-action-item-row
-                  [id]="item.id"
-                  [description]="item.description"
-                  [owner]="item.owner"
-                  [dueDate]="item.dueDate"
-                  [completed]="item.completed"
-                  (completedChange)="onActionItemCompleted({ id: item.id, completed: $event })"
-                />
-              }
-            </div>
-          </section>
-        </div>
+        </form>
       } @else {
-        <div class="transcript-content">
-          <div class="section-heading">
-            <div class="section-icon transcript-icon">≡</div>
-            <div>
-              <h2>Meeting transcript</h2>
-              <p>Original conversation from the meeting.</p>
-            </div>
-          </div>
-
-          <div class="transcript-notice">
-            <span class="notice-icon">i</span>
-            <p>
-              This transcript is sample content. Real transcript data will be supplied by the
-              backend.
-            </p>
-          </div>
-
-          <div class="transcript-list">
-            @for (line of transcript(); track line; let i = $index) {
-              <div class="transcript-line">
-                <span class="transcript-number">{{ i + 1 }}</span>
-                <p>{{ line }}</p>
-              </div>
-            }
-          </div>
-        </div>
+        <p class="notes-text">{{ notes().summary || 'No summary yet.' }}</p>
       }
     </section>
-  </div>
-}
+    <section aria-labelledby="decisions-heading">
+      <div class="section-header">
+        <h2 id="decisions-heading">Decisions</h2>
+        <button
+          type="button"
+          [disabled]="analysisState().status === 'loading'"
+          (click)="startEdit('decisions')"
+        >
+          Edit decisions
+        </button>
+      </div>
+      @if (editing() === 'decisions') {
+        <form (submit)="saveNotes($event)">
+          <label for="decisions-draft">Decisions (one per line)</label
+          ><textarea
+            id="decisions-draft"
+            name="decisions"
+            rows="5"
+            [(ngModel)]="decisionsDraft"
+          ></textarea>
+          <div class="buttons">
+            <button type="submit">Save</button
+            ><button type="button" (click)="editing.set(null)">Cancel</button>
+          </div>
+        </form>
+      } @else {
+        <ul>
+          @for (decision of notes().decisions; track $index) {
+            <li>{{ decision }}</li>
+          } @empty {
+            <li>No decisions yet.</li>
+          }
+        </ul>
+      }
+    </section>
+    <section aria-labelledby="actions-heading">
+      <div class="section-header">
+        <h2 id="actions-heading">Action items</h2>
+        <button type="button" (click)="addingAction.set(true)">Add action item</button>
+      </div>
+      @if (addingAction()) {
+        <app-action-item-row
+          [id]="'new-' + meeting.id"
+          description=""
+          [meetingId]="meeting.id"
+          [creating]="true"
+          (saved)="addingAction.set(false)"
+          (cancelled)="addingAction.set(false)"
+        />
+      }
+      @for (action of notes().actions; track action.id) {
+        <app-action-item-row
+          [id]="action.id"
+          [description]="action.description"
+          [owner]="action.owner"
+          [dueDate]="action.dueDate"
+          [status]="action.status"
+          [meetingId]="meeting.id"
+          [completed]="action.completed"
+          (completedChange)="store.completeAction(meeting.id, action.id, $event)"
+        />
+      }
+      @if (!notes().actions.length && !addingAction()) {
+        <p>No action items yet.</p>
+      }
+    </section>
+    <section aria-labelledby="transcript-heading">
+      <h2 id="transcript-heading">Original transcript</h2>
+      <pre>{{ meeting.transcript }}</pre>
+    </section>
+  } @else if (!store.local.loaded() && id().startsWith('local-')) {
+    <p role="status">Loading saved transcript…</p>
+  } @else {
+    <h1>Meeting not found</h1>
+    <p role="alert">
+      {{ store.local.loadError() || 'This meeting does not exist in this browser.' }}
+    </p>
+  }
+</div>

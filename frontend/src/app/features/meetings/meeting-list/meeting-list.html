@@ -12,6 +12,15 @@
     </button>
   </section>
 
+  @if (workspace.storageError()) {
+    <p role="alert">{{ workspace.storageError() }}</p>
+  }
+  @if (localMeetings.loadError()) {
+    <p role="alert">{{ localMeetings.loadError() }}</p>
+  }
+  @if (!localMeetings.loaded()) {
+    <p role="status">Loading saved meetings…</p>
+  }
   @if (uploadNotice()) {
     <p class="upload-notice" role="status">{{ uploadNotice() }}</p>
   }
@@ -26,20 +35,23 @@
     @if (filteredMeetings().length > 0) {
       <div class="meetings-grid">
         @for (meeting of filteredMeetings(); track meeting.id) {
-          <app-meeting-card
-            [title]="meeting.title"
-            [date]="meeting.date"
-            [duration]="meeting.duration"
-            [summaryStatus]="meeting.summaryStatus"
-            [actionItemCount]="meeting.actionItemCount"
-            (selected)="onMeetingSelected(meeting.id)"
-          />
+          <div class="meeting-entry">
+            @if (meeting.sample) {
+              <span class="sample-label">Sample meeting</span>
+            }
+            <app-meeting-card
+              [title]="meeting.title"
+              [date]="meeting.date"
+              [duration]="meeting.duration"
+              [summaryStatus]="meeting.summaryStatus"
+              [actionItemCount]="meeting.actionItemCount"
+              (selected)="onMeetingSelected(meeting.id)"
+            />
+          </div>
         }
       </div>
     } @else {
       <div class="empty-state">
-        <div class="empty-icon">⌕</div>
-
         <h3>No meetings found</h3>
 
         <p>Try a different meeting title.</p>

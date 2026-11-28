@@ -1,140 +1,123 @@
 <div class="action-items-page">
-  <!-- Header -->
   <section class="page-header">
-    <div>
-      <h1>Action items</h1>
-      <p>Keep track of everything that needs to get done after your meetings.</p>
-    </div>
+    <h1>Action items</h1>
+    <button type="button" (click)="addOpen.set(!addOpen())">Add action item</button>
   </section>
-
-  <!-- Overview -->
-  <section class="overview-grid">
+  @if (store.storageError()) {
+    <p role="alert">{{ store.storageError() }}</p>
+  }
+  @if (store.local.loadError()) {
+    <p role="alert">{{ store.local.loadError() }}</p>
+  }
+  <section class="overview-grid" aria-label="Task totals">
     <article class="overview-card">
-      <div class="overview-top">
-        <span class="overview-label">Total tasks</span>
-      </div>
-
+      <span class="overview-label">Total tasks</span>
       <div class="overview-value">{{ totalCount() }}</div>
     </article>
-
     <article class="overview-card">
-      <div class="overview-top">
-        <span class="overview-label">Outstanding</span>
-      </div>
-
+      <span class="overview-label">Outstanding</span>
       <div class="overview-value">{{ openCount() }}</div>
     </article>
-
     <article class="overview-card">
-      <div class="overview-top">
-        <span class="overview-label">Completed</span>
-      </div>
-
+      <span class="overview-label">Completed</span>
       <div class="overview-value">{{ completedCount() }}</div>
     </article>
   </section>
-
-  <!-- Task List -->
-  <section class="tasks-card">
-    <div class="tasks-header">
-      <div>
-        <h2>All tasks</h2>
-        <p>Tasks collected from your meeting notes.</p>
+  @if (addOpen()) {
+    <section class="tasks-card">
+      <div class="toolbar">
+        <label for="new-action-meeting">Meeting</label
+        ><select id="new-action-meeting" [(ngModel)]="meetingId">
+          <option value="">Choose meeting</option>
+          @for (meeting of store.meetings(); track meeting.id) {
+            <option [value]="meeting.id">
+              {{ meeting.title }}{{ meeting.sample ? ' (Sample)' : '' }}
+            </option>
+          }
+        </select>
       </div>
-
-      <app-badge [label]="openCount() + ' outstanding'" variant="warning" />
-    </div>
-
-    <!-- Filters -->
+      @if (meetingId) {
+        <app-action-item-row
+          id="new-action"
+          description=""
+          [meetingId]="meetingId"
+          [creating]="true"
+          (saved)="addOpen.set(false)"
+          (cancelled)="addOpen.set(false)"
+        />
+      }
+    </section>
+  }
+  <section class="tasks-card">
+    <div class="tasks-header"><h2>All tasks</h2></div>
     <div class="toolbar">
       <div class="filter-group">
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="activeFilter() === 'all'"
-          (click)="onFilterChange('all')"
+        <label
+          >Status
+          <select
+            aria-label="Filter by status"
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event)"
+          >
+            <option value="all">All statuses</option>
+            <option value="todo">To do</option>
+            <option value="in progress">In progress</option>
+            <option value="done">Done</option>
+          </select></label
         >
-          All
-          <span>{{ totalCount() }}</span>
-        </button>
-
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="activeFilter() === 'open'"
-          (click)="onFilterChange('open')"
+        <label
+          >Owner
+          <select
+            aria-label="Filter by owner"
+            [ngModel]="ownerFilter()"
+            (ngModelChange)="ownerFilter.set($event)"
+          >
+            <option value="all">All owners</option>
+            <option value="unassigned">Unassigned</option>
+            @for (owner of owners(); track owner) {
+              <option [value]="owner">{{ owner }}</option>
+            }
+          </select></label
         >
-          Open
-          <span>{{ openCount() }}</span>
-        </button>
-
-        <button
-          type="button"
-          class="filter-button"
-          [class.active]="activeFilter() === 'completed'"
-          (click)="onFilterChange('completed')"
+        <label
+          ><input
+            type="checkbox"
+            [ngModel]="overdueOnly()"
+            (ngModelChange)="overdueOnly.set($event)"
+          />
+          Overdue only</label
         >
-          Completed
-          <span>{{ completedCount() }}</span>
-        </button>
+        <button type="button" (click)="clearSearch()">Reset filters</button>
       </div>
     </div>
-
-    <!-- Items -->
     <div class="task-list">
-      @if (filteredItems().length > 0) {
-        @for (item of filteredItems(); track item.id) {
-          <article class="task-card" [class.task-completed]="item.completed">
-            <div class="task-main">
-              <app-action-item-row
-                [id]="item.id"
-                [description]="item.description"
-                [owner]="item.owner"
-                [dueDate]="item.dueDate"
-                [completed]="item.completed"
-                (completedChange)="onItemCompleted({ id: item.id, completed: $event })"
-              />
-
-              <div class="task-meta">
-                <div class="meeting-meta">
-                  <span class="meeting-icon">▤</span>
-                  <span>{{ item.meetingTitle }}</span>
-                </div>
-
-                <div class="due-meta" [class.no-date]="!item.dueDate">
-                  <span>◷</span>
-                  <span>{{ formatDate(item.dueDate) }}</span>
-                </div>
-              </div>
+      @for (item of filteredItems(); track item.id) {
+        <article class="task-card">
+          <div class="task-main">
+            <app-action-item-row
+              [id]="item.id"
+              [description]="item.description"
+              [owner]="item.owner"
+              [dueDate]="item.dueDate"
+              [status]="item.status"
+              [meetingId]="item.meetingId"
+              [completed]="item.completed"
+              (completedChange)="store.completeAction(item.meetingId, item.id, $event)"
+            />
+            <div class="task-meta">
+              <a [routerLink]="['/meetings', item.meetingId]"
+                >{{ item.meetingTitle
+                }}{{ store.meeting(item.meetingId)?.sample ? ' (Sample)' : '' }}</a
+              >
             </div>
-
-          </article>
-        }
-      } @else {
+          </div>
+        </article>
+      } @empty {
         <div class="empty-state">
-          <div class="empty-icon">☷</div>
-
-          @if (searchQuery()) {
-            <h3>No matching tasks</h3>
-            <p>Try another search term or reset your filters.</p>
-          } @else if (activeFilter() === 'completed') {
-            <h3>No completed tasks yet</h3>
-            <p>Completed tasks will appear here.</p>
-          } @else if (activeFilter() === 'open') {
-            <h3>You're all caught up!</h3>
-            <p>There are no outstanding tasks.</p>
-          } @else {
-            <h3>No action items yet</h3>
-            <p>Tasks extracted from your meetings will appear here.</p>
-          }
-
-          <button type="button" class="reset-button" (click)="clearSearch()">Reset filters</button>
+          <h3>No matching action items</h3>
+          <p>Add an action item or reset your filters.</p>
         </div>
       }
-    </div>
-
-    <div class="tasks-footer">
-      <span> Showing {{ filteredItems().length }} of {{ totalCount() }} tasks </span>
     </div>
   </section>
 </div>

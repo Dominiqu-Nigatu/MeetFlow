@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 import { Register } from './register';
 
 describe('Register', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Register],
+      providers: [provideRouter([])],
     }).compileComponents();
+    vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
   });
 
   it('should create the register component', () => {
@@ -31,11 +34,6 @@ describe('Register', () => {
   it('should initialise confirm password as empty', () => {
     const fixture = TestBed.createComponent(Register);
     expect(fixture.componentInstance.confirmPassword()).toBe('');
-  });
-
-  it('should initialise terms acceptance to false', () => {
-    const fixture = TestBed.createComponent(Register);
-    expect(fixture.componentInstance.acceptTerms()).toBe(false);
   });
 
   it('should update full name', () => {
@@ -64,13 +62,6 @@ describe('Register', () => {
     fixture.componentInstance.onConfirmPasswordChange('password123');
 
     expect(fixture.componentInstance.confirmPassword()).toBe('password123');
-  });
-
-  it('should update terms acceptance', () => {
-    const fixture = TestBed.createComponent(Register);
-    fixture.componentInstance.onTermsChange(true);
-
-    expect(fixture.componentInstance.acceptTerms()).toBe(true);
   });
 
   it('should toggle password visibility', () => {
@@ -106,7 +97,6 @@ describe('Register', () => {
     fixture.componentInstance.email.set('invalid-email');
     fixture.componentInstance.password.set('password123');
     fixture.componentInstance.confirmPassword.set('password123');
-    fixture.componentInstance.acceptTerms.set(true);
 
     fixture.componentInstance.onSubmit();
 
@@ -119,7 +109,6 @@ describe('Register', () => {
     fixture.componentInstance.email.set('test@example.com');
     fixture.componentInstance.password.set('1234567');
     fixture.componentInstance.confirmPassword.set('1234567');
-    fixture.componentInstance.acceptTerms.set(true);
 
     fixture.componentInstance.onSubmit();
 
@@ -134,25 +123,10 @@ describe('Register', () => {
     fixture.componentInstance.email.set('test@example.com');
     fixture.componentInstance.password.set('password123');
     fixture.componentInstance.confirmPassword.set('different123');
-    fixture.componentInstance.acceptTerms.set(true);
 
     fixture.componentInstance.onSubmit();
 
     expect(fixture.componentInstance.errorMessage()).toBe('Passwords do not match.');
-  });
-
-  it('should reject unaccepted terms', () => {
-    const fixture = TestBed.createComponent(Register);
-    fixture.componentInstance.fullName.set('John Doe');
-    fixture.componentInstance.email.set('test@example.com');
-    fixture.componentInstance.password.set('password123');
-    fixture.componentInstance.confirmPassword.set('password123');
-
-    fixture.componentInstance.onSubmit();
-
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'Please accept the terms and conditions.',
-    );
   });
 
   it('should accept valid registration details', () => {
@@ -161,7 +135,6 @@ describe('Register', () => {
     fixture.componentInstance.email.set('test@example.com');
     fixture.componentInstance.password.set('password123');
     fixture.componentInstance.confirmPassword.set('password123');
-    fixture.componentInstance.acceptTerms.set(true);
 
     fixture.componentInstance.onSubmit();
 
@@ -223,6 +196,88 @@ describe('Register', () => {
     const fixture = TestBed.createComponent(Register);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Create account');
+    expect(fixture.nativeElement.textContent).toContain('Register');
+  });
+  it('should link to the dashboard without requiring form submission', () => {
+    const fixture = TestBed.createComponent(Register);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.dashboard-preview').getAttribute('href')).toBe(
+      '/dashboard',
+    );
+    expect(fixture.nativeElement.querySelector('a[href="/login"]')).toBeTruthy();
+  });
+
+  it('should navigate to the dashboard after valid preview submission', () => {
+    const component = TestBed.createComponent(Register).componentInstance;
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    component.email.set('preview@example.com');
+    component.password.set('sample-password');
+    component.fullName.set('Preview User');
+    component.confirmPassword.set('sample-password');
+    component.onSubmit();
+    expect(navigate).toHaveBeenCalledWith(['/dashboard']);
+  });
+  it('should keep the page free of decorative text and terms', () => {
+    const fixture = TestBed.createComponent(Register);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.welcome-badge')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.preview-note')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.terms-field')).toBeNull();
+    expect(fixture.nativeElement.querySelector('footer')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.dashboard-preview')).toBeTruthy();
+  });
+  it('shows accessible inline errors only after touch or submit', async () => {
+    const fixture = TestBed.createComponent(Register);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('input[type="email"]').getAttribute('aria-invalid'),
+    ).toBe('false');
+    fixture.componentInstance.touch('email');
+    fixture.detectChanges();
+    const email = fixture.nativeElement.querySelector('input[type="email"]');
+    expect(email.getAttribute('aria-invalid')).toBe('true');
+    expect(
+      fixture.nativeElement.querySelector('#' + email.getAttribute('aria-describedby')).textContent,
+    ).toContain('Enter your email');
+    await fixture.componentInstance.onSubmit();
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('input[type="password"]').getAttribute('aria-invalid'),
+    ).toBe('true');
+    expect(TestBed.inject(Router).navigate).not.toHaveBeenCalled();
+  });
+
+  it('guards pending navigation and disables submission until it resolves', async () => {
+    const fixture = TestBed.createComponent(Register);
+    const component = fixture.componentInstance;
+    component.email.set('user@example.com');
+    component.password.set('password123');
+    component.fullName.set('Jane Doe');
+    component.confirmPassword.set('password123');
+    let resolve!: (value: boolean) => void;
+    const navigate = vi
+      .spyOn(TestBed.inject(Router), 'navigate')
+      .mockReturnValue(new Promise<boolean>((done) => (resolve = done)));
+    const first = component.onSubmit();
+    await component.onSubmit();
+    fixture.detectChanges();
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(fixture.nativeElement.querySelector('button[type="submit"]').disabled).toBe(true);
+    resolve(false);
+    await first;
+    expect(component.submitting()).toBe(false);
+    expect(component.errorMessage()).toContain('Unable to open');
+  });
+
+  it('handles rejected navigation without claiming success', async () => {
+    const component = TestBed.createComponent(Register).componentInstance;
+    component.email.set('user@example.com');
+    component.password.set('password123');
+    component.fullName.set('Jane Doe');
+    component.confirmPassword.set('password123');
+    vi.spyOn(TestBed.inject(Router), 'navigate').mockRejectedValue(new Error('offline'));
+    await component.onSubmit();
+    expect(component.submitting()).toBe(false);
+    expect(component.errorMessage()).toContain('Unable to open');
   });
 });

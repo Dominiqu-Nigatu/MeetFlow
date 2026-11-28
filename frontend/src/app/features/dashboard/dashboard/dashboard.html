@@ -1,4 +1,10 @@
 <div class="dashboard-page">
+  @if (store.storageError()) {
+    <p role="alert">{{ store.storageError() }}</p>
+  }
+  @if (store.local.loadError()) {
+    <p role="alert">{{ store.local.loadError() }}</p>
+  }
   <section class="stats-section">
     <app-dashboard-stats [stats]="stats()" />
   </section>
@@ -48,17 +54,14 @@
           @for (meeting of meetings(); track meeting.id) {
             <li>
               <a class="activity-link" [routerLink]="['/meetings', meeting.id]">
-                <span>{{ meeting.title }}</span>
-                <span class="activity-arrow" aria-hidden="true">→</span>
+                <span>{{ meeting.title }}{{ meeting.sample ? ' (Sample)' : '' }}</span>
               </a>
             </li>
           } @empty {
             <li class="activity-empty">No meetings yet.</li>
           }
         </ul>
-        <a class="activity-view-all" routerLink="/meetings"
-          >View all meetings <span aria-hidden="true">→</span></a
-        >
+        <a class="activity-view-all" routerLink="/meetings">View all meetings</a>
       </div>
       <div
         id="action-items-panel"
@@ -73,16 +76,13 @@
             <li>
               <a class="activity-link" routerLink="/action-items">
                 <span>{{ item.description }}</span>
-                <span class="activity-arrow" aria-hidden="true">→</span>
               </a>
             </li>
           } @empty {
             <li class="activity-empty">No action items yet.</li>
           }
         </ul>
-        <a class="activity-view-all" routerLink="/action-items"
-          >View all action items <span aria-hidden="true">→</span></a
-        >
+        <a class="activity-view-all" routerLink="/action-items">View all action items</a>
       </div>
     </aside>
   </section>

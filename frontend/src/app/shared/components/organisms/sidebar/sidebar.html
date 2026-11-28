@@ -31,14 +31,21 @@
           [title]="collapsed() ? item.label : ''"
           (click)="onNavigationSelected(item)"
         >
-          <span class="sidebar__link-icon">{{ item.icon }}</span>
-
-          @if (!collapsed()) {
-            <span class="sidebar__link-label">{{ item.label }}</span>
-          }
+          <span class="sidebar__link-label">{{ item.label }}</span>
         </a>
       }
     </nav>
   </div>
-
+  <button
+    type="button"
+    class="sidebar__logout"
+    [disabled]="loggingOut()"
+    [attr.aria-busy]="loggingOut()"
+    (click)="onLogout()"
+  >
+    Logout
+  </button>
+  @if (logoutError()) {
+    <p role="alert">{{ logoutError() }}</p>
+  }
 </aside>

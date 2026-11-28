@@ -6,6 +6,8 @@ export interface LocalMeeting {
   fileName: string;
   transcript: string;
   createdAt: string;
+  /** Local calendar date, independent of the time this record was saved. */
+  meetingDate?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +19,10 @@ export class LocalMeetings {
     this.uploads().map((meeting) => ({
       id: meeting.id,
       title: meeting.title,
-      date: new Date(meeting.createdAt).toLocaleDateString('en-GB', {
+      date: (meeting.meetingDate
+        ? new Date(`${meeting.meetingDate}T12:00:00`)
+        : new Date(meeting.createdAt)
+      ).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
@@ -38,8 +43,11 @@ export class LocalMeetings {
         return;
       }
       const request = indexedDB.open('meetflow-local', 1);
-      request.onupgradeneeded = () =>
-        request.result.createObjectStore('meetings', { keyPath: 'id' });
+      request.onupgradeneeded = () => {
+        if (!request.result.objectStoreNames.contains('meetings')) {
+          request.result.createObjectStore('meetings', { keyPath: 'id' });
+        }
+      };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () =>
         reject(
@@ -67,26 +75,62 @@ export class LocalMeetings {
     }
   }
 
-  async save(title: string, file: File): Promise<LocalMeeting> {
-    if (!title.trim()) throw new Error('Please enter a meeting title.');
+  async save(title: string, file: File, date?: string): Promise<LocalMeeting> {
+    this.validateDetails(title, date);
     if (!/\.(txt|vtt|md)$/i.test(file.name))
       throw new Error('Please choose a TXT, VTT or MD transcript.');
     if (file.size > 10 * 1024 * 1024) throw new Error('The transcript must be smaller than 10 MB.');
     const transcript = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(String(reader.result ?? ''));
-      reader.onerror = () => reject(new Error('Could not read this file. Please select it again.'));
+      reader.onerror = reader.onabort = () =>
+        reject(new Error('Could not read this file. Please select it again.'));
       reader.readAsText(file);
     });
-    if (!transcript.trim())
-      throw new Error('This transcript is empty. Please choose a file containing text.');
+    return this.persist(title, transcript, file.name, date);
+  }
+
+  async saveText(title: string, text: string, date?: string): Promise<LocalMeeting> {
+    return this.persist(title, text, 'Pasted transcript.txt', date);
+  }
+
+  private validateDetails(title: string, date?: string): void {
+    if (!title.trim()) throw new Error('Please enter a meeting title.');
+    if (date) {
+      // Parse as a local date, never UTC. Check each part to reject rollover dates.
+      const parsed = new Date(`${date}T12:00:00`);
+      const [year, month, day] = date.split('-').map(Number);
+      if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+        Number.isNaN(parsed.getTime()) ||
+        parsed.getFullYear() !== year ||
+        parsed.getMonth() + 1 !== month ||
+        parsed.getDate() !== day
+      ) {
+        throw new Error('Please enter a valid meeting date.');
+      }
+    }
+  }
+
+  private async persist(
+    title: string,
+    transcript: string,
+    fileName: string,
+    date?: string,
+  ): Promise<LocalMeeting> {
+    this.validateDetails(title, date);
+    if (!transcript.trim()) throw new Error('Please provide a transcript containing text.');
+    if (new Blob([transcript]).size > 10 * 1024 * 1024) {
+      throw new Error('The transcript must be smaller than 10 MB.');
+    }
     await this.ready;
     const meeting: LocalMeeting = {
       id: `local-${crypto.randomUUID()}`,
       title: title.trim(),
-      fileName: file.name,
+      fileName,
       transcript,
       createdAt: new Date().toISOString(),
+      ...(date ? { meetingDate: date } : {}),
     };
     const db = await this.open();
     await new Promise<void>((resolve, reject) => {

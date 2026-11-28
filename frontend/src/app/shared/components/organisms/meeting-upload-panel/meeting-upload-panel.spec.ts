@@ -2,134 +2,113 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LocalMeetings } from '../../../../core/services/local-meetings';
 import { MeetingUploadPanel } from './meeting-upload-panel';
 
+export const savedMeeting = {
+  id: 'local-test',
+  title: 'Call',
+  fileName: 'call.txt',
+  transcript: 'Text',
+  createdAt: '2026-11-28T12:00:00Z',
+};
+
 describe('MeetingUploadPanel', () => {
   let component: MeetingUploadPanel;
   let fixture: ComponentFixture<MeetingUploadPanel>;
-
+  let store: { save: ReturnType<typeof vi.fn>; saveText: ReturnType<typeof vi.fn> };
   beforeEach(async () => {
+    store = {
+      save: vi.fn().mockResolvedValue(savedMeeting),
+      saveText: vi.fn().mockResolvedValue(savedMeeting),
+    };
     await TestBed.configureTestingModule({
       imports: [MeetingUploadPanel],
+      providers: [{ provide: LocalMeetings, useValue: store }],
     }).compileComponents();
-
     fixture = TestBed.createComponent(MeetingUploadPanel);
-    fixture.detectChanges();
     component = fixture.componentInstance;
-    vi.spyOn(TestBed.inject(LocalMeetings), 'save').mockResolvedValue({
-      id: 'local-test',
-      title: 'Weekly stand-up',
-      fileName: 'meeting.txt',
-      transcript: 'Meeting transcript',
-      createdAt: new Date().toISOString(),
-    });
+    fixture.detectChanges();
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should start with an empty title', () => {
-    expect(component.title()).toBe('');
-  });
-
-  it('should start without a selected file', () => {
-    expect(component.selectedFile()).toBeNull();
-  });
-
-  it('should update the meeting title', () => {
-    component.onTitleChange('Weekly stand-up');
-
-    expect(component.title()).toBe('Weekly stand-up');
-  });
-
-  it('should store a selected file', () => {
-    const file = new File(['Meeting transcript'], 'meeting.txt', {
-      type: 'text/plain',
-    });
-
+  it('saves upload with title and actual date, then emits', async () => {
+    const file = new File(['Text'], 'call.md');
+    component.onTitleChange(' Call ');
     component.onFileSelected(file);
-
-    expect(component.selectedFile()).toBe(file);
-  });
-
-  it('should clear the selected file when removed', () => {
-    const file = new File(['Meeting transcript'], 'meeting.txt');
-
-    component.onFileSelected(file);
-    component.onFileRemoved();
-
-    expect(component.selectedFile()).toBeNull();
-  });
-
-  it('should emit the title and file when submitted', async () => {
-    const file = new File(['Meeting transcript'], 'meeting.txt');
-    const spy = vi.spyOn(component.uploadSubmitted, 'emit');
-
-    component.onTitleChange('Weekly stand-up');
-    component.onFileSelected(file);
-
-    await component.onSubmit(new Event('submit'));
-
-    expect(spy).toHaveBeenCalledWith({
-      title: 'Weekly stand-up',
-      file,
-    });
-  });
-
-  it('should not submit when the title is empty', () => {
-    const file = new File(['Meeting transcript'], 'meeting.txt');
-    const spy = vi.spyOn(component.uploadSubmitted, 'emit');
-
-    component.onFileSelected(file);
-    component.onSubmit(new Event('submit'));
-
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should not submit when no file is selected', () => {
-    const spy = vi.spyOn(component.uploadSubmitted, 'emit');
-
-    component.onTitleChange('Weekly stand-up');
-    component.onSubmit(new Event('submit'));
-
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should trim whitespace from the title before submitting', async () => {
-    const file = new File(['Meeting transcript'], 'meeting.txt');
-    const spy = vi.spyOn(component.uploadSubmitted, 'emit');
-
-    component.onTitleChange('  Weekly stand-up  ');
-    component.onFileSelected(file);
-    await component.onSubmit(new Event('submit'));
-
-    expect(spy).toHaveBeenCalledWith({
-      title: 'Weekly stand-up',
-      file,
-    });
-  });
-  it('should show a storage error without emitting success', async () => {
-    vi.mocked(TestBed.inject(LocalMeetings).save).mockRejectedValue(
-      new Error('Browser storage is full.'),
-    );
+    component.meetingDate.set('2026-01-02');
     const emit = vi.spyOn(component.uploadSubmitted, 'emit');
-    component.onTitleChange('Weekly stand-up');
-    component.onFileSelected(new File(['Transcript'], 'meeting.txt'));
+    await component.onSubmit(new Event('submit'));
+    expect(store.save).toHaveBeenCalledWith('Call', file, '2026-01-02');
+    expect(emit).toHaveBeenCalledWith({ title: 'Call', file, meetingDate: '2026-01-02' });
+    expect(component.successMessage()).toBe('Saved in this browser.');
+  });
+  it('saves pasted text verbatim instead of the selected file', async () => {
+    component.onTitleChange('Call');
+    component.onFileSelected(new File(['Wrong'], 'call.txt'));
+    component.setMode('text');
+    component.transcriptText.set('  Original\ntext  ');
+    component.meetingDate.set('2026-11-26');
+    await component.onSubmit(new Event('submit'));
+    expect(store.saveText).toHaveBeenCalledWith('Call', '  Original\ntext  ', '2026-11-26');
+    expect(store.save).not.toHaveBeenCalled();
+  });
+  it('prevents duplicate submissions and waits for real storage success', async () => {
+    let resolve!: (value: typeof savedMeeting) => void;
+    store.saveText.mockReturnValue(new Promise((r) => (resolve = r)));
+    component.onTitleChange('Call');
+    component.setMode('text');
+    component.transcriptText.set('Text');
+    const first = component.onSubmit(new Event('submit'));
+    await component.onSubmit(new Event('submit'));
+    expect(store.saveText).toHaveBeenCalledTimes(1);
+    expect(component.saving()).toBe(true);
+    expect(component.successMessage()).toBe('');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('textarea').disabled).toBe(true);
+    resolve(savedMeeting);
+    await first;
+    expect(component.saving()).toBe(false);
+    expect(component.successMessage()).not.toBe('');
+  });
+  it('reports failure without emitting success', async () => {
+    store.saveText.mockRejectedValue(new Error('Storage full'));
+    component.onTitleChange('Call');
+    component.setMode('text');
+    component.transcriptText.set('Text');
+    const emit = vi.spyOn(component.uploadSubmitted, 'emit');
     await component.onSubmit(new Event('submit'));
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toContain(
-      'Browser storage is full.',
+      'Storage full',
     );
-    expect(emit).not.toHaveBeenCalled();
     expect(component.saving()).toBe(false);
+    expect(component.successMessage()).toBe('');
+    expect(emit).not.toHaveBeenCalled();
   });
-
-  it('should confirm that the upload was saved locally', async () => {
-    component.onTitleChange('Weekly stand-up');
-    component.onFileSelected(new File(['Transcript'], 'meeting.txt'));
+  it('rejects whitespace-only text and missing title', async () => {
+    component.setMode('text');
+    component.transcriptText.set('  ');
+    component.onTitleChange('Call');
     await component.onSubmit(new Event('submit'));
+    expect(store.saveText).not.toHaveBeenCalled();
+    expect(component.errorMessage()).toContain('title and transcript');
+  });
+  it('handles file upload validation errors and clears stale selection', () => {
+    component.onFileSelected(new File(['Text'], 'call.txt'));
+    const fileInput = fixture.nativeElement.querySelector('input[type="file"]') as HTMLInputElement;
+    const invalid = new File(['Invalid'], 'call.pdf');
+    Object.defineProperty(fileInput, 'files', { value: [invalid] });
+    fileInput.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain(
-      'Saved in this browser',
+    expect(component.errorMessage()).toContain('Invalid file type');
+    expect(component.selectedFile()).toBeNull();
+    expect(component.canSubmit()).toBe(false);
+  });
+  it('provides native labels and selectable paste controls', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const radios = root.querySelectorAll<HTMLInputElement>('input[type="radio"]');
+    radios[1].click();
+    fixture.detectChanges();
+    const textarea = root.querySelector('textarea')!;
+    expect(root.querySelector(`label[for="${textarea.id}"]`)?.textContent).toContain(
+      'Transcript text',
     );
+    expect(component.mode()).toBe('text');
   });
 });
